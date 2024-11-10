@@ -1,12 +1,13 @@
 import { type test, type expect, type Locator, Page } from '@playwright/test'
 
 export class fastFoodPage {
-    readonly page: Page;
-    readonly initialHomeLink: Locator;
-    readonly navbarLoginLink: Locator;
-    readonly usernameLogin: Locator;
-    readonly passwordLogin: Locator;
-    readonly loginButton: Locator;
+    readonly page : Page;
+    readonly initialHomeLink : Locator;
+    readonly navbarLoginLink : Locator;
+    readonly usernameLogin : Locator;
+    readonly passwordLogin : Locator;
+    readonly loginButton : Locator;
+    readonly tabMenuCategoriesLink : Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -15,7 +16,7 @@ export class fastFoodPage {
         this.usernameLogin = page.getByRole('textbox', { name: 'Username' });
         this.passwordLogin = page.getByRole('textbox', { name: 'Password' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
-
+        this.tabMenuCategoriesLink = page.getByRole('link', {name: ' Categories'});
 
     }
 
@@ -36,6 +37,10 @@ export class fastFoodPage {
         await this.loginButton.click({ force: true });
     }
 
+    async clickTabMenuCategoriesLink(){
+        await this.tabMenuCategoriesLink.click({ force : true });
+    }
+    
     async goDashboardAdmin(){
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, Browser, Page } from '@playwright/test'
 import { describe } from 'node:test';
 import { fastFoodPage } from '../PageObject/fastFoodPage';
 
@@ -9,7 +9,7 @@ let password: string = '1234';
 
 test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Principal de Administración', () => {
 
-    test('🧪 US 001| TS 001 |TC 001 | Validar la correcta redirección a la Interfaz Principal de Administración.', async ({ page }) => {
+    test(' 🧪 US 001 | TS 001 | TC 001 | Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente', async ({ page }) => {
 
         test.info().annotations.push({
             type: '📑 US 001 | Acceso a la Página Principal de Administración de FastFood.',
@@ -31,42 +31,61 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
         })
 
 
-        await test.step('Navegar a la  Pagina Inicial, y validar el Link "Home"', async () => {
+        await test.step('📝 GIVEN:  que el usuario se encuentra en la Plataforma - http://desarrollowebecommerce.somee.com/ ', async () => {
             await page.goto('http://desarrollowebecommerce.somee.com/');
             await expect(page.locator("xpath=//div[contains(@class, 'popup-content')]//a"), 'El link "Home", no esta Visible').toBeVisible();
         });
-
+        await page.pause();
 
         const goDashboardAdmin = new fastFoodPage(page);
-        await test.step('Hacer Click en el Link "Home", y se redirecciona a la Pagina "Home"', async () => {
+        await test.step('🧩AND: esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
             await goDashboardAdmin.clickinitialHomeLink();
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Default.aspx');
-        });
 
-        await test.step('Hacer Click en Login, y se Redireccion a la Pagina Login', async () => {
+            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Default.aspx');
+
             await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
+
             await goDashboardAdmin.clickNavbarLoginLink();
             await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Login.aspx');
-        });
 
-        await test.step('Completar el Login con los datos de Admin, y se redirecciona a la Pagina Principal del Administrador', async () => {
             await page.getByRole('textbox', { name: 'Username' }).fill(`${username}`);
             await page.getByRole('textbox', { name: 'Password' }).fill(`${password}`);
+
             await goDashboardAdmin.clickLoginButton();
         });
 
-        await test.step('Validar URL de la Pagina Principal del Administrador, deberia ser "http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx"', async () => {
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx')
+        await test.step('🧩AND: se encuentra en el HOME de la plataforma - http://desarrollowebecommerce.somee.com/User/Default.aspx', async () => {
+
+            await page.goto('http://desarrollowebecommerce.somee.com/User/Default.aspx');
+            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Default.aspx');
+
+            await test.info().attach('Pagina HOME',{
+                body: await page.screenshot(),
+                contentType: 'image/png',
+            }) 
         });
 
-        await test.step('Validar el Titulo de la Pagina, deberia ser : "FastFood - Admin"', async () => {
+
+        await test.step('⚡ WHEN: Selecciona la barra de direcciones del navegador, 🧩AND: introduce la URL, 🧩AND: presiona la tecla Enter,', async () => {
+
+            await page.goto('http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx')
+        });
+
+        await test.step('✔️ THEN: Debería redirecciónarse a la Interfaz Principal de Administración,  ', async () => {
+
+            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx');
             await expect(page).toHaveTitle('FastFood - Admin');
         });
 
-        // await page.waitForLoadState();
-        await test.info().attach('screenshot', {
-            body: await page.screenshot(),
-            contentType: 'image/png'
-        })
+        await test.step('🧩AND: Deberia renderizarse la Interfaz Principal de Administración exitosamente.', async () => {
+
+            // await page.waitForLoadState();
+            await test.info().attach('Pagina DASHBOARD', {
+                body: await page.screenshot(),
+                contentType: 'image/png'
+            });
+
+        });
+
     });
 });
