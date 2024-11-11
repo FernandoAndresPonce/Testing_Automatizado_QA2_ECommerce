@@ -7,6 +7,10 @@ let password: string = '1234';
 
 //Ejemplo de la Posible Arquitectura de diseno.
 
+test.beforeEach(async ({page}) => {
+    await page.goto('/');
+});
+
 test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Principal de Administración', () => {
 
     test(' 🧪 US 001 | TS 001 | TC 001 | Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente', async ({ page }) => {
@@ -32,10 +36,8 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
 
 
         await test.step('📝 GIVEN:  que el usuario se encuentra en la Plataforma - http://desarrollowebecommerce.somee.com/ ', async () => {
-            await page.goto('http://desarrollowebecommerce.somee.com/');
             await expect(page.locator("xpath=//div[contains(@class, 'popup-content')]//a"), 'El link "Home", no esta Visible').toBeVisible();
         });
-        await page.pause();
 
         const goDashboardAdmin = new fastFoodPage(page);
         await test.step('🧩AND: esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
