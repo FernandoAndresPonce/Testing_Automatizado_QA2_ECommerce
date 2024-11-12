@@ -5,7 +5,7 @@ import { fastFoodPage } from '../PageObject/fastFoodPage';
 let username: string = 'Admin';
 let password: string = '1234';
 
-//Ejemplo de la Posible Arquitectura de diseno.
+//Ejemplo de la Posible Arquitectura de diseño.
 
 test.beforeEach(async ({page}) => {
     await page.goto('/');
@@ -18,9 +18,9 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
         test.info().annotations.push({
             type: '📑 US 001 | Acceso a la Página Principal de Administración de FastFood.',
             description: `      
-        Como: admin de la web FastFood,
-        Quiero: acceder a la interfaz principal de administración,
-        Para: gestionar todas las tareas relacionadas con la plataforma.
+        COMO: admin de la web FastFood,
+        QUIERO: acceder a la interfaz principal de administración,
+        PARA: gestionar todas las tareas relacionadas con la plataforma.
     `
         });
 
@@ -81,7 +81,9 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
 
         await test.step('🧩AND: Deberia renderizarse la Interfaz Principal de Administración exitosamente.', async () => {
 
-            // await page.waitForLoadState();
+            const waitTakePicture = new fastFoodPage(page);
+            await waitTakePicture.hiddenAdminLoader();
+            
             await test.info().attach('Pagina DASHBOARD', {
                 body: await page.screenshot(),
                 contentType: 'image/png'

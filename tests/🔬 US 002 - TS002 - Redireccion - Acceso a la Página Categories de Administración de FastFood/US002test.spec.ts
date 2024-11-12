@@ -6,7 +6,7 @@ test.beforeEach(async ({page}) => {
     await page.goto('/');
 });
 
-test.describe('🎬 Scenario: El admin accede exitosamente a la Interfaz Categories de Administración mediante la URL.', () => {
+test.describe('🎬 Scenario: El admin accede exitosamente a la Interfaz Categories de Administración ', () => {
 
 
     test('🧪 US 002 | TS 002 | TC 001 | Validar la correcta redirección a la Interfaz “Categories” de Administración, mediante la URL.', async ({ page }) => {
@@ -51,10 +51,14 @@ PARA: visualizar la lista de categorías.
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
             const goDashboardAdmin = new fastFoodPage(page);
-            await goDashboardAdmin.goDashboardAdmin();
+            await goDashboardAdmin.loginAndGoDashboardAdmin();
         });
 
         await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
+
+            const waitTakePicture = new fastFoodPage(page);
+            await waitTakePicture.hiddenAdminLoader();
+
             await test.info().attach('Pagina Dashboard', {
                 body: await page.screenshot(),
                 contentType: 'image/png'
@@ -72,6 +76,9 @@ PARA: visualizar la lista de categorías.
         });
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
+
+            const waitTakePicture = new fastFoodPage(page);
+            await waitTakePicture.hiddenAdminLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -124,10 +131,15 @@ PARA: visualizar la lista de categorías.
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
             const goDashboardAdmin = new fastFoodPage(page);
-            await goDashboardAdmin.goDashboardAdmin();
+            await goDashboardAdmin.loginAndGoDashboardAdmin();
         });
 
         await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
+
+            await page.waitForLoadState('load');
+            const waitTakePicture = new fastFoodPage(page);
+            await waitTakePicture.hiddenAdminLoader();
+
             await test.info().attach('Pagina Dashboard', {
                 body: await page.screenshot(),
                 contentType: 'image/png'
@@ -136,12 +148,12 @@ PARA: visualizar la lista de categorías.
 
         await test.step('⚡ WHEN: hace Click en Categories del Tab Menu visible en la parte izquierda de la pantalla,', async () => {
 
-
-            await expect(page.getByRole('link', { name: ' Categories' }), 'Categories del Tab Menu no esta Visible.').toBeVisible();
             const goCategories = new fastFoodPage(page);
-
+            
             await page.waitForLoadState('load');
             await goCategories.hiddenAdminLoader();
+
+            await expect(page.getByRole('link', { name: ' Categories' }), 'Categories del Tab Menu no esta Visible.').toBeVisible();
 
             await goCategories.clickTabMenuCategoriesLink();
         });
@@ -157,6 +169,9 @@ PARA: visualizar la lista de categorías.
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
+            const waitTakePicture = new fastFoodPage(page);
+            await waitTakePicture.hiddenAdminLoader();
+
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
                 contentType: 'image/png',
@@ -164,7 +179,5 @@ PARA: visualizar la lista de categorías.
 
         });
 
-
     });
-
 });
