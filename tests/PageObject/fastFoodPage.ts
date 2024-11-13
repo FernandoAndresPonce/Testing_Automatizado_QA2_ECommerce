@@ -10,6 +10,8 @@ export class fastFoodPage {
     readonly tabMenuCategoriesLink : Locator;
     readonly adminLoader : Locator;
     readonly addCategoryButton : Locator;
+    readonly cardCategoriesIco : Locator;
+    readonly cardCategoriesViewDetails : Locator;
     userAdmin: string;
     passwordAdmin : string;
 
@@ -24,6 +26,8 @@ export class fastFoodPage {
         this.tabMenuCategoriesLink = page.getByRole('link', {name: ' Categories'});
         this.adminLoader = page.locator('.contain');
         this.addCategoryButton = page.getByRole('button', {name: 'Add Category'});
+        this.cardCategoriesIco = page.locator('div.card-block-small i.icofont-muffin');
+        this.cardCategoriesViewDetails = page.locator("//div[@class='card-block-small']//i[@id='categoriesDetails']");
         this.userAdmin = 'Admin';
         this.passwordAdmin = '1234';
 
@@ -56,6 +60,16 @@ export class fastFoodPage {
     //Barra Lateral Pagina Administracion.
     async clickTabMenuCategoriesLink(){
         await this.tabMenuCategoriesLink.click({ force : true });
+    }
+
+    //Cartas Centrales Seccion Dashboard
+
+    async clickCardCategoriesIco(){
+        await this.cardCategoriesIco.click({ force : true })
+    }
+
+    async clickCardCategoriesViewDetails(){
+        await this.cardCategoriesViewDetails.click({ force : true });
     }
 
     // Loader Cargar y Ocultar

@@ -71,6 +71,9 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
         await test.step('⚡ WHEN: Selecciona la barra de direcciones del navegador, 🧩AND: introduce la URL, 🧩AND: presiona la tecla Enter,', async () => {
 
             await page.goto('http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx')
+            
+            const waitLoader = new fastFoodPage(page);
+            await waitLoader.hiddenAdminLoader();
         });
 
         await test.step('✔️ THEN: Debería redirecciónarse a la Interfaz Principal de Administración,  ', async () => {
