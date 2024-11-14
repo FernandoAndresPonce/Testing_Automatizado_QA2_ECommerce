@@ -2,24 +2,39 @@ import { describe } from "node:test";
 import { expect, test } from "playwright/test";
 import { fastFoodPage } from "../PageObject/fastFoodPage";
 
-test.beforeEach(async ({ page }) => {
+
+test.beforeEach('🔲 BACKGROUND - 📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador. ', async ({ page }) => {
+
     await page.goto('/');
-})
+    const goCategoriesAdmin = new fastFoodPage(page);
+    await goCategoriesAdmin.loginAndGoCategoriesAdmin();
+});
+
+test.beforeEach('🧩 AND: el usuario se encuentra en la Interfaz Categories de Administración - http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async ({ page }) => {
+
+    await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
+
+    await page.waitForLoadState('load')
+    const waitTakePicture = new fastFoodPage(page);
+    await waitTakePicture.hiddenAdminLoader();
+
+    await test.info().attach('Pagina Categories', {
+        body: await page.screenshot(),
+        contentType: 'image/png'
+    });
+});
 
 
-
-test.describe('🎬 Scenario: El admin accede exitosamente a la Interfaz “Formulario de Categories” de Administración', () => {
-    
+test.describe('🎬 Scenario: El admin accede exitosamente a la Interfaz “Formulario de una Categoria” de Administración', () => {
 
     test('🧪 US 003 | TS 003 | TC 001 | Validar, redireccionar a la Interfaz “Formulario de Categories” de Administración, mediante el Botón Add.', async ({ page }) => {
 
         test.info().annotations.push({
-            type: '📑 US 003 | Redirección |Acceso a la Pagina "Formulario de Categories" de Administración de FastFood.',
+            type: '📑 US 003 | Redirección |Acceso a la Pagina "Formulario de una Categoria" de Administración de FastFood.',
             description: `COMO: admin de la plataforma FastFood,
         QUIERO: acceder al “Formulario Categories”,
-        PARA: agregar una nueva categoría.
-        `,
-        })
+        PARA: agregar una nueva categoría.`,
+        });
 
         test.info().annotations.push({
             type: '📋 Especificaciones:',
@@ -39,32 +54,11 @@ Formulario de Categoría:
 2.	Acceso directo mediante URL:
 Es posible acceder directamente a la interfaz " Formulario Categories" utilizando la siguiente URL:
 http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
-
         });
 
         test.info().annotations.push({
             type: '🎯 Scope:',
             description: `•	QA: deberá validar el acceso tanto a través de la URL como desde la Interfaz Categories de Administración, asegurando el correcto redireccionamiento a la interfaz "Formulario de Categories".`,
-        });
-
-        await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
-
-            const goCategoriesAdmin = new fastFoodPage(page);
-            await goCategoriesAdmin.loginAndGoCategoriesAdmin();
-        });
-
-        await test.step('🧩 AND: el usuario se encuentra en la Interfaz Categories de Administración - http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async () => {
-        
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
-
-            await page.waitForLoadState('load')
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
-            
-            await test.info().attach('Pagina Categories', {
-                body: await page.screenshot(),
-                contentType: 'image/png'
-            });         
         });
 
         await test.step('⚡ WHEN: hace Click en el Boton Add, visible en la parte superior derecha del Filtro Rapido (Buscador),', async () => {
@@ -73,48 +67,44 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
             const goFormCategory = new fastFoodPage(page);
             await goFormCategory.hiddenAdminLoader();
 
-            await expect(page.getByRole('button', {name: 'Add Category'}), 'El boton Add, NO es Visible.').toBeVisible();
-            await expect(page.getByRole('textbox', {name: 'Category quick search...'}), 'El filtro rapido (Buscador), NO es Visible.').toBeVisible();
+            await expect(page.getByRole('button', { name: 'Add Category' }), 'El boton Add, NO es Visible.').toBeVisible();
+            await expect(page.getByRole('textbox', { name: 'Category quick search...' }), 'El filtro rapido (Buscador), NO es Visible.').toBeVisible();
 
             await goFormCategory.clickAddCategoryButton();
         });
 
-        await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz "Formulario de Categories" de Administración.', async () => {
+        await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Formulario "Add Category" de Administración.', async () => {
 
             await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
         });
 
-        await test.step('🧩 AND: Deberia renderizarse la Interfaz "Formulario de Categories" de Administración..', async () => {
+        await test.step('🧩 AND: Deberia renderizarse la Interfaz Formulario "Add Category" de Administración..', async () => {
 
             await expect(page.getByText('Add Category'), 'El texto ADD CATEGORY, NO contiene el Texto.').toBeVisible();
 
             const goFormCategory = new fastFoodPage(page);
             await goFormCategory.hiddenAdminLoader();
 
-            await test.info().attach('Form Add Category', {
+            await test.info().attach('Formulario "Add Category"', {
                 body: await page.screenshot(),
                 contentType: 'image/png',
             });
         });
-
     });
 
 
-
-
-    test('🧪 US 003 | TS 003 | TC 001 | Validar, redireccionar a la Interfaz “Formulario de Categories” de Administración, mediante la URL.', async ({ page }) => {
+    test('🧪 US 003 | TS 003 | TC 002 | Validar, redireccionar a la Interfaz “Formulario de una Categoria” de Administración, mediante la URL.', async ({ page }) => {
 
         test.info().annotations.push({
             type: '📑 US 003 | Redirección |Acceso a la Pagina "Formulario de Categories" de Administración de FastFood.',
             description: `COMO: admin de la plataforma FastFood,
         QUIERO: acceder al “Formulario Categories”,
-        PARA: agregar una nueva categoría.
-        `,
-        })
+        PARA: agregar una nueva categoría.`,
+        });
 
         test.info().annotations.push({
             type: '📋 Especificaciones:',
-            description: `Existen dos alternativas para acceder a la interfaz "Formulario de Categories" de administración:
+            description: `Existen dos alternativas para acceder a la interfaz "Formulario de las Categorias" de administración:
 
 1.	A través de la Interfaz de Categorías de Administración: Al ingresar a la interfaz de categorías, se visualizará un Botón con el texto "Agregar", ubicado en la parte inferior de la tabla que lista las categorías existentes.
 
@@ -128,9 +118,8 @@ Formulario de Categoría:
 •   Offer/NoOffer (formato: booleano).
 
 2.	Acceso directo mediante URL:
-Es posible acceder directamente a la interfaz " Formulario Categories" utilizando la siguiente URL:
+Es posible acceder directamente a la interfaz " Formulario Categorias" utilizando la siguiente URL:
 http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
-
         });
 
         test.info().annotations.push({
@@ -138,49 +127,28 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
             description: `•	QA: deberá validar el acceso tanto a través de la URL como desde la Interfaz Categories de Administración, asegurando el correcto redireccionamiento a la interfaz "Formulario de Categories".`,
         });
 
-        await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
-
-            const goCategoriesAdmin = new fastFoodPage(page);
-            await goCategoriesAdmin.loginAndGoCategoriesAdmin();
-        });
-
-        await test.step('🧩 AND: el usuario se encuentra en la Interfaz Categories de Administración - http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async () => {
-
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
-
-            await page.waitForLoadState('load')
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
-            
-            await test.info().attach('Pagina Categories', {
-                body: await page.screenshot(),
-                contentType: 'image/png'
-            });
-        });
-
         await test.step('⚡ WHEN: :al introducr la URL (http://localhost:52000/Admin/CategoryForm.aspx), en la barra de direcciones del navegador', async () => {
 
             await page.goto('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
         });
 
-        await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz "Formulario de Categories" de Administración.', async () => {
+        await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Formulario "Add Category" de Administración.', async () => {
 
             await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
         });
 
-        await test.step('🧩 AND: Deberia renderizarse la Interfaz "Formulario de Categories" de Administración..', async () => {
+        await test.step('🧩 AND: Deberia renderizarse la Interfaz Formulario "Add Category" de Administración..', async () => {
 
             await expect(page.getByText('Add Category'), 'El texto ADD CATEGORY, NO contiene el Texto.').toBeVisible();
 
             const goFormCategory = new fastFoodPage(page);
             await goFormCategory.hiddenAdminLoader();
 
-            await test.info().attach('Form Add Category', {
+            await test.info().attach('Formulario "Add Category"', {
                 body: await page.screenshot(),
                 contentType: 'image/png',
             });
         });
-
     });
 });
 

@@ -2,9 +2,25 @@ import { test, expect } from '@playwright/test'
 import { fastFoodPage } from '../PageObject/fastFoodPage'
 import { describe } from 'node:test';
 
-test.beforeEach(async ({page}) => {
+test.beforeEach('🔲 BACKGROUND - 📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async ({ page }) => {
     await page.goto('/');
+
+    const goDashboardAdmin = new fastFoodPage(page);
+    await goDashboardAdmin.loginAndGoDashboardAdmin();
 });
+
+test.beforeEach('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async ({ page }) => {
+
+    await page.waitForLoadState('load');
+    const waitTakePicture = new fastFoodPage(page);
+    await waitTakePicture.hiddenAdminLoader();
+    
+    await test.info().attach('Pagina Dashboard', {
+        body: await page.screenshot(),
+        contentType: 'image/png'
+    });
+});
+
 
 test.describe('🎬 Scenario: El admin accede exitosamente a la Interfaz Categories de Administración ', () => {
 
@@ -48,23 +64,6 @@ PARA: visualizar la lista de categorías.
             description: `TAE: No se deberá la validar el contenido de la tabla tras la renderización de la interfaz "Categories".`,
         })
 
-        await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
-
-            const goDashboardAdmin = new fastFoodPage(page);
-            await goDashboardAdmin.loginAndGoDashboardAdmin();
-        });
-
-        await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
-
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
-
-            await test.info().attach('Pagina Dashboard', {
-                body: await page.screenshot(),
-                contentType: 'image/png'
-            });
-        });
-
         await test.step('⚡ WHEN: selecciona la barra de direcciones del Navegar, 🧩 AND: introduce la URL: http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async () => {
             await page.goto('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
         });
@@ -84,9 +83,7 @@ PARA: visualizar la lista de categorías.
                 body: await page.screenshot(),
                 contentType: 'image/png',
             });
-
         });
-
     });
 
     test('🧪 US 002 | TS 002 | TC 002 | Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el TabMenu, seleccionando la opción funcional “Categories”.', async ({ page }) => {
@@ -95,8 +92,7 @@ PARA: visualizar la lista de categorías.
             type: '📑 US 002 | Redirección | Acceso a la Página "Categories" de Administración de FastFood.',
             description: `COMO: Admin de la plataforma FastFood,
 QUIERO: acceder a la interfaz “Categories” de administración,
-PARA: visualizar la lista de categorías.
-`,
+PARA: visualizar la lista de categorías.`,
         });
 
         test.info().annotations.push({
@@ -115,41 +111,23 @@ PARA: visualizar la lista de categorías.
         2.	Acceso directo mediante URL:
         Se puede acceder directamente a la interfaz "Categories" utilizando la siguiente URL:
         http://desarrollowebecommerce.somee.com/Admin/Category.aspx`,
-
         });
 
         test.info().annotations.push({
             type: '🎯 Scope:',
             description: `TAE: deberá validar el acceso tanto a través de la URL como desde la Interfaz Principal de Administración, asegurando el correcto redireccionamiento a la interfaz "Categories".`,
-        })
+        });
 
         test.info().annotations.push({
             type: `🚫 OOS:`,
             description: `TAE: No se deberá la validar el contenido de la tabla tras la renderización de la interfaz "Categories".`,
-        })
-
-        await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
-
-            const goDashboardAdmin = new fastFoodPage(page);
-            await goDashboardAdmin.loginAndGoDashboardAdmin();
         });
 
-        await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
-
-            await page.waitForLoadState('load');
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
-
-            await test.info().attach('Pagina Dashboard', {
-                body: await page.screenshot(),
-                contentType: 'image/png'
-            });
-        });
 
         await test.step('⚡ WHEN: hace Click en Categories del Tab Menu visible en la parte izquierda de la pantalla,', async () => {
-          
+
             await expect(page.getByRole('link', { name: ' Categories' }), 'Categories del Tab Menu no esta Visible.').toBeVisible();
-            
+
             const goCategories = new fastFoodPage(page);
             await goCategories.clickTabMenuCategoriesLink();
         });
@@ -172,12 +150,8 @@ PARA: visualizar la lista de categorías.
                 body: await page.screenshot(),
                 contentType: 'image/png',
             });
-
         });
-
     });
-
-
 
     test('🧪 US 002 | TS 002 | TC 003 | Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el Icono de la "Card Categories".', async ({ page }) => {
 
@@ -185,8 +159,7 @@ PARA: visualizar la lista de categorías.
             type: '📑 US 002 | Redirección | Acceso a la Página "Categories" de Administración de FastFood.',
             description: `COMO: Admin de la plataforma FastFood,
 QUIERO: acceder a la interfaz “Categories” de administración,
-PARA: visualizar la lista de categorías.
-`,
+PARA: visualizar la lista de categorías.`,
         });
 
         test.info().annotations.push({
@@ -211,29 +184,11 @@ PARA: visualizar la lista de categorías.
         test.info().annotations.push({
             type: '🎯 Scope:',
             description: `TAE: deberá validar el acceso tanto a través de la URL como desde la Interfaz Principal de Administración, asegurando el correcto redireccionamiento a la interfaz "Categories".`,
-        })
+        });
 
         test.info().annotations.push({
             type: `🚫 OOS:`,
             description: `TAE: No se deberá la validar el contenido de la tabla tras la renderización de la interfaz "Categories".`,
-        })
-
-        await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
-
-            const goDashboardAdmin = new fastFoodPage(page);
-            await goDashboardAdmin.loginAndGoDashboardAdmin();
-        });
-
-        await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
-
-            await page.waitForLoadState('load');
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
-
-            await test.info().attach('Pagina Dashboard', {
-                body: await page.screenshot(),
-                contentType: 'image/png'
-            });
         });
 
         await test.step('⚡ WHEN: hace Click en el ICONO de la "Card Categories", que se encuentra en el Panel central del Dashboard,', async () => {
@@ -242,7 +197,6 @@ PARA: visualizar la lista de categorías.
 
             const goPageCategories = new fastFoodPage(page);
             await goPageCategories.clickCardCategoriesIco();
-
         });
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
@@ -262,12 +216,8 @@ PARA: visualizar la lista de categorías.
                 body: await page.screenshot(),
                 contentType: 'image/png',
             });
-
         });
-
     });
-
-
 
     test('🧪 US 002 | TS 002 | TC 004 | Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el View Details de la "Card Categories".', async ({ page }) => {
 
@@ -275,8 +225,7 @@ PARA: visualizar la lista de categorías.
             type: '📑 US 002 | Redirección | Acceso a la Página "Categories" de Administración de FastFood.',
             description: `COMO: Admin de la plataforma FastFood,
 QUIERO: acceder a la interfaz “Categories” de administración,
-PARA: visualizar la lista de categorías.
-`,
+PARA: visualizar la lista de categorías.`,
         });
 
         test.info().annotations.push({
@@ -301,35 +250,17 @@ PARA: visualizar la lista de categorías.
         test.info().annotations.push({
             type: '🎯 Scope:',
             description: `TAE: deberá validar el acceso tanto a través de la URL como desde la Interfaz Principal de Administración, asegurando el correcto redireccionamiento a la interfaz "Categories".`,
-        })
+        });
 
         test.info().annotations.push({
             type: `🚫 OOS:`,
             description: `TAE: No se deberá la validar el contenido de la tabla tras la renderización de la interfaz "Categories".`,
-        })
-
-        await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
-
-            const goDashboardAdmin = new fastFoodPage(page);
-            await goDashboardAdmin.loginAndGoDashboardAdmin();
-        });
-
-        await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
-
-            await page.waitForLoadState('load');
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
-
-            await test.info().attach('Pagina Dashboard', {
-                body: await page.screenshot(),
-                contentType: 'image/png'
-            });
         });
 
         await test.step('⚡ WHEN: hace Click en el Text "View Details" de la "Card Categories", que se encuentra en el Panel central del Dashboard,', async () => {
 
             await expect(page.locator("//div[@class='card-block-small']//i[@id='categoriesDetails']"), 'El "View Details", de la "Card Categories", NO es Visible.').toBeVisible();
-            
+
             const goPageCategories = new fastFoodPage(page);
             await goPageCategories.clickCardCategoriesViewDetails();
         });
@@ -351,8 +282,6 @@ PARA: visualizar la lista de categorías.
                 body: await page.screenshot(),
                 contentType: 'image/png',
             });
-
         });
-
     });
 });

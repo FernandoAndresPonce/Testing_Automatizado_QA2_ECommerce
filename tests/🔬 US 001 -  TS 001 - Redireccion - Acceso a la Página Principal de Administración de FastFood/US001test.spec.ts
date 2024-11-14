@@ -20,8 +20,7 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
             description: `      
         COMO: admin de la web FastFood,
         QUIERO: acceder a la interfaz principal de administración,
-        PARA: gestionar todas las tareas relacionadas con la plataforma.
-    `
+        PARA: gestionar todas las tareas relacionadas con la plataforma.`
         });
 
         test.info().annotations.push({
@@ -32,7 +31,7 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
         test.info().annotations.push({
             type: '🎯 Scope:',
             description: 'QA: Se encargará de validar únicamente el acceso a la URL y el correcto redireccionamiento a la interfaz principal.',
-        })
+        });
 
 
         await test.step('📝 GIVEN:  que el usuario se encuentra en la Plataforma - http://desarrollowebecommerce.somee.com/ ', async () => {
@@ -64,9 +63,8 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
             await test.info().attach('Pagina HOME',{
                 body: await page.screenshot(),
                 contentType: 'image/png',
-            }) 
+            }); 
         });
-
 
         await test.step('⚡ WHEN: Selecciona la barra de direcciones del navegador, 🧩AND: introduce la URL, 🧩AND: presiona la tecla Enter,', async () => {
 
@@ -91,8 +89,6 @@ test.describe('🎬 Scenario: el admin accede exitosamente a la Interfaz Princip
                 body: await page.screenshot(),
                 contentType: 'image/png'
             });
-
         });
-
     });
 });

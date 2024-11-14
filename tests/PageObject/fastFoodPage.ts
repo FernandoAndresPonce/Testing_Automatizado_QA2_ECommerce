@@ -12,6 +12,7 @@ export class fastFoodPage {
     readonly addCategoryButton : Locator;
     readonly cardCategoriesIco : Locator;
     readonly cardCategoriesViewDetails : Locator;
+    readonly categoryNameTextBox : Locator;
     userAdmin: string;
     passwordAdmin : string;
 
@@ -28,6 +29,7 @@ export class fastFoodPage {
         this.addCategoryButton = page.getByRole('button', {name: 'Add Category'});
         this.cardCategoriesIco = page.locator('div.card-block-small i.icofont-muffin');
         this.cardCategoriesViewDetails = page.locator("//div[@class='card-block-small']//i[@id='categoriesDetails']");
+        this.categoryNameTextBox = page.getByRole('textbox', { name: 'Category Name' });
         this.userAdmin = 'Admin';
         this.passwordAdmin = '1234';
 
@@ -82,6 +84,11 @@ export class fastFoodPage {
         await this.addCategoryButton.click({ force : true });
     }
 
+    //Formulario Agregar Categoria.
+    async clickAndFillCategoryNameTextBox(nameCategory : string ){
+        await this.categoryNameTextBox.click({ force : true })
+        await this.categoryNameTextBox.fill(nameCategory)
+    }
     
     //Acciones con MULTIPLES elementos.
 
@@ -100,5 +107,18 @@ export class fastFoodPage {
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
         await this.clickTabMenuCategoriesLink();
+    }
+
+    async loginAndGoFormCategoryAdminTabMenuLink(){
+        await this.clickinitialHomeLink();
+        await this.clickNavbarLoginLink();
+        await this.completeLogin(this.userAdmin, this.passwordAdmin);
+        await this.clickLoginButton();
+        await this.page.waitForLoadState('load');
+        await this.hiddenAdminLoader();
+        await this.clickTabMenuCategoriesLink();
+        await this.page.waitForLoadState('load');
+        await this.hiddenAdminLoader();
+        await this.clickAddCategoryButton();
     }
 }
