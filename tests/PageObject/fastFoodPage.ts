@@ -13,6 +13,8 @@ export class fastFoodPage {
     readonly cardCategoriesIco : Locator;
     readonly cardCategoriesViewDetails : Locator;
     readonly categoryNameTextBox : Locator;
+    readonly categoryImageInputFile : Locator;
+    readonly categoryImageImg : Locator;
     userAdmin: string;
     passwordAdmin : string;
 
@@ -30,6 +32,8 @@ export class fastFoodPage {
         this.cardCategoriesIco = page.locator('div.card-block-small i.icofont-muffin');
         this.cardCategoriesViewDetails = page.locator("//div[@class='card-block-small']//i[@id='categoriesDetails']");
         this.categoryNameTextBox = page.getByRole('textbox', { name: 'Category Name' });
+        this.categoryImageInputFile = page.locator('#ContentPlaceHolder1_txtImage');
+        this.categoryImageImg = page.locator('#ContentPlaceHolder1_imgForm');
         this.userAdmin = 'Admin';
         this.passwordAdmin = '1234';
 
@@ -89,6 +93,12 @@ export class fastFoodPage {
         await this.categoryNameTextBox.click({ force : true })
         await this.categoryNameTextBox.fill(nameCategory)
     }
+
+    //Precondicion ya Establecida -
+    async preconditionClickAndFillCategoryNameTextBox(){
+        await this.categoryNameTextBox.click({ force : true })
+        await this.categoryNameTextBox.fill('Postre')
+    }
     
     //Acciones con MULTIPLES elementos.
 
@@ -117,6 +127,19 @@ export class fastFoodPage {
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
         await this.clickTabMenuCategoriesLink();
+        await this.page.waitForLoadState('load');
+        await this.hiddenAdminLoader();
+        await this.clickAddCategoryButton();
+    }
+
+    async loginAndGoFormCategoryAdminCardCategoriesIco(){
+        await this.clickinitialHomeLink();
+        await this.clickNavbarLoginLink();
+        await this.completeLogin(this.userAdmin, this.passwordAdmin);
+        await this.clickLoginButton();
+        await this.page.waitForLoadState('load');
+        await this.hiddenAdminLoader();
+        await this.clickCardCategoriesIco();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
         await this.clickAddCategoryButton();
