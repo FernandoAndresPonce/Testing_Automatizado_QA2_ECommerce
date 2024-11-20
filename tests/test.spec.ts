@@ -1,6 +1,7 @@
 import { test, expect, Browser, Page } from '@playwright/test'
 import { describe } from 'node:test';
 import { fastFoodPage } from './PageObject/fastFoodPage';
+import { threadId } from 'node:worker_threads';
 
 
 let username: string = 'Admin';
@@ -38,26 +39,27 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
     test('US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente', async ({ page }) => {
 
 
+        const the = new fastFoodPage(page);
 
         await test.step('📝 GIVEN:  que el usuario se encuentra en la Plataforma - http://desarrollowebecommerce.somee.com/ ', async () => {
             await expect(page.locator("xpath=//div[contains(@class, 'popup-content')]//a"), 'El link "Home", no esta Visible').toBeVisible();
         });
 
-        const goDashboardAdmin = new fastFoodPage(page);
+
         await test.step('🧩AND: esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
-            await goDashboardAdmin.clickinitialHomeLink();
+            await the.clickinitialHomeLink();
 
             await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Default.aspx');
 
             await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
 
-            await goDashboardAdmin.clickNavbarLoginLink();
+            await the.clickNavbarLoginLink();
             await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Login.aspx');
 
             await page.getByRole('textbox', { name: 'Username' }).fill(`${username}`);
             await page.getByRole('textbox', { name: 'Password' }).fill(`${password}`);
 
-            await goDashboardAdmin.clickLoginButton();
+            await the.clickLoginButton();
         });
 
         await test.step('🧩AND: se encuentra en el HOME de la plataforma - http://desarrollowebecommerce.somee.com/User/Default.aspx', async () => {
@@ -75,8 +77,7 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
             await page.goto('http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx')
 
-            const waitLoader = new fastFoodPage(page);
-            await waitLoader.hiddenAdminLoader();
+            await the.hiddenAdminLoader();
         });
 
         await test.step('✔️ THEN: Debería redirecciónarse a la Interfaz Principal de Administración,  ', async () => {
@@ -87,8 +88,7 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
         await test.step('🧩AND: Deberia renderizarse la Interfaz Principal de Administración exitosamente.', async () => {
 
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
+            await the.hiddenAdminLoader();
 
             await test.info().attach('Pagina DASHBOARD', {
                 body: await page.screenshot(),
@@ -146,15 +146,15 @@ PARA: visualizar la lista de categorías.
 
         await page.goto('/');
 
-        const goDashboardAdmin = new fastFoodPage(page);
-        await goDashboardAdmin.loginAndGoDashboardAdmin();
+        const when = new fastFoodPage(page);
+        await when.loginAndGoDashboardAdmin();
     });
 
     test.beforeEach('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async ({ page }) => {
 
         await page.waitForLoadState('load');
-        const waitTakePicture = new fastFoodPage(page);
-        await waitTakePicture.hiddenAdminLoader();
+        const when = new fastFoodPage(page);
+        await when.hiddenAdminLoader();
 
         await test.info().attach('Pagina Dashboard', {
             body: await page.screenshot(),
@@ -165,6 +165,7 @@ PARA: visualizar la lista de categorías.
 
     test('US 002 - TS 002 - TC 001 - Validar la correcta redirección a la Interfaz “Categories” de Administración, mediante la URL.', async ({ page }) => {
 
+        const the = new fastFoodPage(page);
 
         await test.step('⚡ WHEN: selecciona la barra de direcciones del Navegar, 🧩 AND: introduce la URL: http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async () => {
             await page.goto('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
@@ -178,8 +179,7 @@ PARA: visualizar la lista de categorías.
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
+            await the.hiddenAdminLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -190,14 +190,13 @@ PARA: visualizar la lista de categorías.
 
     test('US 002 - TS 002 - TC 002 - Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el TabMenu, seleccionando la opción funcional “Categories”.', async ({ page }) => {
 
-
+        const when = new fastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en Categories del Tab Menu visible en la parte izquierda de la pantalla,', async () => {
 
             await expect(page.getByRole('link', { name: ' Categories' }), 'Categories del Tab Menu no esta Visible.').toBeVisible();
 
-            const goCategories = new fastFoodPage(page);
-            await goCategories.clickTabMenuCategoriesLink();
+            await when.clickTabMenuCategoriesLink();
         });
 
 
@@ -211,8 +210,7 @@ PARA: visualizar la lista de categorías.
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
+            await when.hiddenAdminLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -223,13 +221,13 @@ PARA: visualizar la lista de categorías.
 
     test('US 002 - TS 002 - TC 003 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el Icono de la "Card Categories".', async ({ page }) => {
 
+        const when = new fastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en el ICONO de la "Card Categories", que se encuentra en el Panel central del Dashboard,', async () => {
 
             await expect(page.locator('div.card-block-small i.icofont-muffin'), 'La Card Categories, NO esta Visible').toBeVisible();
 
-            const goPageCategories = new fastFoodPage(page);
-            await goPageCategories.clickCardCategoriesIco();
+            await when.clickCardCategoriesIco();
         });
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
@@ -242,8 +240,7 @@ PARA: visualizar la lista de categorías.
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
+            await when.hiddenAdminLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -254,13 +251,13 @@ PARA: visualizar la lista de categorías.
 
     test('US 002 - TS 002 - TC 004 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el View Details de la "Card Categories".', async ({ page }) => {
 
-
+        const when = new fastFoodPage(page);
+        
         await test.step('⚡ WHEN: hace Click en el Text "View Details" de la "Card Categories", que se encuentra en el Panel central del Dashboard,', async () => {
 
             await expect(page.locator("//div[@class='card-block-small']//i[@id='categoriesDetails']"), 'El "View Details", de la "Card Categories", NO es Visible.').toBeVisible();
 
-            const goPageCategories = new fastFoodPage(page);
-            await goPageCategories.clickCardCategoriesViewDetails();
+            await when.clickCardCategoriesViewDetails();
         });
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
@@ -273,8 +270,7 @@ PARA: visualizar la lista de categorías.
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
-            const waitTakePicture = new fastFoodPage(page);
-            await waitTakePicture.hiddenAdminLoader();
+            await when.hiddenAdminLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -326,8 +322,8 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
     test.beforeEach('🔲 BACKGROUND - 📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador. ', async ({ page }) => {
 
         await page.goto('/');
-        const goCategoriesAdmin = new fastFoodPage(page);
-        await goCategoriesAdmin.loginAndGoCategoriesAdmin();
+        const when = new fastFoodPage(page);
+        await when.loginAndGoCategoriesAdmin();
     });
 
     test.beforeEach('🧩 AND: el usuario se encuentra en la Interfaz Categories de Administración - http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async ({ page }) => {
@@ -335,8 +331,8 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
         await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
 
         await page.waitForLoadState('load')
-        const waitTakePicture = new fastFoodPage(page);
-        await waitTakePicture.hiddenAdminLoader();
+        const the = new fastFoodPage(page);
+        await the.hiddenAdminLoader();
 
         await test.info().attach('Pagina Categories', {
             body: await page.screenshot(),
@@ -346,18 +342,18 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
 
 
     test('US 003 - TS 003 - TC 001 - Validar, redireccionar a la Interfaz “Formulario de Categories” de Administración, mediante el Botón Add.', async ({ page }) => {
-
+        
+        const when = new fastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en el Boton Add, visible en la parte superior derecha del Filtro Rapido (Buscador),', async () => {
 
             await page.waitForLoadState('load');
-            const goFormCategory = new fastFoodPage(page);
-            await goFormCategory.hiddenAdminLoader();
+            await when.hiddenAdminLoader();
 
             await expect(page.getByRole('button', { name: 'Add Category' }), 'El boton Add, NO es Visible.').toBeVisible();
             await expect(page.getByRole('textbox', { name: 'Category quick search...' }), 'El filtro rapido (Buscador), NO es Visible.').toBeVisible();
 
-            await goFormCategory.clickAddCategoryButton();
+            await when.clickAddCategoryButton();
         });
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Formulario "Add Category" de Administración.', async () => {
@@ -369,8 +365,7 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
 
             await expect(page.getByText('Add Category'), 'El texto ADD CATEGORY, NO contiene el Texto.').toBeVisible();
 
-            const goFormCategory = new fastFoodPage(page);
-            await goFormCategory.hiddenAdminLoader();
+            await when.hiddenAdminLoader();
 
             await test.info().attach('Formulario "Add Category"', {
                 body: await page.screenshot(),
@@ -382,6 +377,7 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
 
     test('US 003 - TS 003 - TC 002 - Validar, redireccionar a la Interfaz “Formulario de una Categoria” de Administración, mediante la URL.', async ({ page }) => {
 
+        const when = new fastFoodPage(page);
 
         await test.step('⚡ WHEN: :al introducr la URL (http://localhost:52000/Admin/CategoryForm.aspx), en la barra de direcciones del navegador', async () => {
 
@@ -396,9 +392,8 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
         await test.step('🧩 AND: Deberia renderizarse la Interfaz Formulario "Add Category" de Administración..', async () => {
 
             await expect(page.getByText('Add Category'), 'El texto ADD CATEGORY, NO contiene el Texto.').toBeVisible();
-
-            const goFormCategory = new fastFoodPage(page);
-            await goFormCategory.hiddenAdminLoader();
+    
+            await when.hiddenAdminLoader();
 
             await test.info().attach('Formulario "Add Category"', {
                 body: await page.screenshot(),
@@ -447,8 +442,8 @@ Formulario Categoria:
 
     test.beforeEach('🔲 BACKGROUND - 📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async ({ page }) => {
         await page.goto('/');
-        const goFormCategory = new fastFoodPage(page);
-        await goFormCategory.loginAndGoFormCategoryAdminTabMenuLink();
+        const when = new fastFoodPage(page);
+        await when.loginAndGoFormCategoryAdminRandomRoute();
     });
 
 
@@ -458,8 +453,8 @@ Formulario Categoria:
         await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
 
         await page.waitForLoadState('load');
-        const waitLoader = new fastFoodPage(page);
-        await waitLoader.hiddenAdminLoader();
+        const when = new fastFoodPage(page);
+        await when.hiddenAdminLoader();
 
         test.info().attach('Pagina Formulario "Add Category"', {
             body: await page.screenshot(),
@@ -481,13 +476,14 @@ Formulario Categoria:
 
         test(`${section.titleTC}`, async ({ page }) => {
 
+            const when = new fastFoodPage(page);
             await test.step('⚡ WHEN: completa el Text Input Category Name con una cadena de texto Alfabética,', async () => {
 
                 await expect(page.locator('xpath=//div[@class="mb-3"]//span[@class="form-label" and text()="Category Name"]'), 'El Texto "Category Name", No es Visible.').toBeVisible();
                 await expect(page.getByRole('textbox', { name: 'Category Name' }), 'El Text Input "Category Name", NO es Visible.').toBeVisible();
 
-                const completeCategoryName = new fastFoodPage(page);
-                await completeCategoryName.clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
+                
+                await when.clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
             });
 
             await test.step(`${section.butTC}`, async () => {
@@ -522,16 +518,13 @@ Formulario Categoria:
                 await expect(page.getByRole('heading', { name: 'CATEGORIES' }), 'El texto "CATEGORIES", NO es Visible.').toBeVisible();
 
                 await page.waitForLoadState('load');
-                const waitLoader = new fastFoodPage(page);
-                await waitLoader.hiddenAdminLoader();
+                await when.hiddenAdminLoader();
 
                 await test.info().attach('Pagina "Categories"', {
                     body: await page.screenshot(),
                     contentType: 'image/png',
                 });
             });
-
-
         });
     }
 
@@ -559,15 +552,14 @@ Formulario Categoria:
 
         test(`${section.titleTC}`, async ({ page }) => {
 
+            const when = new fastFoodPage(page);
             await test.step(`${section.whenTC}`, async () => {
 
                 await expect(page.locator('xpath=//div[@class="mb-3"]//span[@class="form-label" and text()="Category Name"]'), 'El Texto "Category Name", No es Visible.').toBeVisible();
                 await expect(page.getByRole('textbox', { name: 'Category Name' }), 'El Text Input "Category Name", NO es Visible.').toBeVisible();
 
-                const completeCategoryName = new fastFoodPage(page);
-                await completeCategoryName.clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
+                await when.clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
             });
-
 
             const text = new fastFoodPage(page);
             const textTextbox = (await text.categoryNameTextBox.inputValue());
@@ -576,7 +568,6 @@ Formulario Categoria:
             if (lenght > 0 && lenght < 51) {
                 await test.step(`${section.butTC}`, async () => {
 
-                    const text = new fastFoodPage(page);
                     const textTextbox = (await text.categoryNameTextBox.inputValue());
                     const lenght = textTextbox.length;
 
@@ -602,9 +593,9 @@ Formulario Categoria:
 
             await test.step(`${section.thenTC}`, async () => {
 
-                const focusCategoryName = new fastFoodPage(page);
-                await expect(focusCategoryName.categoryNameTextBox).toBeFocused();
-                await expect(focusCategoryName.categoryNameTextBox).toBeVisible();
+                const the = new fastFoodPage(page);
+                await expect(the.categoryNameTextBox).toBeFocused();
+                await expect(the.categoryNameTextBox).toBeVisible();
             });
 
             await test.step(`${section.andThenTC}`, async () => {
@@ -656,25 +647,23 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
 
     test.beforeEach('🔲 BACKGROUND - 📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async ({ page }) => {
         await page.goto('/');
-        const goFormCategory = new fastFoodPage(page);
-        await goFormCategory.loginAndGoFormCategoryAdminCardCategoriesIco();
+        const when = new fastFoodPage(page);
+        await when.loginAndGoFormCategoryAdminRandomRoute();
     });
 
     test.beforeEach('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async ({ page }) => {
 
         await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
         await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
-
     });
 
     test.beforeEach('🧩 AND: completa el Text Input “Category Name”, con la Cadena de Texto Postre.', async ({ page }) => {
 
-        const categoryNameTextbox = new fastFoodPage(page);
-        await categoryNameTextbox.preconditionClickAndFillCategoryNameTextBox();
+        const when = new fastFoodPage(page);
+        await when.preconditionClickAndFillCategoryNameTextBox();
 
         await page.waitForLoadState('load');
-        const waitLoader = new fastFoodPage(page);
-        await waitLoader.hiddenAdminLoader();
+        await when.hiddenAdminLoader();
 
         test.info().attach('Pagina Formulario "Add Category"', {
             body: await page.screenshot(),
@@ -682,44 +671,88 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
         })
     });
 
+    test('US 005 - TS 005 - TC 001 - Validar, cargar previsualización de una imagen, al ingresar una imagen en el File-Input.', async ({ page }) => {
 
+        const the = new fastFoodPage(page);
 
-    test('001', async ({ page }) => {
-
-        await test.step('WHEN : hace Click en el File Input Category Image', async () => {
+        await test.step('⚡ WHEN : hace Click en el File Input Category Image', async () => {
 
             await expect(page.getByText('Category Image'), 'Texto NO es Visible').toBeVisible();
-            await expect(page.locator('#ContentPlaceHolder1_txtImage')).toBeVisible();
-            await expect(page.locator('#ContentPlaceHolder1_imgForm')).toBeVisible();
+            await expect(page.locator('#ContentPlaceHolder1_txtImage'), 'File Input NO es Visible').toBeVisible();
+            await expect(page.locator('#ContentPlaceHolder1_imgForm'), 'Imagen No es Visible').toBeVisible();
+
+            await the.categoryImageInputFile.click();
 
             test.info().attach('Imagen - Placeholder', {
                 body: await page.screenshot(),
                 contentType: 'image/png'
             });
-
         });
 
-        await test.step(' AND: carga una Imagen', async () => {
+        await test.step('🧩 AND: carga una Imagen', async () => {
+
             await page.locator('#ContentPlaceHolder1_txtImage').setInputFiles('C:/Users/Fernando/Desktop/Testing_Automatizado_QA2_ECommerce/tests/imgTest/Desserts.png');
 
-
-            const fileInput = new fastFoodPage(page);
-            const fileInputText = await fileInput.categoryImageInputFile.inputValue()
+            const fileInputText = await the.categoryImageInputFile.inputValue()
             await expect(fileInputText).toContain('Desserts.png')
+        });
+
+        await test.step('✔️ THEN : Deberia previsualizarse la imagen añadida.', async () => {
 
             test.info().attach('Imagen - Nueva Imagen a Cargar', {
                 body: await page.screenshot(),
                 contentType: 'image/png'
             });
         });
-
-        await test.step('', async () => {
-
-        });
-        
-
     });
 
+
+    test('US 005 - TS 005 - TC 002 - Validar, No cargar previsualización de una imagen.', async ({ page }) => {
+
+        await test.step('✔️ THEN : Deberia previsualizarse un "Placeholder", como imagen pre establecida.', async () => {
+
+            await expect(page.getByText('Category Image'), 'Texto NO es Visible').toBeVisible();
+            await expect(page.locator('#ContentPlaceHolder1_txtImage')).toBeVisible();
+            await expect(page.locator('#ContentPlaceHolder1_imgForm')).toBeVisible();
+
+            test.info().attach('Imagen - "Placeholder"', {
+                body: await page.screenshot(),
+                contentType: 'image/png'
+            });
+        });
+    });
+
+
+    test('US 005 - TS 005 - TC 003 - Validar, Cargar previsualización de una imagen,  al No ingresar una imagen en el File-Input.', async ({ page }) => {
+
+        const the = new fastFoodPage(page);
+
+        await test.step('⚡ WHEN : hace Click en el File Input Category Image', async () => {
+
+            await expect(page.getByText('Category Image'), 'Texto NO es Visible').toBeVisible();
+            await expect(page.locator('#ContentPlaceHolder1_txtImage')).toBeVisible();
+            await expect(page.locator('#ContentPlaceHolder1_imgForm')).toBeVisible();
+
+            await the.categoryImageInputFile.click();
+
+        });
+
+        await test.step('🧩 AND: NO carga ninguna Imagen', async () => {
+
+            await page.locator('#ContentPlaceHolder1_txtImage').setInputFiles([]);
+
+            const fileInputText = await the.categoryImageInputFile.inputValue()
+            await expect(fileInputText).toContain('')
+        });
+
+        await test.step('✔️ THEN : Deberia previsualizarse el "Placeholder".', async () => {
+
+            test.info().attach('Imagen - imagen "Placeholder"', {
+                body: await page.screenshot(),
+                contentType: 'image/png'
+            });
+        });
+    });
 });
 
 

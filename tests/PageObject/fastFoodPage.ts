@@ -15,8 +15,8 @@ export class fastFoodPage {
     readonly categoryNameTextBox : Locator;
     readonly categoryImageInputFile : Locator;
     readonly categoryImageImg : Locator;
-    userAdmin: string;
-    passwordAdmin : string;
+    userAdminValid: string;
+    passwordAdminValid : string;
 
 
     constructor(page: Page) {
@@ -34,8 +34,8 @@ export class fastFoodPage {
         this.categoryNameTextBox = page.getByRole('textbox', { name: 'Category Name' });
         this.categoryImageInputFile = page.locator('#ContentPlaceHolder1_txtImage');
         this.categoryImageImg = page.locator('#ContentPlaceHolder1_imgForm');
-        this.userAdmin = 'Admin';
-        this.passwordAdmin = '1234';
+        this.userAdminValid = 'Admin';
+        this.passwordAdminValid = '1234';
 
     }
 
@@ -105,14 +105,14 @@ export class fastFoodPage {
     async loginAndGoDashboardAdmin(){
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdmin, this.passwordAdmin);
+        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
         await this.clickLoginButton();
     };
 
     async loginAndGoCategoriesAdmin(){
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdmin, this.passwordAdmin);
+        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
         await this.clickLoginButton();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
@@ -122,7 +122,7 @@ export class fastFoodPage {
     async loginAndGoFormCategoryAdminTabMenuLink(){
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdmin, this.passwordAdmin);
+        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
         await this.clickLoginButton();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
@@ -135,11 +135,44 @@ export class fastFoodPage {
     async loginAndGoFormCategoryAdminCardCategoriesIco(){
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdmin, this.passwordAdmin);
+        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
         await this.clickLoginButton();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
         await this.clickCardCategoriesIco();
+        await this.page.waitForLoadState('load');
+        await this.hiddenAdminLoader();
+        await this.clickAddCategoryButton();
+    }
+
+    async loginAndGoFormCategoryAdminCardCategoriesViewDetails(){
+
+        await this.clickinitialHomeLink();
+        await this.clickNavbarLoginLink();
+        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
+        await this.clickLoginButton();
+        await this.page.waitForLoadState('load');
+        await this.hiddenAdminLoader();
+        await this.clickCardCategoriesViewDetails();
+        await this.page.waitForLoadState('load');
+        await this.hiddenAdminLoader();
+        await this.clickAddCategoryButton();
+    }
+
+    async loginAndGoFormCategoryAdminRandomRoute(){
+
+        const routeAddCategory = [this.cardCategoriesViewDetails, this.tabMenuCategoriesLink, this.cardCategoriesIco]
+
+        const randomIndex = Math.floor(Math.random() * routeAddCategory.length);
+        const randomRouteAddCategory = routeAddCategory[randomIndex];
+
+        await this.clickinitialHomeLink();
+        await this.clickNavbarLoginLink();
+        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
+        await this.clickLoginButton();
+        await this.page.waitForLoadState('load');
+        await this.hiddenAdminLoader();
+        await randomRouteAddCategory.click();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
         await this.clickAddCategoryButton();
