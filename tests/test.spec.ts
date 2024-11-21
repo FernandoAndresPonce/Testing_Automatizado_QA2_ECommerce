@@ -11,7 +11,6 @@ let password: string = '1234';
 
 test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood', () => {
 
-
     test.beforeEach(async ({ page }) => {
         await page.goto('/');
 
@@ -49,12 +48,12 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
         await test.step('🧩AND: esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
             await the.clickinitialHomeLink();
 
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Default.aspx');
+            await expect(page).toHaveURL('/User/Default.aspx');
 
             await expect(page.getByRole('link', { name: 'Login' })).toBeVisible();
 
             await the.clickNavbarLoginLink();
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Login.aspx');
+            await expect(page).toHaveURL('/User/Login.aspx');
 
             await page.getByRole('textbox', { name: 'Username' }).fill(`${username}`);
             await page.getByRole('textbox', { name: 'Password' }).fill(`${password}`);
@@ -65,7 +64,7 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
         await test.step('🧩AND: se encuentra en el HOME de la plataforma - http://desarrollowebecommerce.somee.com/User/Default.aspx', async () => {
 
             await page.goto('http://desarrollowebecommerce.somee.com/User/Default.aspx');
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/User/Default.aspx');
+            await expect(page).toHaveURL('/User/Default.aspx');
 
             await test.info().attach('Pagina HOME', {
                 body: await page.screenshot(),
@@ -82,7 +81,7 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
         await test.step('✔️ THEN: Debería redirecciónarse a la Interfaz Principal de Administración,  ', async () => {
 
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx');
+            await expect(page).toHaveURL('/Admin/Dashboard.aspx');
             await expect(page).toHaveTitle('FastFood - Admin');
         });
 
@@ -172,7 +171,7 @@ PARA: visualizar la lista de categorías.
         });
 
         await test.step('✔️ THEN: el sistema se deberia redireccionar a la Interfaz Categories de Administración.', async () => {
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
+            await expect(page).toHaveURL('/Admin/Category.aspx');
             await expect(page.getByRole('heading', { name: 'CATEGORIES' })).toBeVisible();
             await expect(page.getByRole('heading', { name: 'CATEGORIES' })).toHaveText('Categories');
         });
@@ -202,7 +201,7 @@ PARA: visualizar la lista de categorías.
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
 
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
+            await expect(page).toHaveURL('/Admin/Category.aspx');
             await expect(page.getByRole('heading', { name: 'CATEGORIES' })).toBeVisible();
             await expect(page.getByRole('heading', { name: 'CATEGORIES' })).toHaveText('Categories');
         });
@@ -232,7 +231,7 @@ PARA: visualizar la lista de categorías.
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
 
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
+            await expect(page).toHaveURL('/Admin/Category.aspx');
             await expect(page.getByRole('heading', { name: 'CATEGORIES' })).toBeVisible();
             await expect(page.getByRole('heading', { name: 'CATEGORIES' })).toHaveText('Categories');
         });
@@ -262,7 +261,7 @@ PARA: visualizar la lista de categorías.
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
 
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
+            await expect(page).toHaveURL('/Admin/Category.aspx');
             await expect(page.getByRole('heading', { name: 'CATEGORIES' })).toBeVisible();
             await expect(page.getByRole('heading', { name: 'CATEGORIES' })).toHaveText('Categories');
         });
@@ -328,7 +327,7 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
 
     test.beforeEach('🧩 AND: el usuario se encuentra en la Interfaz Categories de Administración - http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async ({ page }) => {
 
-        await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
+        await expect(page).toHaveURL('/Admin/Category.aspx');
 
         await page.waitForLoadState('load')
         const the = new fastFoodPage(page);
@@ -358,7 +357,7 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Formulario "Add Category" de Administración.', async () => {
 
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
+            await expect(page).toHaveURL('/Admin/CategoryForm.aspx');
         });
 
         await test.step('🧩 AND: Deberia renderizarse la Interfaz Formulario "Add Category" de Administración..', async () => {
@@ -386,7 +385,7 @@ http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx`,
 
         await test.step('✔️ THEN: El sistema se deberia redireccionar a la Interfaz Formulario "Add Category" de Administración.', async () => {
 
-            await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
+            await expect(page).toHaveURL('/Admin/CategoryForm.aspx');
         });
 
         await test.step('🧩 AND: Deberia renderizarse la Interfaz Formulario "Add Category" de Administración..', async () => {
@@ -449,7 +448,7 @@ Formulario Categoria:
 
     test.beforeEach('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async ({ page }) => {
 
-        await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
+        await expect(page).toHaveURL('/Admin/CategoryForm.aspx');
         await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
 
         await page.waitForLoadState('load');
@@ -514,7 +513,7 @@ Formulario Categoria:
 
             await test.step(`${section.thenTC}`, async () => {
 
-                await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/Category.aspx');
+                await expect(page).toHaveURL('/Admin/Category.aspx');
                 await expect(page.getByRole('heading', { name: 'CATEGORIES' }), 'El texto "CATEGORIES", NO es Visible.').toBeVisible();
 
                 await page.waitForLoadState('load');
@@ -653,7 +652,7 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
 
     test.beforeEach('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async ({ page }) => {
 
-        await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
+        await expect(page).toHaveURL('/Admin/CategoryForm.aspx');
         await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
     });
 
@@ -750,6 +749,138 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
             test.info().attach('Imagen - imagen "Placeholder"', {
                 body: await page.screenshot(),
                 contentType: 'image/png'
+            });
+        });
+    });
+});
+
+
+test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crear una Categoría Activa o Inactiva.', async () => {
+
+    test.beforeEach('', async ({ page }) => {
+
+        test.info().annotations.push({
+            type: `📑 US 007 | Check Box Formulario de Categorías | Crear una Categoría Activa o Inactiva.`,
+            description: `COMO: Admin de la plataforma FastFood, QUIERO:  crear una categoría, PARA: que este activa o inactiva`,
+        });
+
+        test.info().annotations.push({
+            type: `📋 Especificaciones`,
+            description: `Para Activar o Inactivar una categoría, debemos interactuar con el Check Box ubicado en la parte inferior del "Placeholder". Este Check Box estará en estado "Activo" (Checked) por defecto. Debajo del Check Box, se encuentra una Etiqueta (Label) que indica "Active". Al hacer Click en el Check Box, este se desmarcará, y la etiqueta cambiará a "Inactive".`,
+        });
+
+        test.info().annotations.push({
+            type: `🎯 Scope`,
+            description: `QA deberá validar únicamente el funcionamiento del Check Box y el cambio correspondiente de la Etiqueta.`,
+        });
+    });
+
+    test.beforeEach('🔲 BACKGROUND - 📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async ({ page }) => {
+
+        await page.goto('/');
+        const when = new fastFoodPage(page);
+        await when.loginAndGoFormCategoryAdminRandomRoute();
+    });
+
+    test.beforeEach('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async ({ page }) => {
+
+        await expect(page).toHaveURL('/Admin/CategoryForm.aspx');
+        await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
+    });
+
+    test.beforeEach('🧩 AND: el Check Box está marcado o estado “Activo” (Checked)', async ({ page }) => {
+
+        const the = new fastFoodPage(page);
+        const when = new fastFoodPage(page);
+
+        await expect(the.categoryActiveCheckbox, 'El Checkbox, No esta Visible.').toBeVisible();
+        await expect(the.categoryActiveCheckbox, 'El Checkbox, No esta Marcado.').toBeChecked();
+
+        await expect(the.categoryActiveLabel, "El Label, No esta Visible").toBeVisible();
+        await expect(the.categoryActiveLabel, "El Texto, No es Active").toHaveText("Active");
+
+
+        await page.waitForLoadState('load');
+        await when.hiddenAdminLoader();
+        test.info().attach('Pagina Formulario: "Add Category" | CheckBox : Marcado (Checked)', {
+            body: await page.screenshot(),
+            contentType: 'image/png',
+        });
+
+    });
+
+    test('US 006 - TS 006 - TC 001 - Validar la transición de estado de la Etiqueta (Label) de "Active" a "Inactive" y el cambio del estado del Check Box de marcado (Checked) a desmarcado (Unchecked), al hacer Click en el Check Box.', async ({ page }) => {
+
+        const the = new fastFoodPage(page);
+        const when = new fastFoodPage(page);
+
+        await test.step('⚡ WHEN: hace Click en el Check Box,', async () => {
+
+            await when.clickCategoryActiveCheckbox();
+        });
+
+        await test.step('✔️ THEN: la Etiqueta (Label) se actualiza de “Active” a “Inactive”,', async () => {
+
+            await expect(the.categoryInactiveLabel, "El Label, No esta Visible.").toBeVisible();
+            await expect(the.categoryInactiveLabel, "El Texto, No es Inactive.").toHaveText("Inactive");
+        })
+
+
+        await test.step('🧩 AND: el Check Box se establece en estado desmarcado (Unchecked).', async () => {
+
+            await expect(the.categoryActiveCheckbox, "El Checkbox esta Marcado (Checked).").not.toBeChecked();
+
+            test.info().attach("CheckBox: Desmarcado (Unchecked) | Label: Inactive", {
+                body: await page.screenshot(),
+                contentType: "image/png"
+            });
+        });
+    });
+
+    test('US 006 - TS 006 - TC 002 - Validar la transición de estado de la Etiqueta (Label) de "Inactive" a "Active" y el cambio del estado del Check Box de desmarcado (Unchecked) a marcado (Checked), al hacer Click en el Check Box.', async ({ page }) => {
+
+        const the = new fastFoodPage(page);
+        const when = new fastFoodPage(page);
+
+        await test.step('⚡ WHEN: hace Click en el Check Box,', async () => {
+
+            await when.clickCategoryActiveCheckbox();
+        });
+
+        await test.step('🧩 AND: la Etiqueta (Label) se actualiza de “Active” a “Inactive”,', async () => {
+
+            await expect(the.categoryInactiveLabel, "El Label, No esta Visible.").toBeVisible();
+            await expect(the.categoryInactiveLabel, "El Texto, No es Inactive.").toHaveText("Inactive");
+        })
+
+
+        await test.step('🧩 AND: el Check Box se establece en estado desmarcado (Unchecked).', async () => {
+
+            await expect(the.categoryActiveCheckbox, "El Checkbox esta Marcado (Checked).").not.toBeChecked();
+
+            test.info().attach("CheckBox: Desmarcado (Unchecked) | Label: Inactive", {
+                body: await page.screenshot(),
+                contentType: "image/png"
+            });
+        });
+
+        await test.step('🧩 AND: se ejecuta un segundo Click en el CheckBox', async () => {
+
+            await when.clickCategoryActiveCheckbox();
+        });
+
+        await test.step('✔️ THEN: la Etiqueta (Label) se actualiza nuevamente de “Inactive” a “Active”', async () => {
+
+            await expect(the.categoryActiveLabel, "El Texto No es Active.").toHaveText("Active");
+        });
+        
+        await test.step('🧩 AND: el CheckBox se establece en estado marcado (Checked).',async () => {
+            
+            await expect(the.categoryActiveCheckbox, "El CheckBox esta Desmarcado").toBeChecked();
+
+            test.info().attach("CheckBox: Marcado (Checked) | Label: Active", {
+                body: await page.screenshot(),
+                contentType: "image/png"
             });
         });
     });

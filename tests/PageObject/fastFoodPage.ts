@@ -15,6 +15,9 @@ export class fastFoodPage {
     readonly categoryNameTextBox : Locator;
     readonly categoryImageInputFile : Locator;
     readonly categoryImageImg : Locator;
+    readonly categoryActiveCheckbox : Locator;
+    readonly categoryActiveLabel : Locator;
+    readonly categoryInactiveLabel : Locator;
     userAdminValid: string;
     passwordAdminValid : string;
 
@@ -34,6 +37,9 @@ export class fastFoodPage {
         this.categoryNameTextBox = page.getByRole('textbox', { name: 'Category Name' });
         this.categoryImageInputFile = page.locator('#ContentPlaceHolder1_txtImage');
         this.categoryImageImg = page.locator('#ContentPlaceHolder1_imgForm');
+        this.categoryActiveCheckbox = page.locator("xpath=//input[@id='ContentPlaceHolder1_cbActivo']");
+        this.categoryActiveLabel = page.locator("//span[@id='ContentPlaceHolder1_lblActive']");
+        this.categoryInactiveLabel = page.locator("xpath=//span[@id='ContentPlaceHolder1_lblInactive']");
         this.userAdminValid = 'Admin';
         this.passwordAdminValid = '1234';
 
@@ -92,6 +98,10 @@ export class fastFoodPage {
     async clickAndFillCategoryNameTextBox(nameCategory : string ){
         await this.categoryNameTextBox.click({ force : true })
         await this.categoryNameTextBox.fill(nameCategory)
+    }
+
+    async clickCategoryActiveCheckbox(){
+        await this.categoryActiveCheckbox.click({ force : true });
     }
 
     //Precondicion ya Establecida -

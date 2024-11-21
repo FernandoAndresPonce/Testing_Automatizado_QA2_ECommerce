@@ -2,7 +2,7 @@ import test, { expect } from "playwright/test";
 import { fastFoodPage } from "./PageObject/fastFoodPage";
 
 
-test.describe('', async () => {
+test.describe('🔬 US 007 - TS 007 - Check Box Formulario de Categorías | Crear una Categoría Activa o Inactiva.', async () => {
 
     test.beforeEach('', async ({ page }) => {
 
@@ -31,26 +31,24 @@ test.describe('', async () => {
 
     test.beforeEach('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async ({ page }) => {
 
-        await expect(page).toHaveURL('http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx');
+        await expect(page).toHaveURL('/Admin/CategoryForm.aspx');
         await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
-
-
     });
 
     test.beforeEach('🧩 AND: el Check Box está marcado o estado “Activo” (Checked)', async ({ page }) => {
 
-        const checkedCheckbox = page.locator("xpath=//input[@id='ContentPlaceHolder1_cbActivo']");
+        const the = new fastFoodPage(page);
+        const when = new fastFoodPage(page);
 
-        await expect( checkedCheckbox, 'El Checkbox No esta Visible.').toBeVisible();
-        await expect(checkedCheckbox, 'El Checkbox No esta Marcado.').toBeChecked();
+        await expect(the.categoryActiveCheckbox, 'El Checkbox, No esta Visible.').toBeVisible();
+        await expect(the.categoryActiveCheckbox, 'El Checkbox, No esta Marcado.').toBeChecked();
 
-        await checkedCheckbox.waitFor({ state : "visible"});
+        await expect(the.categoryActiveLabel, "El Label, No esta Visible").toBeVisible();
+        await expect(the.categoryActiveLabel, "El Texto, No es Active").toHaveText("Active");
+
 
         await page.waitForLoadState('load');
-
-        const when = new fastFoodPage(page);
         await when.hiddenAdminLoader();
-
         test.info().attach('Pagina Formulario: "Add Category" | CheckBox : Marcado (Checked)', {
             body: await page.screenshot(),
             contentType: 'image/png',
@@ -58,7 +56,82 @@ test.describe('', async () => {
 
     });
 
-    test('', async ({ page }) => {
+    test('US 007 - TS 007 - TC 001 - Validar la transición de estado de la Etiqueta (Label) de "Active" a "Inactive" y el cambio del estado del Check Box de marcado (Checked) a desmarcado (Unchecked), al hacer Click en el Check Box.', async ({ page }) => {
 
+        const the = new fastFoodPage(page);
+        const when = new fastFoodPage(page);
+
+        await test.step('⚡ WHEN: hace Click en el Check Box,', async () => {
+
+            await when.clickCategoryActiveCheckbox();
+        });
+
+        await test.step('✔️ THEN: la Etiqueta (Label) se actualiza de “Active” a “Inactive”,', async () => {
+
+            await expect(the.categoryInactiveLabel, "El Label, No esta Visible.").toBeVisible();
+            await expect(the.categoryInactiveLabel, "El Texto, No es Inactive.").toHaveText("Inactive");
+        })
+
+
+        await test.step('🧩 AND: el Check Box se establece en estado desmarcado (Unchecked).', async () => {
+
+            await expect(the.categoryActiveCheckbox, "El Checkbox esta Marcado (Checked).").not.toBeChecked();
+
+            test.info().attach("CheckBox: Desmarcado (Unchecked) | Label: Inactive", {
+                body: await page.screenshot(),
+                contentType: "image/png"
+            });
+        });
+    });
+
+    test('US 007 - TS 007 - TC 002 - Validar la transición de estado de la Etiqueta (Label) de "Inactive" a "Active" y el cambio del estado del Check Box de desmarcado (Unchecked) a marcado (Checked), al hacer Click en el Check Box.', async ({ page }) => {
+
+        const the = new fastFoodPage(page);
+        const when = new fastFoodPage(page);
+
+        await test.step('⚡ WHEN: hace Click en el Check Box,', async () => {
+
+            await when.clickCategoryActiveCheckbox();
+        });
+
+        await test.step('🧩 AND: la Etiqueta (Label) se actualiza de “Active” a “Inactive”,', async () => {
+
+            await expect(the.categoryInactiveLabel, "El Label, No esta Visible.").toBeVisible();
+            await expect(the.categoryInactiveLabel, "El Texto, No es Inactive.").toHaveText("Inactive");
+        })
+
+
+        await test.step('🧩 AND: el Check Box se establece en estado desmarcado (Unchecked).', async () => {
+
+            await expect(the.categoryActiveCheckbox, "El Checkbox esta Marcado (Checked).").not.toBeChecked();
+
+            test.info().attach("CheckBox: Desmarcado (Unchecked) | Label: Inactive", {
+                body: await page.screenshot(),
+                contentType: "image/png"
+            });
+        });
+
+        await test.step('🧩 AND: se ejecuta un segundo Click en el CheckBox', async () => {
+
+            await when.clickCategoryActiveCheckbox();
+        });
+
+        await test.step('✔️ THEN: la Etiqueta (Label) se actualiza nuevamente de “Inactive” a “Active”', async () => {
+
+            await expect(the.categoryActiveLabel, "El Texto No es Active.").toHaveText("Active");
+        });
+        
+        await test.step('🧩 AND: el CheckBox se establece en estado marcado (Checked).',async () => {
+            
+            await expect(the.categoryActiveCheckbox, "El CheckBox esta Desmarcado").toBeChecked();
+
+            test.info().attach("CheckBox: Marcado (Checked) | Label: Active", {
+                body: await page.screenshot(),
+                contentType: "image/png"
+            });
+        });
     });
 });
+
+
+
