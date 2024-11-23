@@ -36,6 +36,13 @@ export class fastFoodPage {
     readonly categoryActiveLabel: Locator;
     readonly categoryInactiveLabel: Locator;
     readonly categoryFormAddButton: Locator;
+    readonly categoryImageTitle: Locator;
+
+    //Endpoint
+    userDefaultUrl: string;
+    adminDashboardUrl: string;
+    adminCategoryUrl: string;
+    adminCategoryFormUrl: string;
 
     //Variables Login
     userAdminValid: string;
@@ -78,11 +85,35 @@ export class fastFoodPage {
         this.categoryActiveLabel = page.locator("//span[@id='ContentPlaceHolder1_lblActive']");
         this.categoryInactiveLabel = page.locator("xpath=//span[@id='ContentPlaceHolder1_lblInactive']");
         this.categoryFormAddButton = page.getByRole('button', { name: 'Add' });
+        this.categoryImageTitle = page.getByText('Category Image');
 
-        //Variable Login
+        //Variable Login (no debe ir aca estas variables)
         this.userAdminValid = 'Admin';
         this.passwordAdminValid = '1234';
 
+        //Endpoint
+        this.userDefaultUrl = "http://desarrollowebecommerce.somee.com/User/Default.aspx";
+        this.adminDashboardUrl = "http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx";
+        this.adminCategoryUrl = "http://desarrollowebecommerce.somee.com/Admin/Category.aspx";
+        this.adminCategoryFormUrl = "http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx";
+
+    }
+
+    //Endpoint
+    async goUserDefaultUrl () {
+        await this.page.goto(this.userDefaultUrl);
+    }
+
+    async goAdminDashboardUrl () {
+        await this.page.goto(this.adminDashboardUrl);
+    }
+
+    async goAdminCategoryUrl () {
+        await this.page.goto(this.adminCategoryUrl);
+    }
+
+    async goAdminCategoryFormUrl () {
+        await this.page.goto(this.adminCategoryFormUrl);
     }
 
     // Acciones con elementos PUNTUALES.
