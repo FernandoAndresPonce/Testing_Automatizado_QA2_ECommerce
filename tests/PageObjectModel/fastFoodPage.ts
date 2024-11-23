@@ -28,6 +28,8 @@ export class fastFoodPage {
     readonly cardCategoriesViewDetails: Locator;
 
     //http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx
+
+    readonly categoryAddTitle: Locator;
     readonly categoryNameTitle: Locator;
     readonly categoryNameTextBox: Locator;
     readonly categoryImageInputFile: Locator;
@@ -37,6 +39,8 @@ export class fastFoodPage {
     readonly categoryInactiveLabel: Locator;
     readonly categoryFormAddButton: Locator;
     readonly categoryImageTitle: Locator;
+    readonly categoryOfferNoOfferCheckBox: Locator;
+    readonly categoryNoOfferLabel: Locator;
 
     //Endpoint
     userDefaultUrl: string;
@@ -86,6 +90,9 @@ export class fastFoodPage {
         this.categoryInactiveLabel = page.locator("xpath=//span[@id='ContentPlaceHolder1_lblInactive']");
         this.categoryFormAddButton = page.getByRole('button', { name: 'Add' });
         this.categoryImageTitle = page.getByText('Category Image');
+        this.categoryAddTitle = page.getByText('Add Category');
+        this.categoryOfferNoOfferCheckBox = page.locator("//input[@id='ContentPlaceHolder1_cbOffert']");
+        this.categoryNoOfferLabel = page.locator("//span[@id='ContentPlaceHolder1_Label2']");
 
         //Variable Login (no debe ir aca estas variables)
         this.userAdminValid = 'Admin';

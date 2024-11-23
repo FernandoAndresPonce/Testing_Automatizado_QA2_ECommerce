@@ -635,7 +635,7 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
         await test.step('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async () => {
 
             await expect(page).toHaveURL('/Admin/CategoryForm.aspx');
-            await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
+            await expect(the.categoryAddTitle, 'El Texto Add Category, NO esta Visible').toBeVisible();
         });
 
         await test.step('🧩 AND: el Check Box está marcado o estado “Activo” (Checked)', async () => {
