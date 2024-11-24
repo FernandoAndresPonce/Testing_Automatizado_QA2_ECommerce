@@ -4,18 +4,16 @@ import { fastFoodPage } from '../PageObjectModel/fastFoodPage';
 import { threadId } from 'node:worker_threads';
 
 
-
-
-//Ejemplo de la Posible Arquitectura de diseño.
-
 test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood', () => {
+
+    let allPage;
 
     test.beforeEach('Pagina Inicial de la Plataforma Web.', async ({ page }) => {
         await page.goto('/');
     });
+    
 
     test('US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente', async ({ page }) => {
-
 
         let username: string = 'Admin';
         let password: string = '1234';

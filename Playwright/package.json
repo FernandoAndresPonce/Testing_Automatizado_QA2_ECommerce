@@ -2,7 +2,9 @@
   "name": "testing_automatizado_qa2_ecommerce",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "report":"npx playwright show-report"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

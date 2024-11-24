@@ -1,6 +1,13 @@
 import { type test, type expect, type Locator, Page } from '@playwright/test'
 
 export class fastFoodPage {
+
+    //Endpoint
+    public userDefaultUrl: string = "http://desarrollowebecommerce.somee.com/User/Default.aspx";
+    public adminDashboardUrl: string = "http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx";
+    public adminCategoryUrl: string = "http://desarrollowebecommerce.somee.com/Admin/Category.aspx";
+    public adminCategoryFormUrl: string = "http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx";
+    ;
     readonly page: Page;
 
     //Page https://desarrollowebecommerce.somee.com/User/
@@ -43,11 +50,7 @@ export class fastFoodPage {
     readonly categoryNoOfferLabel: Locator;
     readonly categoryOfferLabel: Locator;
 
-    //Endpoint
-    userDefaultUrl: string;
-    adminDashboardUrl: string;
-    adminCategoryUrl: string;
-    adminCategoryFormUrl: string;
+
 
     //Variables Login
     userAdminValid: string;
@@ -63,7 +66,7 @@ export class fastFoodPage {
         //Page https://desarrollowebecommerce.somee.com/ => General
         this.navbarLoginLink = page.getByRole('link', { name: 'Login' });
 
-         //http://desarrollowebecommerce.somee.com/User/Login.aspx
+        //http://desarrollowebecommerce.somee.com/User/Login.aspx
         this.usernameLogin = page.getByRole('textbox', { name: 'Username' });
         this.passwordLogin = page.getByRole('textbox', { name: 'Password' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
@@ -72,12 +75,12 @@ export class fastFoodPage {
         this.tabMenuCategoriesLink = page.getByRole('link', { name: ' Categories' });
         this.adminLoader = page.locator('.contain');
 
-         //http://desarrollowebecommerce.somee.com/Admin/Category.aspx
+        //http://desarrollowebecommerce.somee.com/Admin/Category.aspx
         this.categoryTitle = page.getByRole('heading', { name: 'CATEGORIES' });
         this.addCategoryButton = page.getByRole('button', { name: 'Add Category' });
         this.searchFilterCategorTextbox = page.getByRole('textbox', { name: 'Category quick search...' });
 
-         //http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx
+        //http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx
         this.cardCategoriesIco = page.locator('div.card-block-small i.icofont-muffin');
         this.cardCategoriesViewDetails = page.locator("//div[@class='card-block-small']//i[@id='categoriesDetails']");
 
@@ -100,28 +103,22 @@ export class fastFoodPage {
         this.userAdminValid = 'Admin';
         this.passwordAdminValid = '1234';
 
-        //Endpoint
-        this.userDefaultUrl = "http://desarrollowebecommerce.somee.com/User/Default.aspx";
-        this.adminDashboardUrl = "http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx";
-        this.adminCategoryUrl = "http://desarrollowebecommerce.somee.com/Admin/Category.aspx";
-        this.adminCategoryFormUrl = "http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx";
-
     }
 
     //Endpoint
-    async goUserDefaultUrl () {
+    async goUserDefaultUrl() {
         await this.page.goto(this.userDefaultUrl);
     }
 
-    async goAdminDashboardUrl () {
+    async goAdminDashboardUrl() {
         await this.page.goto(this.adminDashboardUrl);
     }
 
-    async goAdminCategoryUrl () {
+    async goAdminCategoryUrl() {
         await this.page.goto(this.adminCategoryUrl);
     }
 
-    async goAdminCategoryFormUrl () {
+    async goAdminCategoryFormUrl() {
         await this.page.goto(this.adminCategoryFormUrl);
     }
 
@@ -185,7 +182,7 @@ export class fastFoodPage {
     }
 
     async clickCategoryOfferNoOfferCheckBox() {
-        await this.categoryOfferNoOfferCheckBox.click({ force : true });
+        await this.categoryOfferNoOfferCheckBox.click({ force: true });
     }
 
     //Precondicion ya Establecida -
