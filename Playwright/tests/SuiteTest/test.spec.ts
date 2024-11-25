@@ -1,50 +1,46 @@
-import { test, expect, Browser, Page } from '@playwright/test'
+import {expect, Browser, Page } from '@playwright/test'
 import { describe } from 'node:test';
-import { fastFoodPage } from '../PageObjectModel/fastFoodPage';
+import { FastFoodPage } from '../POM/AllPage/fastFoodPage';
 import { threadId } from 'node:worker_threads';
+import {test} from "../Fixture/base"
 
 
 test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood', () => {
-
-    let allPage;
 
     test.beforeEach('Pagina Inicial de la Plataforma Web.', async ({ page }) => {
         await page.goto('/');
     });
     
 
-    test('US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente', async ({ page }) => {
+    test('US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente', async ({ page, initialPage, headerPage, loginPage, defaultPage, dashboardPage, adminPage }) => {
 
         let username: string = 'Admin';
         let password: string = '1234';
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
-
         await test.step('📝 GIVEN:  que el usuario se encuentra en la Plataforma - http://desarrollowebecommerce.somee.com/ ', async () => {
-            await expect(the.initialHomeLink, 'El link "Home", no esta Visible').toBeVisible();
+            await expect(initialPage.$homeLink, 'El link "Home", no esta Visible').toBeVisible();
         });
 
         await test.step('🧩AND: esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
-            await the.clickinitialHomeLink();
+            await initialPage.clickinitialHomeLink();
 
             await expect(page).toHaveURL('/User/Default.aspx');
 
-            await expect(the.navbarLoginLink).toBeVisible();
+            await expect(headerPage.$loginLink).toBeVisible();
 
-            await the.clickNavbarLoginLink();
+            await headerPage.clickLoginLink();
             await expect(page).toHaveURL('/User/Login.aspx');
 
-            await the.usernameLogin.fill(username);
-            await the.passwordLogin.fill(password);
+            await loginPage.$usernameLoginInput.fill(username);
+            await loginPage.$passwordLoginInput.fill(password);
 
-            await when.clickLoginButton();
+            await loginPage.clickLoginButton();
         });
 
         await test.step('🧩AND: se encuentra en el HOME de la plataforma - http://desarrollowebecommerce.somee.com/User/Default.aspx', async () => {
 
-            await when.goUserDefaultUrl();
+            await defaultPage.goDefaultUrl();
             await expect(page).toHaveURL('/User/Default.aspx');
 
             await test.info().attach('Pagina HOME', {
@@ -55,9 +51,9 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
         await test.step('⚡ WHEN: Selecciona la barra de direcciones del navegador, 🧩AND: introduce la URL, 🧩AND: presiona la tecla Enter,', async () => {
 
-            await when.goAdminDashboardUrl();
+            await dashboardPage.goDashboardUrl();
 
-            await when.hiddenAdminLoader();
+            await adminPage.hiddenLoader();
         });
 
         await test.step('✔️ THEN: Debería redirecciónarse a la Interfaz Principal de Administración,  ', async () => {
@@ -68,7 +64,7 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
         await test.step('🧩AND: Deberia renderizarse la Interfaz Principal de Administración exitosamente.', async () => {
 
-            await when.hiddenAdminLoader();
+            await adminPage.hiddenLoader();
 
             await test.info().attach('Pagina DASHBOARD', {
                 body: await page.screenshot(),
@@ -83,7 +79,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page }) => {
 
-        const when = new fastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
@@ -106,8 +102,8 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
     test('US 002 - TS 002 - TC 001 - Validar la correcta redirección a la Interfaz “Categories” de Administración, mediante la URL.', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: selecciona la barra de direcciones del Navegar, 🧩 AND: introduce la URL: http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async () => {
             await when.goAdminCategoryUrl();
@@ -132,8 +128,8 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
     test('US 002 - TS 002 - TC 002 - Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el TabMenu, seleccionando la opción funcional “Categories”.', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en Categories del Tab Menu visible en la parte izquierda de la pantalla,', async () => {
 
@@ -162,8 +158,8 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
     test('US 002 - TS 002 - TC 003 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el Icono de la "Card Categories".', async ({ page }) => {
 
-        const when = new fastFoodPage(page);
-        const the = new fastFoodPage(page);
+        const when = new FastFoodPage(page);
+        const the = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en el ICONO de la "Card Categories", que se encuentra en el Panel central del Dashboard,', async () => {
 
@@ -193,8 +189,8 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
     test('US 002 - TS 002 - TC 004 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el View Details de la "Card Categories".', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en el Text "View Details" de la "Card Categories", que se encuentra en el Panel central del Dashboard,', async () => {
 
@@ -227,7 +223,7 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page }) => {
 
-        const when = new fastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
@@ -250,8 +246,8 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
 
     test('US 003 - TS 003 - TC 001 - Validar, redireccionar a la Interfaz “Formulario de Categories” de Administración, mediante el Botón Add.', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en el Boton Add, visible en la parte superior derecha del Filtro Rapido (Buscador),', async () => {
 
@@ -282,7 +278,7 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
 
     test('US 003 - TS 003 - TC 002 - Validar, redireccionar a la Interfaz “Formulario de una Categoria” de Administración, mediante la URL.', async ({ page }) => {
 
-        const when = new fastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: :al introducr la URL (http://localhost:52000/Admin/CategoryForm.aspx), en la barra de direcciones del navegador', async () => {
 
@@ -313,7 +309,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page }) => {
 
-        const when = new fastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
             await page.goto('/');
@@ -350,8 +346,8 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
         test(`${section.titleTC}`, async ({ page }) => {
 
-            const the = new fastFoodPage(page);
-            const when = new fastFoodPage(page);
+            const the = new FastFoodPage(page);
+            const when = new FastFoodPage(page);
 
             await test.step('⚡ WHEN: completa el Text Input Category Name con una cadena de texto Alfabética,', async () => {
 
@@ -364,7 +360,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
             await test.step(`${section.butTC}`, async () => {
 
-                const text = new fastFoodPage(page);
+                const text = new FastFoodPage(page);
                 const textTextbox = (await text.categoryNameTextBox.inputValue());
                 const lenght = textTextbox.length;
 
@@ -427,8 +423,8 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
         test(`${section.titleTC}`, async ({ page }) => {
 
-            const the = new fastFoodPage(page);
-            const when = new fastFoodPage(page);
+            const the = new FastFoodPage(page);
+            const when = new FastFoodPage(page);
 
             await test.step(`${section.whenTC}`, async () => {
 
@@ -501,7 +497,7 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page }) => {
 
-        const when = new fastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
 
@@ -531,7 +527,7 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
 
     test('US 005 - TS 005 - TC 001 - Validar, cargar previsualización de una imagen, al ingresar una imagen en el File-Input.', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
 
         await test.step('⚡ WHEN : hace Click en el File Input Category Image', async () => {
 
@@ -567,7 +563,7 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
 
     test('US 005 - TS 005 - TC 002 - Validar, No cargar previsualización de una imagen.', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
 
         await test.step('✔️ THEN : Deberia previsualizarse un "Placeholder", como imagen pre establecida.', async () => {
 
@@ -585,7 +581,7 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
 
     test('US 005 - TS 005 - TC 003 - Validar, Cargar previsualización de una imagen,  al No ingresar una imagen en el File-Input.', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
 
         await test.step('⚡ WHEN : hace Click en el File Input Category Image', async () => {
 
@@ -621,8 +617,8 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
 
@@ -659,8 +655,8 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
 
     test('US 006 - TS 006 - TC 001 - Validar la transición de estado de la Etiqueta (Label) de "Active" a "Inactive" y el cambio del estado del Check Box de marcado (Checked) a desmarcado (Unchecked), al hacer Click en el Check Box.', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en el Check Box,', async () => {
 
@@ -687,8 +683,8 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
 
     test('US 006 - TS 006 - TC 002 - Validar la transición de estado de la Etiqueta (Label) de "Inactive" a "Active" y el cambio del estado del Check Box de desmarcado (Unchecked) a marcado (Checked), al hacer Click en el Check Box.', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: hace Click en el Check Box,', async () => {
 
@@ -738,8 +734,8 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
 
@@ -757,8 +753,8 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
 
     test('US 007 - TS 007 - TC 001 - Validar, categoría activa, pero no en oferta, al marcar (Checked) el CheckBox(Active-Inactive de una Categoría), y No marcar(Unchecked) el CheckBox(Offer-NoOffer de una Categoría).', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: el Check Box (Categoría Activa/Inactiva) está marcado (estado “Active” - Checked).', async () => {
 
@@ -805,8 +801,8 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
 
     test('US 007 - TS 007 - TC 002 - Validar, categoría en oferta, al marcar (Checked) el CheckBox(Active/Inactive de una Categoría), y a su vez, marcar(Checked) el CheckBox(Offer/NoOffer de una Categoría).', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: el Check Box (Categoría Activa/Inactiva) está marcado (estado “Active” - Checked).', async () => {
 
@@ -868,8 +864,8 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
 
     test('US 007 - TS 007 - TC 003 - Validar, Categoría Inactiva, al No marcar (Unchecked) el CheckBox(Active/Inactive de una Categoría)..', async ({ page }) => {
 
-        const the = new fastFoodPage(page);
-        const when = new fastFoodPage(page);
+        const the = new FastFoodPage(page);
+        const when = new FastFoodPage(page);
 
         await test.step('⚡ WHEN: el Check Box (Categoría Activa/Inactiva) No está marcado (estado “Inactive” - Unchecked).', async () => {
 
