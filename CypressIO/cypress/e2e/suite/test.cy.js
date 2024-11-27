@@ -1,4 +1,3 @@
-const { should } = require("chai");
 
 describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood', () => {
 

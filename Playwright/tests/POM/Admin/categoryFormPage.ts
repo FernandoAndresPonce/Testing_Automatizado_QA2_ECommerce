@@ -20,6 +20,8 @@ export class CategoryFormPage{
     readonly $offerNoOfferCheckBox: Locator;
     readonly $noOfferLabel: Locator;
     readonly $offerLabel: Locator;
+    readonly $offerPercentageLabel: Locator;
+    readonly $offerPercentageTextBox: Locator;
 
     constructor(page : Page){
 
@@ -38,6 +40,9 @@ export class CategoryFormPage{
         this.$offerNoOfferCheckBox = page.locator("//input[@id='ContentPlaceHolder1_cbOffert']");
         this.$noOfferLabel = page.locator("//span[@id='ContentPlaceHolder1_Label2']");
         this.$offerLabel = page.locator("span#ContentPlaceHolder1_Label1");
+        this.$offerPercentageLabel = page.locator("xpath=//span[@class='form-label' and text()= 'Offer Percentage']");
+        this.$offerPercentageTextBox = page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtofferPercentage']");
+        
     }
 
     async goToCategoryFormUrl() {

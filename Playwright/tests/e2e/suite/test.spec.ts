@@ -1,10 +1,7 @@
 import { expect, Browser, Page } from '@playwright/test'
 import { describe } from 'node:test';
-import { TransitionerPage } from '../../POM/allTransitionerPage/transitionerPage';
 import { threadId } from 'node:worker_threads';
 import { test } from "../../fixture/base"
-import { AdminPage } from '../../POM/admin/adminPage';
-import { CategoryFormPage } from '../../POM/admin/categoryFormPage';
 
 
 test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood', () => {
