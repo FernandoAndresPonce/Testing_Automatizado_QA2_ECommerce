@@ -1,0 +1,41 @@
+{
+  "initialPage": {
+    "link": {
+      "home": "div.popup-buttons>#ContentPlaceHolder1_lbHome"
+    }
+  },
+
+  "headerPage": {
+    "link": {
+      "login": "div.container a#lbLoginOrLogout"
+    }
+  },
+
+  "loginPage" : {
+    "input" : {
+      "username" : "div.row input[title='Username']",
+      "password" : "div.row input[title='Password']"
+    },
+
+    "data" : {
+      "usernameAdmin" : {
+        "valid" : "Admin",
+        "invalid" : "Admen"
+      },
+
+      "passwordAdmin" : {
+        "valid" : "1234",
+        "invalid" : "4321"
+      }
+    },
+
+    "button" : {
+      "login" : "div.row input#ContentPlaceHolder1_btnLogin"
+    }
+
+  },
+
+  "dashboardPage" : {
+    "breadcrumb" : "div.card-block.danger-breadcrumb a[href='Dashboard.aspx']"
+  }
+}
