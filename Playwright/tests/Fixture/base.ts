@@ -2,20 +2,20 @@
 import {test as base} from "@playwright/test"
 
 //admin
-import { AdminPage } from "../POM/Admin/adminPage"
-import { CategoryPage } from "../POM/Admin/categoryPage"
-import { CategoryFormPage } from "../POM/Admin/categoryFormPage"
-import { DashboardPage } from "../POM/Admin/dashboardPage"
+import { AdminPage } from "../POM/admin/adminPage"
+import { CategoryPage } from "../POM/admin/categoryPage"
+import { CategoryFormPage } from "../POM/admin/categoryFormPage"
+import { DashboardPage } from "../POM/admin/dashboardPage"
 
 //user
-import { HeaderPage } from "../POM/User/headerPage"
-import { InitialPage } from "../POM/User/initialPage"
-import { LoginPage } from "../POM/User/loginPage"
-import { DefaultPage } from "../POM/User/defaultPage"
+import { HeaderPage } from "../POM/user/headerPage"
+import { InitialPage } from "../POM/user/initialPage"
+import { LoginPage } from "../POM/user/loginPage"
+import { DefaultPage } from "../POM/user/defaultPage"
 
 
 //allPage
-import { FastFoodPage } from "../POM/AllPage/fastFoodPage"
+import { TransitionerPage } from "../POM/allTransitionerPage/transitionerPage"
 
 
 
@@ -34,7 +34,7 @@ type MyFixtures = {
     loginPage : LoginPage,
 
     //allPage
-    fastFoodPage : FastFoodPage,
+    transitionerPage : TransitionerPage,
 
 }
 
@@ -73,8 +73,8 @@ export const test = base.extend<MyFixtures>({
     },
 
     //allPage
-    fastFoodPage : async ({page}, use ) => {
-        await use (new FastFoodPage(page))
+    transitionerPage : async ({page}, use ) => {
+        await use (new TransitionerPage(page))
     },
 
 })

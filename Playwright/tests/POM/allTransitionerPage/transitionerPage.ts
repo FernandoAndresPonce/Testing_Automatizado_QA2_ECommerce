@@ -1,13 +1,11 @@
 import { type test, type expect, type Locator, Page } from '@playwright/test'
 
-export class FastFoodPage {
+export class TransitionerPage {
 
     //Endpoint
     public userDefaultUrl: string = "http://desarrollowebecommerce.somee.com/User/Default.aspx";
     public adminDashboardUrl: string = "http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx";
-    public adminCategoryUrl: string = "http://desarrollowebecommerce.somee.com/Admin/Category.aspx";
-    public adminCategoryFormUrl: string = "http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx";
-    ;
+    
     readonly page: Page;
 
     //Page https://desarrollowebecommerce.somee.com/User/
@@ -112,14 +110,6 @@ export class FastFoodPage {
 
     async goAdminDashboardUrl() {
         await this.page.goto(this.adminDashboardUrl);
-    }
-
-    async goAdminCategoryUrl() {
-        await this.page.goto(this.adminCategoryUrl);
-    }
-
-    async goAdminCategoryFormUrl() {
-        await this.page.goto(this.adminCategoryFormUrl);
     }
 
     // Acciones con elementos PUNTUALES.

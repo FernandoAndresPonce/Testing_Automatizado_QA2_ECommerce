@@ -3,6 +3,8 @@ import { Locator, Page } from "playwright";
 
 export class CategoryFormPage{
 
+    public categoryFormUrl: string = "http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx";
+
     readonly page : Page;
 
     readonly $categoryAddTitle: Locator;
@@ -38,6 +40,9 @@ export class CategoryFormPage{
         this.$offerLabel = page.locator("span#ContentPlaceHolder1_Label1");
     }
 
+    async goToCategoryFormUrl() {
+        await this.page.goto(this.categoryFormUrl);
+    }
 
     async clickAndFillCategoryNameTextBox(nameCategory: string) {
         await this.$categoryNameTextBox.click({ force: true })
