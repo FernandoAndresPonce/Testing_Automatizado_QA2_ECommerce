@@ -39,6 +39,5 @@ describe("🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de 
             "be.visible"
           );
     });
-
   });
 });
