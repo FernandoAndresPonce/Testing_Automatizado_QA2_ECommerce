@@ -9,17 +9,25 @@
 // ***********************************************
 //
 //
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("adminLoginAndGoToDashboard", () => {
+  cy.visit("/");
+
+  cy.fixture("DOM/Page").then((fromThe) => {
+    cy.get(fromThe.initialPage.link.home).click();
+
+    cy.get(fromThe.headerPage.link.login).click();
+
+    cy.url().should("contain", "/User/Login.aspx");
+
+    cy.get(fromThe.loginPage.input.username)
+      .click()
+      .type(fromThe.loginPage.data.usernameAdmin.valid);
+
+    cy.get(fromThe.loginPage.input.password)
+      .click()
+      .type(fromThe.loginPage.data.passwordAdmin.valid);
+
+    cy.get(fromThe.loginPage.button.login).click({ force: true });
+  });
+});
