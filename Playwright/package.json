@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "report":"npx playwright show-report"
+    "report": "npx playwright show-report"
   },
   "keywords": [],
   "author": "",
@@ -11,7 +11,8 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.48.2",
-    "@types/node": "^22.8.7"
+    "@types/node": "^22.8.7",
+    "dotenv": "^16.4.5"
   },
   "dependencies": {
     "playwright": "^1.48.2"

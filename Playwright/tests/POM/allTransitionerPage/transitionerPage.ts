@@ -1,10 +1,6 @@
 import { type test, type expect, type Locator, Page } from '@playwright/test'
 
 export class TransitionerPage {
-
-    //Endpoint
-    public userDefaultUrl: string = "http://desarrollowebecommerce.somee.com/User/Default.aspx";
-    public adminDashboardUrl: string = "http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx";
     
     readonly page: Page;
 
@@ -48,13 +44,6 @@ export class TransitionerPage {
     readonly categoryNoOfferLabel: Locator;//
     readonly categoryOfferLabel: Locator;//
 
-
-
-    //Variables Login
-    userAdminValid: string;
-    passwordAdminValid: string;
-
-
     constructor(page: Page) {
         this.page = page;
 
@@ -97,19 +86,6 @@ export class TransitionerPage {
         this.categoryNoOfferLabel = page.locator("//span[@id='ContentPlaceHolder1_Label2']");
         this.categoryOfferLabel = page.locator("span#ContentPlaceHolder1_Label1");
 
-        //Variable Login (no debe ir aca estas variables)
-        this.userAdminValid = 'Admin';
-        this.passwordAdminValid = '1234';
-
-    }
-
-    //Endpoint
-    async goUserDefaultUrl() {
-        await this.page.goto(this.userDefaultUrl);
-    }
-
-    async goAdminDashboardUrl() {
-        await this.page.goto(this.adminDashboardUrl);
     }
 
     // Acciones con elementos PUNTUALES.
@@ -186,14 +162,14 @@ export class TransitionerPage {
     async loginAndGoDashboardAdmin() {
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
+        await this.completeLogin(`${process.env.ADMINUSERNAME}`, `${process.env.ADMINPASSWORD}`);
         await this.clickLoginButton();
     };
 
     async loginAndGoCategoriesAdmin() {
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
+        await this.completeLogin(`${process.env.ADMINUSERNAME}`, `${process.env.ADMINPASSWORD}`);
         await this.clickLoginButton();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
@@ -203,7 +179,7 @@ export class TransitionerPage {
     async loginAndGoFormCategoryAdminTabMenuLink() {
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
+        await this.completeLogin(`${process.env.ADMINUSERNAME}`, `${process.env.ADMINPASSWORD}`);
         await this.clickLoginButton();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
@@ -216,7 +192,7 @@ export class TransitionerPage {
     async loginAndGoFormCategoryAdminCardCategoriesIco() {
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
+        await this.completeLogin(`${process.env.ADMINUSERNAME}`, `${process.env.ADMINPASSWORD}`);
         await this.clickLoginButton();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
@@ -230,7 +206,7 @@ export class TransitionerPage {
 
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
+        await this.completeLogin(`${process.env.ADMINUSERNAME}`, `${process.env.ADMINPASSWORD}`);
         await this.clickLoginButton();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();
@@ -249,7 +225,7 @@ export class TransitionerPage {
 
         await this.clickinitialHomeLink();
         await this.clickNavbarLoginLink();
-        await this.completeLogin(this.userAdminValid, this.passwordAdminValid);
+        await this.completeLogin(`${process.env.ADMINUSERNAME}`, `${process.env.ADMINPASSWORD}`);
         await this.clickLoginButton();
         await this.page.waitForLoadState('load');
         await this.hiddenAdminLoader();

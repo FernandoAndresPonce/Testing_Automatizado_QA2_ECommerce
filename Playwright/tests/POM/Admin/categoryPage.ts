@@ -3,7 +3,7 @@ import { Locator, Page } from "playwright";
 
 export class CategoryPage{
 
-    public categoryUrl: string = "http://desarrollowebecommerce.somee.com/Admin/Category.aspx";
+    public endpoint: string = "/Admin/Category.aspx";
 
     readonly page : Page;
 
@@ -20,8 +20,8 @@ export class CategoryPage{
         this.$searchFilterTextbox = page.getByRole('textbox', { name: 'Category quick search...' });
     }
 
-    async goToCategoryUrl() {
-        await this.page.goto(this.categoryUrl);
+    async goToEndpoint() {
+        await this.page.goto(this.endpoint);
     }
 
     async clickAddButton() {

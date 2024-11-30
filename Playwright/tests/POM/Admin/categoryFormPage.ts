@@ -3,7 +3,7 @@ import { Locator, Page } from "playwright";
 
 export class CategoryFormPage{
 
-    public categoryFormUrl: string = "http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx";
+    public endpoint: string = "/Admin/CategoryForm.aspx";
 
     readonly page : Page;
 
@@ -45,8 +45,8 @@ export class CategoryFormPage{
         
     }
 
-    async goToCategoryFormUrl() {
-        await this.page.goto(this.categoryFormUrl);
+    async goToEndpoint() {
+        await this.page.goto(this.endpoint);
     }
 
     async clickAndFillCategoryNameTextBox(nameCategory: string) {

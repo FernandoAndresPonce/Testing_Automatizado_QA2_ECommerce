@@ -3,7 +3,7 @@ import { Locator, Page } from "playwright";
 
 export class DefaultPage{
 
-    public defaultUrl: string = "http://desarrollowebecommerce.somee.com/User/Default.aspx";
+    public endpoint : string = "/User/Default.aspx";
 
     readonly page : Page;
 
@@ -13,7 +13,7 @@ export class DefaultPage{
     }
 
     //endpoint
-    async goDefaultUrl() {
-        await this.page.goto(this.defaultUrl);
+    async goToEndpoint() {
+        await this.page.goto(this.endpoint);
     }
 }

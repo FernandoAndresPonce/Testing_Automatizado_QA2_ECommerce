@@ -3,7 +3,7 @@ import { Locator, Page } from "playwright";
 
 export class DashboardPage{
 
-    public dashboardUrl: string = "http://desarrollowebecommerce.somee.com/Admin/Dashboard.aspx";
+    public endpoint: string = "/Admin/Dashboard.aspx";
 
     readonly page : Page;
 
@@ -20,8 +20,8 @@ export class DashboardPage{
 
 
     //Endpoint
-    async goDashboardUrl() {
-        await this.page.goto(this.dashboardUrl);
+    async goToEndpoint() {
+        await this.page.goto(this.endpoint);
     }
 
 
