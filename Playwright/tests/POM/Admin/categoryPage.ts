@@ -20,11 +20,11 @@ export class CategoryPage{
         this.$searchFilterTextbox = page.getByRole('textbox', { name: 'Category quick search...' });
     }
 
-    async goToEndpoint() {
+    async _goToEndpoint() {
         await this.page.goto(this.endpoint);
     }
 
-    async clickAddButton() {
+    async _clickAddButton() {
         await this.$addButton.click({ force: true });
     }
 }

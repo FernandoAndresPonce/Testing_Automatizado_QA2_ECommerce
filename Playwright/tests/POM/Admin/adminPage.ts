@@ -16,11 +16,11 @@ export class AdminPage{
         this.$loader = page.locator('.contain');
     }
 
-    async clickTabMenuCategoriesLink() {
+    async _clickTabMenuCategoriesLink() {
         await this.$tabMenuCategoriesLink.click({ force: true });
     }
 
-    async hiddenLoader() {
+    async _hiddenLoader() {
         await this.$loader.waitFor({ state: 'hidden' });
     }
 

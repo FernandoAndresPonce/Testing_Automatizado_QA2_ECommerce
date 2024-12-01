@@ -10,7 +10,7 @@ export class HeaderPage{
         this.$loginLink = page.getByRole('link', { name: 'Login' });
     }
 
-    async clickLoginLink() {
+    async _clickLoginLink() {
         await this.$loginLink.click({ force: true });
     }
 }

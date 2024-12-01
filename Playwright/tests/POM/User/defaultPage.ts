@@ -13,7 +13,7 @@ export class DefaultPage{
     }
 
     //endpoint
-    async goToEndpoint() {
+    async _goToEndpoint() {
         await this.page.goto(this.endpoint);
     }
 }

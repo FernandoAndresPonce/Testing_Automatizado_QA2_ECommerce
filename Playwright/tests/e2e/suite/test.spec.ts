@@ -23,24 +23,24 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
         await test.step('🧩AND: esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
-            await initialPage.clickinitialHomeLink();
+            await initialPage._clickinitialHomeLink();
 
             await expect(page).toHaveURL('/User/Default.aspx');
 
             await expect(headerPage.$loginLink).toBeVisible();
 
-            await headerPage.clickLoginLink();
+            await headerPage._clickLoginLink();
             await expect(page).toHaveURL('/User/Login.aspx');
 
             await loginPage.$usernameLoginInput.fill(`${process.env.ADMINUSERNAME}`);
             await loginPage.$passwordLoginInput.fill(`${process.env.ADMINPASSWORD}`);
 
-            await loginPage.clickLoginButton();
+            await loginPage._clickLoginButton();
         });
 
         await test.step('🧩AND: se encuentra en el HOME de la plataforma - http://desarrollowebecommerce.somee.com/User/Default.aspx', async () => {
 
-            await defaultPage.goToEndpoint();
+            await defaultPage._goToEndpoint();
             await expect(page).toHaveURL('/User/Default.aspx');
 
             await test.info().attach('Pagina HOME', {
@@ -51,9 +51,9 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
         await test.step('⚡ WHEN: Selecciona la barra de direcciones del navegador, 🧩AND: introduce la URL, 🧩AND: presiona la tecla Enter,', async () => {
 
-            await dashboardPage.goToEndpoint();
+            await dashboardPage._goToEndpoint();
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
         });
 
         await test.step('✨ THEN: Debería redirecciónarse a la Interfaz Principal de Administración,  ', async () => {
@@ -64,7 +64,7 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
         await test.step('🧩AND: Deberia renderizarse la Interfaz Principal de Administración exitosamente.', async () => {
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Pagina DASHBOARD', {
                 body: await page.screenshot(),
@@ -89,7 +89,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
         await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
 
             await page.waitForLoadState('load');
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Pagina Dashboard', {
                 body: await page.screenshot(),
@@ -101,7 +101,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     test('US 002 - TS 002 - TC 001 - Validar la correcta redirección a la Interfaz “Categories” de Administración, mediante la URL.', async ({ page, categoryPage, adminPage }) => {
 
         await test.step('⚡ WHEN: selecciona la barra de direcciones del Navegar, 🧩 AND: introduce la URL: http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async () => {
-            await categoryPage.goToEndpoint();
+            await categoryPage._goToEndpoint();
         });
 
         await test.step('✨ THEN: el sistema se deberia redireccionar a la Interfaz Categories de Administración.', async () => {
@@ -112,7 +112,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -127,7 +127,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
             await expect(adminPage.$tabMenuCategoriesLink, 'Categories del Tab Menu no esta Visible.').toBeVisible();
 
-            await adminPage.clickTabMenuCategoriesLink();
+            await adminPage._clickTabMenuCategoriesLink();
         });
 
         await test.step('✨ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
@@ -139,7 +139,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -154,7 +154,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
             await expect(dashboardPage.$cardCategoriesIco, 'La Card Categories, NO esta Visible').toBeVisible();
 
-            await dashboardPage.clickCardCategoriesIco();
+            await dashboardPage._clickCardCategoriesIco();
         });
 
         await test.step('✨ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
@@ -167,7 +167,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -182,7 +182,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
             await expect(dashboardPage.$cardCategoriesViewDetails, 'El "View Details", de la "Card Categories", NO es Visible.').toBeVisible();
 
-            await dashboardPage.clickCardCategoriesViewDetails();
+            await dashboardPage._clickCardCategoriesViewDetails();
         });
 
         await test.step('✨ THEN: El sistema se deberia redireccionar a la Interfaz Categories de Administración,', async () => {
@@ -194,7 +194,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
         await test.step('🧩 AND: el sistema se deberia renderizar la Interfaz Categories de Administración correctamente. ', async () => {
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -219,7 +219,7 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
             await expect(page).toHaveURL('/Admin/Category.aspx');
 
             await page.waitForLoadState('load')
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Pagina Categories', {
                 body: await page.screenshot(),
@@ -236,7 +236,7 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
             await expect(categoryPage.$addButton, 'El boton Add, NO es Visible.').toBeVisible();
             await expect(categoryPage.$searchFilterTextbox, 'El filtro rapido (Buscador), NO es Visible.').toBeVisible();
 
-            await categoryPage.clickAddButton();
+            await categoryPage._clickAddButton();
         });
 
         await test.step('✨ THEN: El sistema se deberia redireccionar a la Interfaz Formulario "Add Category" de Administración.', async () => {
@@ -248,7 +248,7 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
 
             await expect(page.getByText('Add Category'), 'El texto ADD CATEGORY, NO contiene el Texto.').toBeVisible();
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Formulario "Add Category"', {
                 body: await page.screenshot(),
@@ -262,7 +262,7 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
 
         await test.step('⚡ WHEN: :al introducr la URL (http://localhost:52000/Admin/CategoryForm.aspx), en la barra de direcciones del navegador', async () => {
 
-            await categoryFormPage.goToEndpoint();
+            await categoryFormPage._goToEndpoint();
         });
 
         await test.step('✨ THEN: El sistema se deberia redireccionar a la Interfaz Formulario "Add Category" de Administración.', async () => {
@@ -274,7 +274,7 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
 
             await expect(page.getByText('Add Category'), 'El texto ADD CATEGORY, NO contiene el Texto.').toBeVisible();
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             await test.info().attach('Formulario "Add Category"', {
                 body: await page.screenshot(),
@@ -300,7 +300,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
             await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
 
             await page.waitForLoadState('load');
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             test.info().attach('Pagina Formulario "Add Category"', {
                 body: await page.screenshot(),
@@ -330,7 +330,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
                 await expect(page.getByRole('textbox', { name: 'Category Name' }), 'El Text Input "Category Name", NO es Visible.').toBeVisible();
 
 
-                await categoryFormPage.clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
+                await categoryFormPage._clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
             });
 
             await test.step(`${section.butTC}`, async () => {
@@ -363,7 +363,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
                 await expect(categoryPage.$categoryTitle, 'El texto "CATEGORIES", NO es Visible.').toBeVisible();
 
                 await page.waitForLoadState('load');
-                await adminPage.hiddenLoader();
+                await adminPage._hiddenLoader();
 
                 await test.info().attach('Pagina "Categories"', {
                     body: await page.screenshot(),
@@ -403,7 +403,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
                 await expect(categoryFormPage.$categoryNameTitle, 'El Texto "Category Name", No es Visible.').toBeVisible();
                 await expect(page.getByRole('textbox', { name: 'Category Name' }), 'El Text Input "Category Name", NO es Visible.').toBeVisible();
 
-                await categoryFormPage.clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
+                await categoryFormPage._clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
             });
 
             const textTextbox = (await categoryFormPage.$categoryNameTextBox.inputValue());
@@ -486,7 +486,7 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
             await transitionerPage.preconditionClickAndFillCategoryNameTextBox();
 
             await page.waitForLoadState('load');
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             test.info().attach('Pagina Formulario "Add Category"', {
                 body: await page.screenshot(),
@@ -603,7 +603,7 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
 
 
             await page.waitForLoadState('load');
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             const screenshot = await page.screenshot({ fullPage: true });
             test.info().attach('Pagina Formulario: "Add Category" | CheckBox : Marcado (Checked)', {
@@ -618,7 +618,7 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
 
         await test.step('⚡ WHEN: hace Click en el Check Box,', async () => {
 
-            await categoryFormPage.clickActiveCheckbox();
+            await categoryFormPage._clickActiveCheckbox();
         });
 
         await test.step('✨ THEN: la Etiqueta (Label) se actualiza de “Active” a “Inactive”,', async () => {
@@ -643,7 +643,7 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
 
         await test.step('⚡ WHEN: hace Click en el Check Box,', async () => {
 
-            await categoryFormPage.clickActiveCheckbox();
+            await categoryFormPage._clickActiveCheckbox();
         });
 
         await test.step('🧩 AND: la Etiqueta (Label) se actualiza de “Active” a “Inactive”,', async () => {
@@ -665,7 +665,7 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
 
         await test.step('🧩 AND: se ejecuta un segundo Click en el CheckBox', async () => {
 
-            await categoryFormPage.clickActiveCheckbox();
+            await categoryFormPage._clickActiveCheckbox();
         });
 
         await test.step('✨ THEN: la Etiqueta (Label) se actualiza nuevamente de “Inactive” a “Active”', async () => {
@@ -713,7 +713,7 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
             await expect(categoryFormPage.$activeLabel, "El Texto No es Active.").toHaveText("Active");
 
             await page.waitForLoadState('load');
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             const screenshot = await page.screenshot({ fullPage: true });
             test.info().attach("CheckBox Active/Inactive : Marcado (Checked) | Etiqueta (Label) : Active.", {
@@ -760,7 +760,7 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
                 toHaveText("Active");
 
             await page.waitForLoadState('load');
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             const screenshot = await page.screenshot({ fullPage: true });
             test.info().attach("CheckBox Active/Inactive : Marcado (Checked) | Etiqueta (Label) : Active.", {
@@ -776,7 +776,7 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
 
         await test.step('🧩 AND: Hace click en el CheckBox(Categoria Offer/NoOffer)', async () => {
 
-            await categoryFormPage.clickOfferNoOfferCheckBox();
+            await categoryFormPage._clickOfferNoOfferCheckBox();
         });
 
         await test.step('🧩 AND: este cambia a estado Checked (marcado).', async () => {
@@ -824,7 +824,7 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
                 toHaveText("Inactive");
 
             await page.waitForLoadState('load');
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             const screenshot = await page.screenshot();
             test.info().attach("CheckBox Active/Inactive : Desarcado (Unchecked) | Etiqueta (Label) : Inactive.", {
@@ -876,7 +876,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
             await expect(categoryFormPage.$offerNoOfferCheckBox, "El CheckBox No esta Visible.").toBeVisible();
             await expect(categoryFormPage.$offerNoOfferCheckBox, "El CheckBox esta Marcado (Checked).").not.toBeChecked();
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
 
             const screenshot = await page.screenshot({ fullPage: true });
             await test.info().attach("CheckBox Active/Inactive : Marcado (Checked) | CheckBox Offer/No Offer : Desmarcado (Unchecked)", {
@@ -892,7 +892,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
 
             await expect(categoryFormPage.$offerNoOfferCheckBox, "El CheckBox No esta Disponible.").toBeEnabled();
 
-            await categoryFormPage.clickOfferNoOfferCheckBox();
+            await categoryFormPage._clickOfferNoOfferCheckBox();
         });
 
         await test.step("🧩 AND: este cambia a estado Checked (marcado)", async () => {
@@ -942,7 +942,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
 
             await expect(categoryFormPage.$offerNoOfferCheckBox, "El CheckBox No esta Disponible.").toBeEnabled();
 
-            await categoryFormPage.clickOfferNoOfferCheckBox();
+            await categoryFormPage._clickOfferNoOfferCheckBox();
         });
 
         await test.step("🧩 AND: este cambia a estado Checked (marcado)", async () => {
@@ -972,7 +972,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
 
         await test.step("🧩 AND: Hace click nuevamente en el CheckBox(Categoria Offer/NoOffer)", async () => {
 
-            await categoryFormPage.clickOfferNoOfferCheckBox();
+            await categoryFormPage._clickOfferNoOfferCheckBox();
         });
 
         await test.step("🧩 AND: este cambia a estado Unchecked (desmarcado).", async () => {

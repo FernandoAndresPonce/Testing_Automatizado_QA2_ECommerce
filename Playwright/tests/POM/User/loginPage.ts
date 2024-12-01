@@ -17,12 +17,17 @@ export class LoginPage{
         this.$loginButton = page.getByRole('button', { name: 'Login' });
     }
 
-    async completeLogin(user: string, password: string) {
+    async _fillLogin(user: string, password: string) {
         user && await this.$usernameLoginInput.fill(user);
         password && this.$passwordLoginInput.fill(password);
-    }
+    };
 
-    async clickLoginButton() {
+    async _adminLoginSuccess() {
+        await this.$usernameLoginInput.fill(`${process.env.ADMINUSERNAME}`);//
+        await this.$passwordLoginInput.fill(`${process.env.ADMINPASSWORD}`);//
+    };
+
+    async _clickLoginButton() {
         await this.$loginButton.click({ force: true });
-    }
+    };
 } 

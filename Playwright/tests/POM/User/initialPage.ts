@@ -13,7 +13,7 @@ export class InitialPage{
 
     }
 
-    async clickinitialHomeLink() {
+    async _clickinitialHomeLink() {
         await this.$homeLink.click({ force: true });
     }
 }

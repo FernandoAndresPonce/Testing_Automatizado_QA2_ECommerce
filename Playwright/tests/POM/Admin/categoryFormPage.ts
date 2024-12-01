@@ -45,25 +45,25 @@ export class CategoryFormPage{
         
     }
 
-    async goToEndpoint() {
+    async _goToEndpoint() {
         await this.page.goto(this.endpoint);
     }
 
-    async clickAndFillCategoryNameTextBox(nameCategory: string) {
+    async _clickAndFillCategoryNameTextBox(nameCategory: string) {
         await this.$categoryNameTextBox.click({ force: true })
         await this.$categoryNameTextBox.fill(nameCategory)
     }
 
-    async clickActiveCheckbox() {
+    async _clickActiveCheckbox() {
         await this.$activeCheckbox.click({ force: true });
     }
 
-    async clickOfferNoOfferCheckBox() {
+    async _clickOfferNoOfferCheckBox() {
         await this.$offerNoOfferCheckBox.click({ force: true });
     }
 
     //Precondicion ya Establecida -
-    async preconditionClickAndFillCategoryNameTextBox() {
+    async _preconditionClickAndFillCategoryNameTextBox() {
         await this.$categoryNameTextBox.click({ force: true })
         await this.$categoryNameTextBox.fill('Postre')
     }

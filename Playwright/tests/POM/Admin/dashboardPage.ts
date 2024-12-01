@@ -20,17 +20,17 @@ export class DashboardPage{
 
 
     //Endpoint
-    async goToEndpoint() {
+    async _goToEndpoint() {
         await this.page.goto(this.endpoint);
     }
 
 
     //Funcionalidades
-    async clickCardCategoriesIco() {
+    async _clickCardCategoriesIco() {
         await this.$cardCategoriesIco.click({ force: true })
     }
 
-    async clickCardCategoriesViewDetails() {
+    async _clickCardCategoriesViewDetails() {
         await this.$cardCategoriesViewDetails.click({ force: true });
     }
 }
