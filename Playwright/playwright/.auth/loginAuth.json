@@ -1,0 +1,55 @@
+{
+  "cookies": [
+    {
+      "name": "b",
+      "value": "b",
+      "domain": "desarrollowebecommerce.somee.com",
+      "path": "/Admin",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "b",
+      "value": "b",
+      "domain": "desarrollowebecommerce.somee.com",
+      "path": "/User",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "b",
+      "value": "b",
+      "domain": "desarrollowebecommerce.somee.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": ".AspNetCore.Session",
+      "value": "CfDJ8KG0jF6VihBBtTV5N0K9rwNj%2F%2Bim5Yj6S3aknOcsw4rjXxCqp4vX%2F63g5gkUT9oqW1iI7h%2BjoHkHjM03neUWnlEIP7p4nC%2BKXfoWuj0U%2FexM%2FPMAdUtdlJViFlwBxWpodW5DeOVhXbLqvvl1UUj9gvRDZcRthpJeUdZa9js4jD5L",
+      "domain": "ads.mgmt.somee.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "ASP.NET_SessionId",
+      "value": "lybqhwsdxq2uqgbvl0zar4vr",
+      "domain": "desarrollowebecommerce.somee.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

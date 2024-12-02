@@ -8,8 +8,11 @@ import { test } from "../../fixture/base";
 import dotenv from 'dotenv';
 dotenv.config();
 
+
 test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood', () => {
 
+    test.use({storageState : { cookies : [], origins : [] }})
+    
     test.beforeEach('Pagina Inicial de la Plataforma Web.', async ({ page }) => {
         await page.goto('/');
     });
@@ -77,17 +80,17 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
 test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood', () => {
 
-    test.beforeEach('🔲 BACKGROUND:', async ({ page, transitionerPage, adminPage }) => {
+    test.beforeEach('🔲 BACKGROUND:', async ({ page, transitionerPage, categoryPage, adminPage }) => {
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
-            await page.goto('/');
-
-            await transitionerPage.loginAndGoDashboardAdmin();
+            // await page.goto('/');
+            // await transitionerPage.loginAndGoDashboardAdmin();
         });
 
         await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
 
+            await categoryPage._goToEndpoint();
             await page.waitForLoadState('load');
             await adminPage._hiddenLoader();
 
