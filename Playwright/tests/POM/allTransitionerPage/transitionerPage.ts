@@ -53,6 +53,7 @@ export class TransitionerPage {
     //Acciones con MULTIPLES elementos.
 
     async loginAndGoDashboardAdmin() {
+
         await this.initialPage._clickinitialHomeLink();
         await this.headerPage._clickLoginLink();
         await this.loginPage._adminLoginSuccess();
@@ -60,33 +61,23 @@ export class TransitionerPage {
     };
 
     async loginAndGoCategoriesAdmin() {
-        await this.initialPage._clickinitialHomeLink();
-        await this.headerPage._clickLoginLink();
-        await this.loginPage._adminLoginSuccess();
-        await this.loginPage._clickLoginButton();
+
+        await this.loginAndGoDashboardAdmin();
         await this.page.waitForLoadState('load');
         await this.adminPage._hiddenLoader();
         await this.adminPage._clickTabMenuCategoriesLink();
     }
 
     async loginAndGoFormCategoryAdminTabMenuLink() {
-        await this.initialPage._clickinitialHomeLink();
-        await this.headerPage._clickLoginLink();
-        await this.loginPage._adminLoginSuccess();
-        await this.loginPage._clickLoginButton();
-        await this.page.waitForLoadState('load');
-        await this.adminPage._hiddenLoader();
-        await this.adminPage._clickTabMenuCategoriesLink();
+
+        await this.loginAndGoCategoriesAdmin();
         await this.page.waitForLoadState('load');
         await this.adminPage._hiddenLoader();
         await this.categoryPage._clickAddButton();
     }
 
     async loginAndGoFormCategoryAdminCardCategoriesIco() {
-        await this.initialPage._clickinitialHomeLink();
-        await this.headerPage._clickLoginLink();
-        await this.loginPage._adminLoginSuccess();
-        await this.loginPage._clickLoginButton();
+        await this.loginAndGoDashboardAdmin();
         await this.page.waitForLoadState('load');
         await this.adminPage._hiddenLoader();
         await this.dashboardPage._clickCardCategoriesIco();
@@ -97,10 +88,7 @@ export class TransitionerPage {
 
     async loginAndGoFormCategoryAdminCardCategoriesViewDetails() {
 
-        await this.initialPage._clickinitialHomeLink();
-        await this.headerPage._clickLoginLink();
-        await this.loginPage._adminLoginSuccess();
-        await this.loginPage._clickLoginButton();
+        await this.loginAndGoDashboardAdmin();
         await this.page.waitForLoadState('load');
         await this.adminPage._hiddenLoader();
         await this.dashboardPage._clickCardCategoriesViewDetails();
@@ -116,10 +104,7 @@ export class TransitionerPage {
         const randomIndex = Math.floor(Math.random() * routeAddCategory.length);
         const randomRouteAddCategory = routeAddCategory[randomIndex];
 
-        await this.initialPage._clickinitialHomeLink();
-        await this.headerPage._clickLoginLink();
-        await this.loginPage._adminLoginSuccess();
-        await this.loginPage._clickLoginButton();
+        await this.loginAndGoDashboardAdmin();
         await this.page.waitForLoadState('load');
         await this.adminPage._hiddenLoader();
         await randomRouteAddCategory.click();
