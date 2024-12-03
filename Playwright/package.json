@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "report": "npx playwright show-report",
-    "ui": "npx playwright test --ui"
+    "ui": "npx playwright test --ui",
+    "allure-clean" : "npx allure generate ./allure-results --clean",
+    "allure-report" : "npx allure open ./allure-report"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,8 @@
   "devDependencies": {
     "@playwright/test": "^1.48.2",
     "@types/node": "^22.8.7",
+    "allure-commandline": "^2.32.0",
+    "allure-playwright": "^3.0.6",
     "dotenv": "^16.4.5"
   },
   "dependencies": {

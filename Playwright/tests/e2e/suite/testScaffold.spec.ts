@@ -10,7 +10,7 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
         await test.step("📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
 
             await page.goto("/");
-            await transitionerPage.loginAndGoFormCategoryAdminRandomRoute();
+            await transitionerPage._goToDashboardThenRandomFormCategoryByElements();
         });
 
         test.step("🧩 AND: de que el Admin se encuentra en la Interfaz Formulario “Add Category”. http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx", async () => {

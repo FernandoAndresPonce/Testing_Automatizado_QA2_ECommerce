@@ -6,8 +6,6 @@ import { test } from "../../fixture/base";
 
 //variables ambiente npm i dovenv --save-dev
 import dotenv from 'dotenv';
-import { DashboardPage } from '../../POM/admin/dashboardPage';
-import { CategoryPage } from '../../POM/admin/categoryPage';
 dotenv.config();
 
 
