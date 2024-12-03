@@ -1,12 +1,10 @@
-import { Browser, chromium, Page } from "playwright";
-import { TransitionerPage } from "../../POM/allTransitionerPage/transitionerPage";
-
 import { test as setup, expect } from '@playwright/test';
 
 const authFile = "playwright/.auth/loginAuth.json";
 
-setup("authenticate", async ({ page }) => {
-    await page.goto('http://desarrollowebecommerce.somee.com/');
+setup("authenticate", async ({ page, }) => {
+    await page.goto('/');
+
     await page.locator("xpath=//div[contains(@class, 'popup-content')]//a").click({ force: true });
     await page.getByRole('link', { name: 'Login' }).click({ force: true });
     await page.getByRole('textbox', { name: 'Username' }).fill("Admin");

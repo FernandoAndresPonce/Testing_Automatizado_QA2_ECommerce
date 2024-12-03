@@ -97,7 +97,7 @@ export class TransitionerPage {
         await this.categoryPage._clickAddButton();
     }
 
-    async loginAndGoFormCategoryAdminRandomRoute() {
+    async _loginThenRamdonFormCategoryByElements() {
 
         const routeAddCategory = [this.dashboardPage.$cardCategoriesViewDetails, this.adminPage.$tabMenuCategoriesLink, this.dashboardPage.$cardCategoriesIco]
 
@@ -105,6 +105,22 @@ export class TransitionerPage {
         const randomRouteAddCategory = routeAddCategory[randomIndex];
 
         await this.loginAndGoDashboardAdmin();
+        await this.page.waitForLoadState('load');
+        await this.adminPage._hiddenLoader();
+        await randomRouteAddCategory.click();
+        await this.page.waitForLoadState('load');
+        await this.adminPage._hiddenLoader();
+        await this.categoryPage._clickAddButton();
+    }
+
+    async _goToDashboardThenRandomFormCategoryByElements() {
+
+        const routeAddCategory = [this.dashboardPage.$cardCategoriesViewDetails, this.adminPage.$tabMenuCategoriesLink, this.dashboardPage.$cardCategoriesIco]
+
+        const randomIndex = Math.floor(Math.random() * routeAddCategory.length);
+        const randomRouteAddCategory = routeAddCategory[randomIndex];
+
+        await this.dashboardPage._goToEndpoint();
         await this.page.waitForLoadState('load');
         await this.adminPage._hiddenLoader();
         await randomRouteAddCategory.click();

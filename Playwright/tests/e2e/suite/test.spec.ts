@@ -6,13 +6,16 @@ import { test } from "../../fixture/base";
 
 //variables ambiente npm i dovenv --save-dev
 import dotenv from 'dotenv';
+import { DashboardPage } from '../../POM/admin/dashboardPage';
+import { CategoryPage } from '../../POM/admin/categoryPage';
 dotenv.config();
 
 
 test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood', () => {
 
-    test.use({storageState : { cookies : [], origins : [] }})
-    
+    //clear cookies
+    test.use({ storageState: { cookies: [], origins: [] } })
+
     test.beforeEach('Pagina Inicial de la Plataforma Web.', async ({ page }) => {
         await page.goto('/');
     });
@@ -80,17 +83,15 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
 
 test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood', () => {
 
-    test.beforeEach('🔲 BACKGROUND:', async ({ page, transitionerPage, categoryPage, adminPage }) => {
+    test.beforeEach('🔲 BACKGROUND:', async ({ page, dashboardPage, adminPage }) => {
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
-            // await page.goto('/');
-            // await transitionerPage.loginAndGoDashboardAdmin();
+            await dashboardPage._goToEndpoint();
         });
 
         await test.step('🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard', async () => {
 
-            await categoryPage._goToEndpoint();
             await page.waitForLoadState('load');
             await adminPage._hiddenLoader();
 
@@ -104,10 +105,12 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     test('US 002 - TS 002 - TC 001 - Validar la correcta redirección a la Interfaz “Categories” de Administración, mediante la URL.', async ({ page, categoryPage, adminPage }) => {
 
         await test.step('⚡ WHEN: selecciona la barra de direcciones del Navegar, 🧩 AND: introduce la URL: http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async () => {
+
             await categoryPage._goToEndpoint();
         });
 
         await test.step('✨ THEN: el sistema se deberia redireccionar a la Interfaz Categories de Administración.', async () => {
+            
             await expect(page).toHaveURL('/Admin/Category.aspx');
             await expect(categoryPage.$categoryTitle).toBeVisible();
             await expect(categoryPage.$categoryTitle).toHaveText('Categories');
@@ -156,7 +159,6 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
         await test.step('⚡ WHEN: hace Click en el ICONO de la "Card Categories", que se encuentra en el Panel central del Dashboard,', async () => {
 
             await expect(dashboardPage.$cardCategoriesIco, 'La Card Categories, NO esta Visible').toBeVisible();
-
             await dashboardPage._clickCardCategoriesIco();
         });
 
@@ -210,12 +212,11 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
 
 test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood', () => {
 
-    test.beforeEach('🔲 BACKGROUND:', async ({ page, transitionerPage, adminPage }) => {
+    test.beforeEach('🔲 BACKGROUND:', async ({ page, categoryPage, adminPage }) => {
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador.', async () => {
 
-            await page.goto('/');
-            await transitionerPage.loginAndGoCategoriesAdmin();
+            await categoryPage._goToEndpoint();
         });
 
         await test.step('🧩 AND: el usuario se encuentra en la Interfaz Categories de Administración - http://desarrollowebecommerce.somee.com/Admin/Category.aspx', async () => {
@@ -293,8 +294,8 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
     test.beforeEach('🔲 BACKGROUND:', async ({ page, transitionerPage, adminPage }) => {
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
-            await page.goto('/');
-            await transitionerPage.loginAndGoFormCategoryAdminRandomRoute();
+
+            await transitionerPage._goToDashboardThenRandomFormCategoryByElements();
         })
 
         await test.step('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async () => {
@@ -470,12 +471,14 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
 test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Completar los campos del formulario, para crear una Categoría.', () => {
 
+    test.use({ storageState: { cookies: [], origins: [] } });
+
     test.beforeEach('🔲 BACKGROUND:', async ({ page, transitionerPage, adminPage }) => {
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
 
             await page.goto('/');
-            await transitionerPage.loginAndGoFormCategoryAdminRandomRoute();
+            await transitionerPage._loginThenRamdonFormCategoryByElements();
         });
 
         await test.step('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async () => {
@@ -586,8 +589,7 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
 
         await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
 
-            await page.goto('/');
-            await transitionerPage.loginAndGoFormCategoryAdminRandomRoute();
+            await transitionerPage._goToDashboardThenRandomFormCategoryByElements();
         });
 
         await test.step('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async () => {
@@ -697,7 +699,7 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
 
 
             await page.goto('/');
-            await transitionerPage.loginAndGoFormCategoryAdminRandomRoute();
+            await transitionerPage._goToDashboardThenRandomFormCategoryByElements();
         });
 
         test.step('🧩 AND: el Admin se encuentra en la Interfaz Formulario “Add Category”. http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx.', async () => {
@@ -859,7 +861,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
         await test.step("📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
 
             await page.goto("/");
-            await transitionerPage.loginAndGoFormCategoryAdminRandomRoute();
+            await transitionerPage._goToDashboardThenRandomFormCategoryByElements();
         });
 
         await test.step("🧩 AND: de que el Admin se encuentra en la Interfaz Formulario “Add Category”. http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx", async () => {
@@ -1007,8 +1009,8 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
             await expect(categoryFormPage.$offerPercentageTextBox, "El TextBox Offer Percentage es Visible.").not.toBeVisible();
 
             await test.info().attach("Label Offer Percentage : No Visible | TextBox Offer Percentage : No Visible", {
-                body : await page.screenshot(),
-                contentType : "image/png"
+                body: await page.screenshot(),
+                contentType: "image/png"
             });
         });
     });

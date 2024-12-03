@@ -37,7 +37,7 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
             await expect(categoryFormPage.$offerNoOfferCheckBox,"").toBeEnabled();
             await categoryFormPage.$offerNoOfferCheckBox.check();
 
-            await adminPage.hiddenLoader();
+            await adminPage._hiddenLoader();
             await test.info().attach("CheckBox Active/Inactive : Marcado (Checked) | CheckBox Offer/No Offer : Marcado (Checked)", {
                 body : await page.screenshot(),
                 contentType : "image/png"
