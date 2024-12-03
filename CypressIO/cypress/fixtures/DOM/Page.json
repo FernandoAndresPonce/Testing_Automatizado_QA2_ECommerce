@@ -5,9 +5,6 @@
     }
   },
 
-
-
-
   "headerPage": {
     "link": {
       "login": "div.container a#lbLoginOrLogout"

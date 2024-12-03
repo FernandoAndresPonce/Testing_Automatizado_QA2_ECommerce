@@ -1,47 +1,58 @@
 /**
  * npx cypress run --browser chrome/firefox --spec (relative pagh o * / ** /carpeta o archivo
  * */
-import { initialPage } from "../../support/POM/initialPage";
+import { initialPage } from "../../support/POM/user/initialPage";
+import { headerPage } from "../../support/POM/user/headerPage";
+import { loginPage } from "../../support/POM/user/loginPage";
+import { dashboardPage } from "../../support/POM/admin/dashboardPage";
+import { adminPage } from "../../support/POM/admin/adminPage";
 
-describe.only("🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood", () => {
+describe("🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principal de Administración de FastFood", () => {
   it("US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
     cy.visit("/");
 
-    cy.fixture("DOM/Page").then((fromThe) => {
-      initialPage.get.homeLink().should("be.visible").click();
+    initialPage.get
+    .$homeLink()
+    .should("be.visible")
+    .click();
 
-      cy.url().should("contain", "/User/Default.aspx");
+    cy.url().should("contain", "/User/Default.aspx");
 
-      cy.get(fromThe.headerPage.link.login)
-        .should("have.text", "Login")
-        .and("not.be.empty")
-        .click();
+    headerPage.get
+      .$loginLink()
+      .should("have.text", "Login")
+      .and("not.be.empty")
+      .click();
 
-      cy.url().should("contain", "/User/Login.aspx");
+    cy.url().should("contain", "/User/Login.aspx");
 
-      cy.get(fromThe.loginPage.input.username)
-        .should("be.visible")
-        .click()
-        .type(Cypress.env("adminUser").username);
+    loginPage.get
+      .$usernameInput()
+      .should("be.visible")
+      .click()
+      .type(Cypress.env("adminUser").username);
 
-      cy.get(fromThe.loginPage.input.password)
-        .should("be.visible")
-        .click()
-        .type(Cypress.env("ADMINPASSWORD"));
+    loginPage.get
+      .$passwordInput()
+      .should("be.visible")
+      .click()
+      .type(Cypress.env("ADMINPASSWORD"));
 
-      cy.get(fromThe.loginPage.button.login)
-        .should("be.visible")
-        .should("be.enabled")
-        .click({ force: true });
+    loginPage.get
+      .$loginButton()
+      .should("be.visible")
+      .should("be.enabled")
+      .click({ force: true });
 
-      cy.url().should("contain", "/Admin/Dashboard.aspx");
+    adminPage.get.$loader().should("be.visible");
 
-      cy.get(fromThe.dashboardPage.breadcrumb).should("be.visible");
-    });
+    cy.url().should("contain", "/Admin/Dashboard.aspx");
+    
+    dashboardPage.get.$breadcrumb().should("be.visible");
   });
 });
 
-describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
+describe("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
   beforeEach(
     "Precondicion : que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard'",
     () => {
