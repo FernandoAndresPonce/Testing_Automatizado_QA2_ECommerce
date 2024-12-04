@@ -1,3 +1,4 @@
+
 import { expect, Browser, Page } from '@playwright/test'
 import { describe } from 'node:test';
 import { threadId } from 'node:worker_threads';
@@ -51,6 +52,7 @@ test.describe('🔬 US 001 - TS 001 - Redireccion - Acceso a la Página Principa
                 body: await page.screenshot(),
                 contentType: 'image/png',
             });
+
         });
 
         await test.step('⚡ WHEN: Selecciona la barra de direcciones del navegador, 🧩AND: introduce la URL, 🧩AND: presiona la tecla Enter,', async () => {
@@ -108,7 +110,7 @@ test.describe('🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
         });
 
         await test.step('✨ THEN: el sistema se deberia redireccionar a la Interfaz Categories de Administración.', async () => {
-            
+
             await expect(page).toHaveURL('/Admin/Category.aspx');
             await expect(categoryPage.$categoryTitle).toBeVisible();
             await expect(categoryPage.$categoryTitle).toHaveText('Categories');
@@ -316,9 +318,18 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
     const sections = [
 
-        { titleTC: 'US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).', inputTextTC: 'P', thenTC: '✨ THEN: el Text Input Category Name no le dará ninguna advertencia 🧩 AND: el sistema lo redireccionara a la página Category.' },
+        {
+            titleTC: 'US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).',
+            inputTextTC: 'P',
+            thenTC: '✨ THEN: el Text Input Category Name no deberia dar ninguna advertencia 🧩 AND: el sistema lo redireccionara a la página Category.'
+        },
 
-        { titleTC: 'US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).', inputTextTC: 'qwertyuioplkjhgfdsazxcvbnmlkjhgfdsaqwertyuioplkjhg', butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', thenTC: '✨ THEN: el Text Input Category Name no le dará ninguna advertencia 🧩 AND: el sistema lo redireccionara a la página Category.' }
+        {
+            titleTC: 'US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).',
+            inputTextTC: 'qwertyuioplkjhgfdsazxcvbnmlkjhgfdsaqwertyuioplkjhg',
+            butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ',
+            thenTC: '✨ THEN: el Text Input Category Name no deberia dar ninguna advertencia 🧩 AND: el sistema lo redireccionara a la página Category.'
+        }
 
     ];
 
@@ -378,19 +389,41 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
     const sectionsBath = [
         {
-            titleTC: 'US 004 - TS 004 - TC 003 - Validar el Text Input Category Name, al añadir una Cadena de texto solo Numérica.', inputTextTC: 1234567, whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto solo Numérica,', butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.', validationError: '(Name must be in character only)',
+            titleTC: 'US 004 - TS 004 - TC 003 - Validar el Text Input Category Name, al añadir una Cadena de texto solo Numérica.',
+            inputTextTC: 1234567,
+            whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto solo Numérica,',
+            butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ',
+            thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.',
+            andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.',
+            validationError: '(Name must be in character only)',
         },
         {
             titleTC: 'US 004 - TS 004 - TC 004 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto solo caracteres Especiales.', inputTextTC: '@#$%^&', whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto solo caracteres Especiales,', butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.', validationError: '(Name must be in character only)',
         },
         {
-            titleTC: 'US 004 - TS 004 - TC 005 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto Alfanumérica.', inputTextTC: 'Postre37', whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto Alfanumérica,', butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.', validationError: '(Name must be in character only)',
+            titleTC: 'US 004 - TS 004 - TC 005 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto Alfanumérica.',
+            inputTextTC: 'Postre37',
+            whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto Alfanumérica,',
+            butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ',
+            thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.',
+            andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.',
+            validationError: '(Name must be in character only)',
         },
         {
-            titleTC: 'US 004 - TS 004 - TC 006 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto Alfabética con caracteres Especiales.', inputTextTC: 'Postre$%*&', whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto Alfabética con caracteres Especiales,', butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', thenTC: '✨✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.', validationError: '(Name must be in character only)',
+            titleTC: 'US 004 - TS 004 - TC 006 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto Alfabética con caracteres Especiales.', 
+            inputTextTC: 'Postre$%*&', 
+            whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto Alfabética con caracteres Especiales,', 
+            butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', 
+            thenTC: '✨✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', 
+            andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.', 
+            validationError: '(Name must be in character only)',
         },
         {
-            titleTC: 'US 004 - TS 004 - TC 007 - Intentar Validar el Text Input Category Name, con cero (0) carácter, campo vacío.', inputTextTC: '', whenTC: '⚡ WHEN: NO completa el Text Input, cero (0) carácter, campo vacío,', butTC: '', thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Required Category Name”.', validationError: '(Required Category Name)',
+            titleTC: 'US 004 - TS 004 - TC 007 - Intentar Validar el Text Input Category Name, con cero (0) carácter, campo vacío.', 
+            inputTextTC: '', 
+            whenTC: '⚡ WHEN: NO completa el Text Input, cero (0) carácter, campo vacío,', 
+            butTC: '', thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Required Category Name”.', 
+            validationError: '(Required Category Name)',
         }
 
     ];
@@ -624,7 +657,7 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
             await categoryFormPage._clickActiveCheckbox();
         });
 
-        await test.step('✨ THEN: la Etiqueta (Label) se actualiza de “Active” a “Inactive”,', async () => {
+        await test.step('✨ THEN: la Etiqueta (Label) se deberia actualiza de “Active” a “Inactive”,', async () => {
 
             await expect(categoryFormPage.$inactiveLabel, "El Label, No esta Visible.").toBeVisible();
             await expect(categoryFormPage.$inactiveLabel, "El Texto, No es Inactive.").toHaveText("Inactive");
@@ -671,7 +704,7 @@ test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crea
             await categoryFormPage._clickActiveCheckbox();
         });
 
-        await test.step('✨ THEN: la Etiqueta (Label) se actualiza nuevamente de “Inactive” a “Active”', async () => {
+        await test.step('✨ THEN: la Etiqueta (Label) se deberia actualiza nuevamente de “Inactive” a “Active”', async () => {
 
             await expect(categoryFormPage.$activeLabel, "El Texto No es Active.").toHaveText("Active");
         });
@@ -725,7 +758,7 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
             });
         });
 
-        await test.step('✨ THEN: se visualiza un nuevo CheckBox(Categoria Offer/NoOffer) que está en estado Unchecked (no marcado),', async () => {
+        await test.step('✨ THEN: se deberia visualiza un nuevo CheckBox(Categoria Offer/NoOffer) que está en estado Unchecked (no marcado),', async () => {
             await expect(categoryFormPage.$offerNoOfferCheckBox, "El Checkbox Bo esta Visible").toBeVisible();
             await expect(categoryFormPage.$offerNoOfferCheckBox, "El Checkbox esta Marcado (Checked).").not.toBeChecked();
         });
@@ -788,7 +821,7 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
                 .toBeChecked();
         });
 
-        await test.step('✨ THEN: se visualiza el cambio de estado de la etiqueta (Label), cambiando de "No Offer" a "Offer".', async () => {
+        await test.step('✨ THEN: se deberia visualizar el cambio de estado de la etiqueta (Label), cambiando de "No Offer" a "Offer".', async () => {
 
             await expect(categoryFormPage.$offerLabel, "La Label No es Visible.")
                 .toBeVisible();
@@ -836,7 +869,7 @@ test.describe('🔬 US 007 - TS 007 - Check Box - Check Box Add Category - Crear
             });
         });
 
-        await test.step('✨ THEN: el usuario No visualiza el CheckBox(Categoria Offer/NoOffer)', async () => {
+        await test.step('✨ THEN: el deberia usuario No visualizar el CheckBox(Categoria Offer/NoOffer)', async () => {
 
             await expect(categoryFormPage.$offerNoOfferCheckBox, "El Checkbox es Visible.")
                 .toBeHidden();
@@ -923,7 +956,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
             });
         });
 
-        await test.step("✨ THEN: visualiza una Etiqueta (Label) con el Texto (Offer Percentage)", async () => {
+        await test.step("✨ THEN: deberia visualizarse una Etiqueta (Label) con el Texto (Offer Percentage)", async () => {
 
             await expect(categoryFormPage.$offerPercentageLabel, "El Texto No es Offer Percentage.").toBeVisible();
         });
@@ -997,7 +1030,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
             await expect(backgroundColorLabel, "El Color del Background No es Rojo.").toBe("rgb(252, 97, 128)")
         });
 
-        await test.step("✨ THEN: No visualiza Ninguna Etiqueta (Label) con el texto (Offer Percentage)", async () => {
+        await test.step("✨ THEN: No deberia visualizar Ninguna Etiqueta (Label) con el texto (Offer Percentage)", async () => {
 
             await expect(categoryFormPage.$offerPercentageLabel, "La Label Offer Percentage es Visible.").not.toBeVisible();
         });
@@ -1013,5 +1046,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
         });
     });
 });
+
+
 
 

@@ -43,28 +43,40 @@ export class CategoryFormPage{
         this.$offerPercentageLabel = page.locator("xpath=//span[@class='form-label' and text()= 'Offer Percentage']");
         this.$offerPercentageTextBox = page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtofferPercentage']");
         
-    }
+    };
 
     async _goToEndpoint() {
         await this.page.goto(this.endpoint);
-    }
+    };
 
     async _clickAndFillCategoryNameTextBox(nameCategory: string) {
         await this.$categoryNameTextBox.click({ force: true })
         await this.$categoryNameTextBox.fill(nameCategory)
-    }
+    };
 
     async _clickActiveCheckbox() {
         await this.$activeCheckbox.click({ force: true });
-    }
+    };
 
     async _clickOfferNoOfferCheckBox() {
         await this.$offerNoOfferCheckBox.click({ force: true });
-    }
+    };
+
+    async _clickOfferPercentageTextBox() {
+        await this.$offerPercentageTextBox.click({ force : true })
+    };
+
+    async _fillOfferPercentageTextBox( offerPercentage : string ){
+        await this.$offerPercentageTextBox.type(offerPercentage);
+    };
+
+    async _clickAddButton(){
+        await this.$addButton.click({ force : true });
+    };
 
     //Precondicion ya Establecida -
     async _preconditionClickAndFillCategoryNameTextBox() {
         await this.$categoryNameTextBox.click({ force: true })
         await this.$categoryNameTextBox.fill('Postre')
-    }
-}
+    };
+};

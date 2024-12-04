@@ -5,21 +5,23 @@
   "scripts": {
     "report": "npx playwright show-report",
     "ui": "npx playwright test --ui",
-    "allure-clean" : "npx allure generate ./allure-results --clean",
-    "allure-report" : "npx allure open ./allure-report"
+    "test-all" : "npx playwright test --reporter=allure-playwright",
+    "allure-clean": "allure generate allure-results -o allure-report --clean",
+    "allure-trash" : "rm -rf allure-results/*",
+    "allure-report": "allure open allure-report"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@playwright/test": "^1.48.2",
+    "@playwright/test": "^1.49.0",
     "@types/node": "^22.8.7",
     "allure-commandline": "^2.32.0",
     "allure-playwright": "^3.0.6",
     "dotenv": "^16.4.5"
   },
   "dependencies": {
-    "playwright": "^1.48.2"
+    "playwright": "^1.49.0"
   }
 }
