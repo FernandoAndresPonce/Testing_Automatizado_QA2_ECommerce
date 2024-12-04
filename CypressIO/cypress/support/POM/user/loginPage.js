@@ -13,7 +13,7 @@ class LoginPage {
         this.get.$passwordInput().type(password);
     };
 
-    __fillAdminLoginSuccess(){
+    _fillAdminLoginSuccess(){
         this.get.$usernameInput().type(Cypress.env("ADMINUSERNAME"));
         this.get.$passwordInput().type(Cypress.env("ADMINPASSWORD"));
         this.get.$loginButton().click({ force : true });

@@ -8,7 +8,7 @@ class InitialPage {
     }
     
     _clickHomeLink () {
-        this.get.homeLink().click({ force : true })
+        this.get.$homeLink().click({ force : true })
     }
 }
 

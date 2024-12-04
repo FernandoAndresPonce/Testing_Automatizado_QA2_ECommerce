@@ -7,7 +7,7 @@ class HeaderPage {
         $loginLink : () => cy.get("div.container a#lbLoginOrLogout")
     }
 
-    _clickLoginLInk(){
+    _clickLoginLink(){
         this.get.$loginLink().click();
     }
 }

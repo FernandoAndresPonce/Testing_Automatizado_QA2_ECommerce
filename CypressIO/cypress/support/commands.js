@@ -9,25 +9,35 @@
 // ***********************************************
 //
 //
+import { initialPage } from "./POM/user/initialPage";
+import { headerPage } from "./POM/user/headerPage";
+import { loginPage } from "./POM/user/loginPage";
+import { dashboardPage } from "./POM/admin/dashboardPage";
+import { adminPage } from "./POM/admin/adminPage";
 
-Cypress.Commands.add("adminLoginAndGoToDashboard", () => {
+Cypress.Commands.add("_$loginThenGoToDashboard", () => {
+  cy.visit("/");
+  initialPage._clickHomeLink();
+  headerPage._clickLoginLink();
+  loginPage._fillAdminLoginSuccess();
+});
+
+Cypress.Commands.add("_$loginThenRamdonCategoryByElements", () => {
+
+  const routeCategory = [
+    dashboardPage.get.$categoriesCardIcoLink,
+    dashboardPage.get.$categoriesCardViewDetailsLink,
+    adminPage.get.$tabMenuCategoriesLink,
+  ];
+
+  const randomIndex = Math.floor(Math.random() * routeCategory.length);
+  const randomRouteGoCategory = routeCategory[randomIndex];
+
   cy.visit("/");
 
-  cy.fixture("DOM/Page").then((fromThe) => {
-    cy.get(fromThe.initialPage.link.home).click();
+  initialPage._clickHomeLink();
+  headerPage._clickLoginLink();
+  loginPage._fillAdminLoginSuccess();
 
-    cy.get(fromThe.headerPage.link.login).click();
-
-    cy.url().should("contain", "/User/Login.aspx");
-
-    cy.get(fromThe.loginPage.input.username)
-      .click()
-      .type(fromThe.loginPage.data.usernameAdmin.valid);
-
-    cy.get(fromThe.loginPage.input.password)
-      .click()
-      .type(fromThe.loginPage.data.passwordAdmin.valid);
-
-    cy.get(fromThe.loginPage.button.login).click({ force: true });
-  });
+  randomRouteGoCategory().click({ force: true });
 });

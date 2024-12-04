@@ -37,9 +37,6 @@
   },
 
 
-
-
-
   "dashboardPage": {
     "endpoint" : "/Admin/Dashboard.aspx",
     "breadcrumb": "div.card-block.danger-breadcrumb a[href='Dashboard.aspx']",
@@ -52,9 +49,6 @@
       }
     }
   },
-
-
-
 
 
   "categoryPage": {
