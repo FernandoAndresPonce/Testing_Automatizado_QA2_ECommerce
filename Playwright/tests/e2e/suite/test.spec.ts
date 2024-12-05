@@ -316,7 +316,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
     //Variables ⬇️ TC
 
-    const sections = [
+    const valid_Test_Cases = [
 
         {
             titleTC: 'US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).',
@@ -333,9 +333,9 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
     ];
 
-    for (const section of sections) {
+    for (const test_case of valid_Test_Cases) {
 
-        test(`${section.titleTC}`, async ({ page, categoryFormPage, categoryPage, adminPage }) => {
+        test(`${test_case.titleTC}`, async ({ page, categoryFormPage, categoryPage, adminPage }) => {
 
             await test.step('⚡ WHEN: completa el Text Input Category Name con una cadena de texto Alfabética,', async () => {
 
@@ -343,10 +343,10 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
                 await expect(page.getByRole('textbox', { name: 'Category Name' }), 'El Text Input "Category Name", NO es Visible.').toBeVisible();
 
 
-                await categoryFormPage._clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
+                await categoryFormPage._clickAndFillCategoryNameTextBox(`${test_case.inputTextTC}`)
             });
 
-            await test.step(`${section.butTC}`, async () => {
+            await test.step(`${test_case.butTC}`, async () => {
 
                 const textTextbox = (await categoryFormPage.$categoryNameTextBox.inputValue());
                 const lenght = textTextbox.length;
@@ -356,7 +356,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
                 console.log(`La longitud del texto es: ${lenght}`);
 
-                await test.info().attach(`Input Text "Category Name" : ${section.inputTextTC} | Longitud : ${lenght}`, {
+                await test.info().attach(`Input Text "Category Name" : ${test_case.inputTextTC} | Longitud : ${lenght}`, {
                     body: await page.screenshot(),
                     contentType: 'image/png'
                 })
@@ -370,7 +370,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
                 await categoryFormPage.$addButton.click({ force: true })
             });
 
-            await test.step(`${section.thenTC}`, async () => {
+            await test.step(`${test_case.thenTC}`, async () => {
 
                 await expect(page).toHaveURL('/Admin/Category.aspx');
                 await expect(categoryPage.$categoryTitle, 'El texto "CATEGORIES", NO es Visible.').toBeVisible();
@@ -387,7 +387,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
     }
 
 
-    const sectionsBath = [
+    const invalid_Test_Cases = [
         {
             titleTC: 'US 004 - TS 004 - TC 003 - Validar el Text Input Category Name, al añadir una Cadena de texto solo Numérica.',
             inputTextTC: 1234567,
@@ -428,24 +428,24 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
     ];
 
-    for (const section of sectionsBath) {
+    for (const test_case of invalid_Test_Cases) {
 
-        test(`${section.titleTC}`, async ({ page, categoryFormPage, adminPage }) => {
+        test(`${test_case.titleTC}`, async ({ page, categoryFormPage, adminPage }) => {
 
 
-            await test.step(`${section.whenTC}`, async () => {
+            await test.step(`${test_case.whenTC}`, async () => {
 
                 await expect(categoryFormPage.$categoryNameTitle, 'El Texto "Category Name", No es Visible.').toBeVisible();
                 await expect(page.getByRole('textbox', { name: 'Category Name' }), 'El Text Input "Category Name", NO es Visible.').toBeVisible();
 
-                await categoryFormPage._clickAndFillCategoryNameTextBox(`${section.inputTextTC}`)
+                await categoryFormPage._clickAndFillCategoryNameTextBox(`${test_case.inputTextTC}`)
             });
 
             const textTextbox = (await categoryFormPage.$categoryNameTextBox.inputValue());
             const lenght = textTextbox.length;
 
             if (lenght > 0 && lenght < 51) {
-                await test.step(`${section.butTC}`, async () => {
+                await test.step(`${test_case.butTC}`, async () => {
 
                     const textTextbox = (await categoryFormPage.$categoryNameTextBox.inputValue());
                     const lenght = textTextbox.length;
@@ -455,7 +455,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 
                     console.log(`La longitud del texto es: ${lenght}`);
 
-                    await test.info().attach(`Input Text "Category Name" : ${section.inputTextTC} | Longitud : ${lenght}`, {
+                    await test.info().attach(`Input Text "Category Name" : ${test_case.inputTextTC} | Longitud : ${lenght}`, {
                         body: await page.screenshot(),
                         contentType: 'image/png'
                     })
@@ -470,27 +470,27 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
                 await categoryFormPage.$addButton.click({ force: true })
             });
 
-            await test.step(`${section.thenTC}`, async () => {
+            await test.step(`${test_case.thenTC}`, async () => {
 
                 await expect(categoryFormPage.$categoryNameTextBox).toBeFocused();
                 await expect(categoryFormPage.$categoryNameTextBox).toBeVisible();
             });
 
-            await test.step(`${section.andThenTC}`, async () => {
+            await test.step(`${test_case.andThenTC}`, async () => {
 
                 if (lenght > 0 && lenght < 51) {
 
-                    await page.getByText(`${section.validationError}`).waitFor({ state: 'visible' });
-                    await expect(page.locator('xpath=//div[@class="mb-3"]//span[@id="ContentPlaceHolder1_revName"]')).toHaveText(`${section.validationError}`);
+                    await page.getByText(`${test_case.validationError}`).waitFor({ state: 'visible' });
+                    await expect(page.locator('xpath=//div[@class="mb-3"]//span[@id="ContentPlaceHolder1_revName"]')).toHaveText(`${test_case.validationError}`);
                 }
                 else {
 
-                    await page.getByText(`${section.validationError}`).waitFor({ state: 'visible' });
-                    await expect(page.locator('xpath=//div[@class="mb-3"]//span[@id="ContentPlaceHolder1_rfValidator"]')).toHaveText(`${section.validationError}`);
+                    await page.getByText(`${test_case.validationError}`).waitFor({ state: 'visible' });
+                    await expect(page.locator('xpath=//div[@class="mb-3"]//span[@id="ContentPlaceHolder1_rfValidator"]')).toHaveText(`${test_case.validationError}`);
                 }
 
                 await page.waitForTimeout(100);
-                await test.info().attach(`Focus Text Input "Category Name" - ${section.validationError}`, {
+                await test.info().attach(`Focus Text Input "Category Name" - ${test_case.validationError}`, {
                     body: await page.screenshot(),
                     contentType: 'image/png',
                 });
