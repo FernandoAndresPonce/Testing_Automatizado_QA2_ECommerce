@@ -15,7 +15,7 @@ import { DefaultPage } from "../POM/user/defaultPage"
 
 
 //allPage
-import { TransitionerPage } from "../POM/allTransitionerPage/transitionerPage"
+import { SuperPage } from "../POM/superPage/superPage"
 
 
 
@@ -34,7 +34,7 @@ type MyFixtures = {
     loginPage : LoginPage,
 
     //allPage
-    transitionerPage : TransitionerPage,
+    superPage : SuperPage,
 
 }
 
@@ -73,8 +73,8 @@ export const test = base.extend<MyFixtures>({
     },
 
     //allPage
-    transitionerPage : async ({page}, use ) => {
-        await use (new TransitionerPage(page))
+    superPage : async ({page}, use ) => {
+        await use (new SuperPage(page))
     },
 
 })

@@ -22,6 +22,9 @@ export class CategoryFormPage{
     readonly $offerLabel: Locator;
     readonly $offerPercentageLabel: Locator;
     readonly $offerPercentageTextBox: Locator;
+    readonly $offerPercentageRequiredOfferPercentageValidationSpan: Locator;
+    readonly $offerPercentageDoesNotAllowNegativeNumbersOrDecimalsValidationSpan: Locator;
+    readonly $offerPercentageAllowedRange0100ValidationSpan:Locator;
 
     constructor(page : Page){
 
@@ -42,6 +45,10 @@ export class CategoryFormPage{
         this.$offerLabel = page.locator("span#ContentPlaceHolder1_Label1");
         this.$offerPercentageLabel = page.locator("xpath=//span[@class='form-label' and text()= 'Offer Percentage']");
         this.$offerPercentageTextBox = page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtofferPercentage']");
+        this.$offerPercentageRequiredOfferPercentageValidationSpan = page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_rfvofferPercentage']");
+        this.$offerPercentageDoesNotAllowNegativeNumbersOrDecimalsValidationSpan = page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_revOfferPercentage']");
+        this.$offerPercentageAllowedRange0100ValidationSpan = page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_ctl08']")
+
         
     };
 

@@ -1,8 +1,7 @@
 import { expect } from "playwright/test";
 import { execPath } from "node:process";
 import { beforeEach, describe } from "node:test";
-import { test } from "../../fixture/base"
-import { CategoryFormPage } from "../../POM/admin/categoryFormPage";
+import { test } from "../../fixture/base";
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -10,14 +9,14 @@ dotenv.config();
 test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Descuento en el Campo de Texto para la Categoría a Agregar", async () => {
     test.use({ storageState: { cookies: [], origins: [] } })
 
-    test.beforeEach("🔲 BACKGROUND:", async ({ page, transitionerPage, categoryFormPage, adminPage }) => {
+    test.beforeEach("🔲 BACKGROUND:", async ({ page, superPage, categoryFormPage, adminPage }) => {
 
 
 
         await test.step("📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
 
             await page.goto("/");
-            await transitionerPage._loginThenRamdonFormCategoryByElements();
+            await superPage._loginThenRamdonFormCategoryByElements();
         });
 
         test.step("🧩 AND: de que el Admin se encuentra en la Interfaz Formulario “Add Category”. http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx", async () => {
@@ -146,20 +145,43 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
         },
 
         {
-            title_TC: " US 009 - TS 009 - TC 005 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico con Decimales.",
+            title_TC: "US 009 - TS 009 - TC 005 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico con Decimales.",
             when_And1: "AND: completa el campo con un valor númerico con Decimales, ",
             value: '2.1',
             then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "Does not allow negative numbers or decimals"
-        }
+        },
 
+        {
+            title_TC: "US 009 - TS 009 - TC 006 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico Negativo.",
+            when_And1: "AND: completar el campo con un valor númerico Negativo, ",
+            value: '-1',
+            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            validationError: "Does not allow negative numbers or decimals"
+        },
+
+        {
+            title_TC: "US 009 - TS 009 - TC 007 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico Entero Mayor a 100.",
+            when_And1: "AND: completar el campo con un valor númerico Mayor a 100, ",
+            value: '101',
+            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            validationError: "(Allowed range 0-100)"
+        },
+
+        {
+            title_TC: "US 009 - TS 009 - TC 008 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al dejar el campo Vacío.",
+            when_And1: " deja el campo Vacio ",
+            value: '',
+            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            validationError: "(Required Offer Percentage)"
+        },
     ];
 
     for (const test_case of invalid_Test_Cases) {
 
         test(`${test_case.title_TC}`, async ({ page, categoryFormPage }) => {
 
-            // await page.pause();
+
             await test.step("⚡ WHEN: Hace click en el Campo de Texto (Text Input) “Offer Percentage”", async () => {
 
                 await expect(categoryFormPage.$offerPercentageTextBox, "El TextBox No esta Disponible").toBeEnabled();
@@ -181,10 +203,9 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
                 await categoryFormPage._clickAddButton();
             });
 
-
             const isValueNumeric = Number(test_case.value);
 
-            if (isNaN(isValueNumeric)) {
+            if (isNaN(isValueNumeric) || test_case.value === "") {
 
                 await test.step(`${test_case.then}, Advertencia : ${test_case.validationError}`, async () => {
 
@@ -192,40 +213,46 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
                     await expect(categoryFormPage.$offerPercentageTextBox).toBeVisible();
 
 
-                    await page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_rfvofferPercentage']").waitFor({ state: "visible" })
-                    await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_rfvofferPercentage']")).toBeVisible();
-                    await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_rfvofferPercentage']")).toHaveText(`${test_case.validationError}`);
-
-                    await test.info().attach(`Focus Text Input Offer Percentage - ${test_case.validationError}`, {
-                        body: await page.screenshot(),
-                        contentType: "image/png"
-                    });
-
+                    await categoryFormPage.$offerPercentageRequiredOfferPercentageValidationSpan.waitFor({ state: "visible" })
+                    await expect(categoryFormPage.$offerPercentageRequiredOfferPercentageValidationSpan).toBeVisible();
+                    await expect(categoryFormPage.$offerPercentageRequiredOfferPercentageValidationSpan).toHaveText(`${test_case.validationError}`);
                 });
             }
             else {
 
-                await test.step(`${test_case.then}, Advertencia : ${test_case.validationError}`, async () => {
+                if (isValueNumeric < 100) {
 
-                    await expect(categoryFormPage.$offerPercentageTextBox).toBeFocused();
-                    await expect(categoryFormPage.$offerPercentageTextBox).toBeVisible();
+                    await test.step(`${test_case.then}, Advertencia : ${test_case.validationError}`, async () => {
+
+                        await expect(categoryFormPage.$offerPercentageTextBox).toBeFocused();
+                        await expect(categoryFormPage.$offerPercentageTextBox).toBeVisible();
 
 
-                    await page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_revOfferPercentage']").waitFor({ state: "visible" })
-                    await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_revOfferPercentage']")).toBeVisible();
-                    await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_revOfferPercentage']")).toHaveText(`${test_case.validationError}`);
+                        await categoryFormPage.$offerPercentageDoesNotAllowNegativeNumbersOrDecimalsValidationSpan.waitFor({ state: "visible" })
+                        await expect(categoryFormPage.$offerPercentageDoesNotAllowNegativeNumbersOrDecimalsValidationSpan).toBeVisible();
+                        await expect(categoryFormPage.$offerPercentageDoesNotAllowNegativeNumbersOrDecimalsValidationSpan).toHaveText(`${test_case.validationError}`);
 
-                    await test.info().attach(`Focus Text Input Offer Percentage - ${test_case.validationError}`, {
-                        body: await page.screenshot(),
-                        contentType: "image/png"
                     });
+                }
+                else {
 
-                });
+                    await test.step(`${test_case.then}, Advertencia : ${test_case.validationError}`, async () => {
+
+                        await expect(categoryFormPage.$offerPercentageTextBox).toBeFocused();
+                        await expect(categoryFormPage.$offerPercentageTextBox).toBeVisible();
+
+
+                        await categoryFormPage.$offerPercentageAllowedRange0100ValidationSpan.waitFor({ state: "visible" })
+                        await expect(categoryFormPage.$offerPercentageAllowedRange0100ValidationSpan).toBeVisible();
+                        await expect(categoryFormPage.$offerPercentageAllowedRange0100ValidationSpan).toHaveText(`${test_case.validationError}`);
+                    });
+                }
             }
-
+            await test.info().attach(`Focus Text Input Offer Percentage - ${test_case.validationError}`, {
+                body: await page.screenshot(),
+                contentType: "image/png"
+            });
         });
     }
-
-
 });
 
