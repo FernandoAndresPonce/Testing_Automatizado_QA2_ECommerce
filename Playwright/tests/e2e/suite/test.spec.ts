@@ -5,6 +5,8 @@ import { threadId } from 'node:worker_threads';
 
 import { test } from "../../fixture/base";
 
+import { validRandomCategoryName } from '../../variables/categoryFormPage.ts';
+
 //variables ambiente npm i dovenv --save-dev
 import dotenv from 'dotenv';
 dotenv.config();
@@ -289,7 +291,7 @@ test.describe('🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
 });
 
 
-test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Completar los campos del formulario, para crear una Categoría.', () => {
+test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.', () => {
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page, superPage, adminPage }) => {
 
@@ -500,7 +502,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario | Complet
 });
 
 
-test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Completar los campos del formulario, para crear una Categoría.', () => {
+test.describe('🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.', () => {
 
     test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -613,7 +615,7 @@ test.describe('🔬 US 005 | TS 005 | File Input Categoría Formulario | Complet
 });
 
 
-test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías | Crear una Categoría Activa o Inactiva.', async () => {
+test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías - Crear una Categoría Activa o Inactiva.', async () => {
 
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page, superPage, categoryFormPage, adminPage }) => {
@@ -1064,11 +1066,11 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
             await expect(categoryFormPage.$categoryAddTitle, "El Texto Add Cagegory No es Visible.").toBeVisible();
         });
 
-        await test.step("🧩 AND: completa el Text Input “Category Name”, con la Cadena de Texto Postre.", async () => {
+        await test.step("🧩 AND: completa el Text Input “Category Name”, con una Cadena de Texto valida.", async () => {
 
             await expect(categoryFormPage.$categoryNameTextBox, "El Text Input “Category Name”, No es Visible").toBeVisible()
             await expect(categoryFormPage.$categoryNameTextBox, "El Text Input “Category Name”, No esta Disponible").toBeEnabled()
-            await categoryFormPage._clickAndFillCategoryNameTextBox("Postre");
+            await categoryFormPage._clickAndFillCategoryNameTextBox(validRandomCategoryName());
         });
 
         await test.step("🧩 AND: el Check Box (Categoría Activa/Inactiva) está marcado (estado “Active” - Checked).", async () => {
@@ -1101,14 +1103,14 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
     const valid_Test_Cases = [
         {
             title_TC: "US 009 - TS 009 - TC 001 - Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar: 0.",
-            when_And1: "AND: completa el campo con un valor númerico de tipo entero,",
-            when_And2: "AND: el valor está dentro del rango 0 - 100,",
+            when_And1: "🧩 AND: completa el campo con un valor númerico de tipo entero,",
+            when_And2: "🧩 AND: el valor está dentro del rango 0 - 100,",
             value: '0'
         },
         {
             title_TC: "US 009 - TS 009 - TC 002 - Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar: 100.",
-            when_And1: "AND: completa el campo con un valor númerico de tipo entero,",
-            when_And2: "AND: el valor está dentro del rango 0 - 100,",
+            when_And1: "🧩 AND: completa el campo con un valor númerico de tipo entero,",
+            when_And2: "🧩 AND: el valor está dentro del rango 0 - 100,",
             value: '100'
         }
     ];
@@ -1148,7 +1150,7 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
                 }
             });
 
-            await test.step("AND: Hace Click en el Boton Add", async () => {
+            await test.step("🧩 AND: Hace Click en el Boton Add", async () => {
 
                 await expect(categoryFormPage.$addButton, "No esta Visible el Boton Add.").toBeVisible();
                 await expect(categoryFormPage.$addButton, "No esta Disponible el Boton Add.").toBeEnabled();
@@ -1156,7 +1158,7 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
                 await categoryFormPage._clickAddButton();
             })
 
-            await test.step(" THEN: no deberia muestrarse ninguna advertencia, para el campo completado anteriormente.", async () => {
+            await test.step("✨ THEN: no deberia muestrarse ninguna advertencia, para el campo completado anteriormente.", async () => {
 
                 await test.info().attach(`Valor Ingresado: ${test_case.value}`, {
                     body: await page.screenshot(),
@@ -1169,48 +1171,48 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
     const invalid_Test_Cases = [
         {
             title_TC: "US 009 - TS 009 - TC 003 - Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar una Cadena de Texto Alfabética (String).",
-            when_And1: "AND: Completar el campo con un valor no númerico",
+            when_And1: "🧩 AND: Completar el campo con un valor no númerico",
             value: 'e',
-            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "(Required Offer Percentage)"
         },
         {
             title_TC: "US 009 - TS 009 - TC 004 - Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar Caracteres Especiales.",
-            when_And1: "AND: Completar el campo con un valor no númerico, ",
+            when_And1: "🧩 AND: Completar el campo con un valor no númerico, ",
             value: '+-.',
-            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "(Required Offer Percentage)"
         },
 
         {
             title_TC: "US 009 - TS 009 - TC 005 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico con Decimales.",
-            when_And1: "AND: completa el campo con un valor númerico con Decimales, ",
+            when_And1: "🧩 AND: completa el campo con un valor númerico con Decimales, ",
             value: '2.1',
-            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "Does not allow negative numbers or decimals"
         },
 
         {
             title_TC: "US 009 - TS 009 - TC 006 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico Negativo.",
-            when_And1: "AND: completar el campo con un valor númerico Negativo, ",
+            when_And1: "🧩 AND: completar el campo con un valor númerico Negativo, ",
             value: '-1',
-            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "Does not allow negative numbers or decimals"
         },
 
         {
             title_TC: "US 009 - TS 009 - TC 007 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico Entero Mayor a 100.",
-            when_And1: "AND: completar el campo con un valor númerico Mayor a 100, ",
+            when_And1: "🧩 AND: completar el campo con un valor númerico Mayor a 100, ",
             value: '101',
-            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "(Allowed range 0-100)"
         },
 
         {
             title_TC: "US 009 - TS 009 - TC 008 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al dejar el campo Vacío.",
-            when_And1: " deja el campo Vacio ",
+            when_And1: "🧩 AND: deja el campo Vacio ",
             value: '',
-            then: "THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
+            then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "(Required Offer Percentage)"
         },
     ];
@@ -1233,7 +1235,7 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
                 await categoryFormPage._fillOfferPercentageTextBox(`${test_case.value}`);
             });
 
-            await test.step(" AND: Hace Click en el Boton Add", async () => {
+            await test.step("🧩 AND: Hace Click en el Boton Add", async () => {
 
                 await expect(categoryFormPage.$addButton, "No esta Visible el Boton Add.").toBeVisible();
                 await expect(categoryFormPage.$addButton, "No esta Disponible el Boton Add.").toBeEnabled();

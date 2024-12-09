@@ -18,7 +18,7 @@ dotenv.config();
 export default defineConfig({
 
   testDir: './tests',
-  /* Run tests in files in parallel , de a uno*/
+  /* Run tests in files in parallel , cuanto casos de prueba deseo ejecutar a la vez o de a uno*/
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,

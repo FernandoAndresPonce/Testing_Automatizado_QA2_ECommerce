@@ -1,5 +1,6 @@
 
 import { Locator, Page } from "playwright";
+import {validRandomCategoryName} from "../../variables/categoryFormPage"
 
 export class CategoryFormPage{
 
@@ -84,6 +85,6 @@ export class CategoryFormPage{
     //Precondicion ya Establecida -
     async _preconditionClickAndFillCategoryNameTextBox() {
         await this.$categoryNameTextBox.click({ force: true })
-        await this.$categoryNameTextBox.fill('Postre')
+        await this.$categoryNameTextBox.fill(validRandomCategoryName())
     };
 };
