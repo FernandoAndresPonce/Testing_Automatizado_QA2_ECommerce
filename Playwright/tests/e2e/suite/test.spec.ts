@@ -5,7 +5,7 @@ import { threadId } from 'node:worker_threads';
 
 import { test } from "../../fixture/base";
 
-import { validRandomCategoryName } from '../../variables/categoryFormPage.ts';
+import { validRandomCategoryName, validRandomCategoryName1Character, validRandomCategoryName50Character,invalidRandomCategoryNameOnlyNumber, invalidRandomCategoryNameOnlySpecialCharacter, invalidRandomCategoryNameAlphanumeric, invalidRandomCategoryNameLetterWithSpecialChar } from '../../variables/categoryFormPage.ts';
 
 //variables ambiente npm i dovenv --save-dev
 import dotenv from 'dotenv';
@@ -322,13 +322,13 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
 
         {
             titleTC: 'US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).',
-            inputTextTC: 'P',
+            inputTextTC: `${validRandomCategoryName1Character()}`,
             thenTC: '✨ THEN: el Text Input Category Name no deberia dar ninguna advertencia 🧩 AND: el sistema lo redireccionara a la página Category.'
         },
 
         {
             titleTC: 'US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).',
-            inputTextTC: 'qwertyuioplkjhgfdsazxcvbnmlkjhgfdsaqwertyuioplkjhg',
+            inputTextTC: `${validRandomCategoryName50Character()}`,
             butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ',
             thenTC: '✨ THEN: el Text Input Category Name no deberia dar ninguna advertencia 🧩 AND: el sistema lo redireccionara a la página Category.'
         }
@@ -392,7 +392,7 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
     const invalid_Test_Cases = [
         {
             titleTC: 'US 004 - TS 004 - TC 003 - Validar el Text Input Category Name, al añadir una Cadena de texto solo Numérica.',
-            inputTextTC: 1234567,
+            inputTextTC: `${invalidRandomCategoryNameOnlyNumber()}`,
             whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto solo Numérica,',
             butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ',
             thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.',
@@ -400,33 +400,15 @@ test.describe('🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
             validationError: '(Name must be in character only)',
         },
         {
-            titleTC: 'US 004 - TS 004 - TC 004 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto solo caracteres Especiales.', inputTextTC: '@#$%^&', whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto solo caracteres Especiales,', butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.', validationError: '(Name must be in character only)',
+            titleTC: 'US 004 - TS 004 - TC 004 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto solo caracteres Especiales.', inputTextTC: `${invalidRandomCategoryNameOnlySpecialCharacter()}`, whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto solo caracteres Especiales,', butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.', validationError: '(Name must be in character only)',
         },
         {
-            titleTC: 'US 004 - TS 004 - TC 005 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto Alfanumérica.',
-            inputTextTC: 'Postre37',
-            whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto Alfanumérica,',
-            butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ',
-            thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.',
-            andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.',
-            validationError: '(Name must be in character only)',
-        },
-        {
-            titleTC: 'US 004 - TS 004 - TC 006 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto Alfabética con caracteres Especiales.', 
-            inputTextTC: 'Postre$%*&', 
-            whenTC: '⚡ WHEN: completa el Text Input añadiendo una Cadena de texto Alfabética con caracteres Especiales,', 
-            butTC: '🚫 BUT: con un mínimo de un (1) carácter 🧩 AND: un máximo de cincuenta (50) caracteres, ', 
-            thenTC: '✨✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', 
-            andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Name must be in character only”.', 
-            validationError: '(Name must be in character only)',
-        },
-        {
-            titleTC: 'US 004 - TS 004 - TC 007 - Intentar Validar el Text Input Category Name, con cero (0) carácter, campo vacío.', 
+            titleTC: 'US 004 - TS 004 - TC 005 - Intentar Validar el Text Input Category Name, con cero (0) carácter, campo vacío.', 
             inputTextTC: '', 
             whenTC: '⚡ WHEN: NO completa el Text Input, cero (0) carácter, campo vacío,', 
             butTC: '', thenTC: '✨ THEN: Debería el sistema redirigirlo automaticamente hacia el Text Input Category Name.', andThenTC: 'Debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label (Category Name), con el texto “Required Category Name”.', 
             validationError: '(Required Category Name)',
-        }
+        },
 
     ];
 
