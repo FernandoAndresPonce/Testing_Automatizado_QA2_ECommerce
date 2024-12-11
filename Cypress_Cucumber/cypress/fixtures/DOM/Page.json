@@ -1,0 +1,69 @@
+{
+  "initialPage": {
+    "link": {
+      "home": "div.popup-buttons>#ContentPlaceHolder1_lbHome"
+    }
+  },
+
+  "headerPage": {
+    "link": {
+      "login": "div.container a#lbLoginOrLogout"
+    }
+  },
+
+
+
+
+  "loginPage": {
+    "input": {
+      "username": "div.row input[title='Username']",
+      "password": "div.row input[title='Password']"
+    },
+    "data": {
+      "usernameAdmin": {
+        "valid": "Admin",
+        "invalid": "Admen"
+      },
+
+      "passwordAdmin": {
+        "valid": "1234",
+        "invalid": "4321"
+      }
+    },
+
+    "button": {
+      "login": "div.row input#ContentPlaceHolder1_btnLogin"
+    }
+  },
+
+
+  "dashboardPage": {
+    "endpoint" : "/Admin/Dashboard.aspx",
+    "breadcrumb": "div.card-block.danger-breadcrumb a[href='Dashboard.aspx']",
+    "card": {
+      "icon": {
+        "categoriesLink": "div.page-body i.icofont-muffin.bg-danger"
+      },
+      "viewDetail": {
+        "categoriesLink": "div.page-body i#categoriesDetails"
+      }
+    }
+  },
+
+
+  "categoryPage": {
+    "endpoint": "/Admin/Category.aspx",
+    "title": "div.col-12.mobil-inputs h4.sub-title"
+  },
+
+
+
+
+
+  "adminPage": {
+    "loader": ".contain",
+    "tabMenu": {
+      "categoriesLink": "div#mCSB_1_container a[href='Category.aspx']"
+    }
+  }
+}
