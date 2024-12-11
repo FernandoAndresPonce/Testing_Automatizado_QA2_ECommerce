@@ -112,4 +112,51 @@ export const invalidRandomCategoryNameLetterWithSpecialChar = () => {
     return randomWord;
 };
 
+export const invalidRandomOfferPercentageOnlyLetter = () => {
+
+    const character = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+    const randomIndex = Math.floor(Math.random() * character.length);
+    
+    let randomChar = character[randomIndex];
+
+    return randomChar;
+};
+
+export const invalidRandomOfferPercentageOnlySpecialChar = () => {
+    
+    const character = '+-.';
+
+    const randomIndex = Math.floor(Math.random() * character.length);
+
+    let randomChar = character[randomIndex];
+
+    return randomChar;
+};
+
+export const invalidRandomOfferPercentageDecimal = () => {
+
+    const integer = '1234567890';
+    const decimal = '1234567890';
+
+
+    let randomInteger = integer[Math.floor(Math.random() * integer.length)];
+    let randomDecimal = decimal[Math.floor(Math.random() * decimal.length)];
+
+    let randomDecimalNumber = randomInteger + '.' + randomDecimal;
+
+    return randomDecimalNumber;
+};
+
+export const invalidRandomOfferPercentageNegativeNumber = () => {
+
+    const number = '1234567890';
+
+    let randomNumber= number [Math.floor(Math.random() * number.length)];
+
+    let randomNegativeNumber = '-' + randomNumber;
+
+    return randomNegativeNumber;
+};
+
 

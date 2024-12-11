@@ -5,7 +5,7 @@ import { threadId } from 'node:worker_threads';
 
 import { test } from "../../fixture/base";
 
-import { validRandomCategoryName, validRandomCategoryName1Character, validRandomCategoryName50Character,invalidRandomCategoryNameOnlyNumber, invalidRandomCategoryNameOnlySpecialCharacter, invalidRandomCategoryNameAlphanumeric, invalidRandomCategoryNameLetterWithSpecialChar } from '../../variables/categoryFormPage.ts';
+import { validRandomCategoryName, validRandomCategoryName1Character, validRandomCategoryName50Character,invalidRandomCategoryNameOnlyNumber, invalidRandomCategoryNameOnlySpecialCharacter, invalidRandomOfferPercentageOnlySpecialChar, invalidRandomOfferPercentageDecimal, invalidRandomOfferPercentageNegativeNumber} from '../../variables/categoryFormPage.ts';
 
 //variables ambiente npm i dovenv --save-dev
 import dotenv from 'dotenv';
@@ -596,7 +596,6 @@ test.describe('🔬 US 005 - TS 005 - File Input Categoría Formulario - Complet
     });
 });
 
-
 test.describe('🔬 US 006 - TS 006 - Check Box Formulario de Categorías - Crear una Categoría Activa o Inactiva.', async () => {
 
 
@@ -1154,14 +1153,14 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
         {
             title_TC: "US 009 - TS 009 - TC 003 - Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar una Cadena de Texto Alfabética (String).",
             when_And1: "🧩 AND: Completar el campo con un valor no númerico",
-            value: 'e',
+            value: `e`,
             then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "(Required Offer Percentage)"
         },
         {
             title_TC: "US 009 - TS 009 - TC 004 - Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar Caracteres Especiales.",
             when_And1: "🧩 AND: Completar el campo con un valor no númerico, ",
-            value: '+-.',
+            value: invalidRandomOfferPercentageOnlySpecialChar(),
             then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "(Required Offer Percentage)"
         },
@@ -1169,7 +1168,7 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
         {
             title_TC: "US 009 - TS 009 - TC 005 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico con Decimales.",
             when_And1: "🧩 AND: completa el campo con un valor númerico con Decimales, ",
-            value: '2.1',
+            value: invalidRandomOfferPercentageDecimal(),
             then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "Does not allow negative numbers or decimals"
         },
@@ -1177,7 +1176,7 @@ test.describe("🔬 US 009 - TS 009 - Text Input - Ingreso de Porcentaje de Desc
         {
             title_TC: "US 009 - TS 009 - TC 006 - Intentar Validar, completar Campo de Texto (Text Input) “Offer Percentage”, al ingresar un Valor Numérico Negativo.",
             when_And1: "🧩 AND: completar el campo con un valor númerico Negativo, ",
-            value: '-1',
+            value: invalidRandomOfferPercentageNegativeNumber(),
             then: "✨ THEN: deberia mostrarse una advertencia que indica que el campo ha sido completado incorrectamente, según las especificaciones previas (valor fuera de rango, valor negativo o decimal, o campo vacío)",
             validationError: "Does not allow negative numbers or decimals"
         },
