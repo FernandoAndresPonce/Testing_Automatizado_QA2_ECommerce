@@ -878,7 +878,7 @@ test.describe("🔬 US 008 - TS 008 - Text Input - Add Category - Crear una Cate
             await superPage._goToDashboardThenRandomFormCategoryByElements();
         });
 
-        await test.step("🧩 AND: de que el Admin se encuentra en la Interfaz Formulario “Add Category”. http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx", async () => {
+        await test.step("🧩 AND: de que el Admin se encuentra en la Interfaz Formulario “Add Category”- /Admin/CategoryForm.aspx", async () => {
 
             await expect(page).toHaveURL("/Admin/CategoryForm.aspx");
             await expect(categoryFormPage.$categoryAddTitle, "El Texto Add Cagegory No es Visible.").toBeVisible();
