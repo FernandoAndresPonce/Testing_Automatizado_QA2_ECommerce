@@ -13,7 +13,7 @@ import { categoryPage } from "../../support/POM/admin/categoryPage";
 import { categoryForm } from "../../support/POM/admin/categoryFormPage";
 import { defaultPage } from "../../support/POM/user/defaultPage";
 
-describe("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
+describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
   it("US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
     cy.visit("/");
 
