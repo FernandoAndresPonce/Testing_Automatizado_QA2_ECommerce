@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 import { SuperPage } from "../../POM/superPage/superPage";
 import { CategoryFormPage } from "../../POM/admin/categoryFormPage";
 
-import { validRandomCategoryName, validRandomCategoryName1Character, validRandomCategoryName50Character } from "../../variables/categoryFormPage"
+import { invalidRandomCategoryNameOnlyNumber, invalidRandomCategoryNameOnlySpecialCharacter, invalidRandomOfferPercentageAbove100, invalidRandomOfferPercentageDecimal, invalidRandomOfferPercentageNegativeNumber, invalidRandomOfferPercentageOnlySpecialChar, validRandomActiveInactiveCheckbox, validRandomCategoryImage, validRandomCategoryName, validRandomCategoryName1Character, validRandomCategoryName50Character, validRandomOfferPercentage, validRandomOfferPercentageCheckbox } from "../../variables/categoryFormPage"
 
 dotenv.config();
 
@@ -57,7 +57,7 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 00 - Intentar, validar crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image Vacia ,y la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked),y Offer Percentage con un Valor Numerico entre 0 y 100",
+            title_case: "US 010 - TS 010 - TC 004 - Intentar, validar crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image Vacia ,y la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked),y Offer Percentage con un Valor Numerico entre 0 y 100",
             categoryName_TextBox: validRandomCategoryName50Character(),
             categoryImage_InputFile: "",
             active_inactive_CheckBox: "check",
@@ -106,7 +106,6 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
                 })
             });
 
-            await page.pause();
             await test.step("AND: hace Click en el Botón Add", async () => {
 
                 await categoryFormPage._clickAddButton();
@@ -146,21 +145,143 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
 
     const invalid_test_case = [
         {
-            title_case: "",
+            title_case: "US 010 - TS 010 - TC 005 - Intentar validar, crear Categoría al completar Category Name con datos Invalido( cadena de texto Numerica), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: invalidRandomCategoryNameOnlyNumber(),
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: validRandomActiveInactiveCheckbox(),
+            offerPercentage_CheckBox: validRandomOfferPercentageCheckbox(),
+            offerPercentage_TextBox: validRandomOfferPercentage(),
+        },
 
-        }
+        {
+            title_case: "US 010 - TS 010 - TC 006 - Intentar validar, crear Categoría al completar Category Name con datos Invalido( Caracteres Especiales), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: invalidRandomCategoryNameOnlySpecialCharacter(),
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: validRandomActiveInactiveCheckbox(),
+            offerPercentage_CheckBox: validRandomOfferPercentageCheckbox(),
+            offerPercentage_TextBox: validRandomOfferPercentage(),
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 007 - Intentar validar, crear Categoría al completar Category Name con datos Invalido(Campo Vacio), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: "",
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: validRandomActiveInactiveCheckbox(),
+            offerPercentage_CheckBox: validRandomOfferPercentageCheckbox(),
+            offerPercentage_TextBox: validRandomOfferPercentage(),
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 008 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(String Alfabetico), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: validRandomCategoryName(),
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: "check",
+            offerPercentage_CheckBox: "check",
+            offerPercentage_TextBox: "e",
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 009 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(String Caracteres Especiales), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: validRandomCategoryName(),
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: "check",
+            offerPercentage_CheckBox: "check",
+            offerPercentage_TextBox: invalidRandomOfferPercentageOnlySpecialChar(),
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 010 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(Numerico con Decimales), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: validRandomCategoryName(),
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: "check",
+            offerPercentage_CheckBox: "check",
+            offerPercentage_TextBox: invalidRandomOfferPercentageDecimal(),
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 011 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(Numerico Negativo), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: validRandomCategoryName(),
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: "check",
+            offerPercentage_CheckBox: "check",
+            offerPercentage_TextBox: invalidRandomOfferPercentageNegativeNumber(),
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 012 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(Fuera del Valor Limite), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: validRandomCategoryName(),
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: "check",
+            offerPercentage_CheckBox: "check",
+            offerPercentage_TextBox: invalidRandomOfferPercentageAbove100(),
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 013 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(Campo Vacio), y el resto de los Campos con datos Validos.",
+            categoryName_TextBox: validRandomCategoryName(),
+            categoryImage_InputFile: validRandomCategoryImage(),
+            active_inactive_CheckBox: "check",
+            offerPercentage_CheckBox: "check",
+            offerPercentage_TextBox: "",
+        },
     ];
 
     for (let test_case of invalid_test_case) {
 
-        test(`${test_case.title_case}`, async ({ page }) => {
+        test(`${test_case.title_case}`, async ({ page, categoryFormPage, adminPage }) => {
 
             await test.step("WHEN: completa el formulario de categoría de forma Incorrecta", async () => {
 
+                await categoryFormPage._clickAndFillCategoryNameTextBox(`${test_case.categoryName_TextBox}`);
+
+                if (test_case.categoryImage_InputFile != "") {
+
+                    await categoryFormPage.$categoryImageInputFile.setInputFiles(`${test_case.categoryImage_InputFile}`)
+                };
+
+                if (test_case.active_inactive_CheckBox === "check") {
+                    await categoryFormPage.$activeCheckbox.check();
+
+                    if (test_case.offerPercentage_CheckBox === "check") {
+
+                        await categoryFormPage.$offerNoOfferCheckBox.check();
+
+                        await categoryFormPage._fillOfferPercentageTextBox(`${test_case.offerPercentage_TextBox}`);
+                    }
+                    else {
+                        await categoryFormPage.$offerNoOfferCheckBox.uncheck();
+                    };
+                }
+                else {
+                    await categoryFormPage.$activeCheckbox.uncheck();
+                };
+
+                await adminPage._hiddenLoader();
+
+                const screenshot = await page.screenshot({ fullPage: true });
+                await test.info().attach("Formulario con datos Validos", {
+                    body: screenshot,
+                    contentType: "image/png"
+                })
             });
 
-            await test.step("THEN: se deberia redirigerse hacia el campo con Error para que sea corregida la información ingresada.", async () => {
+            await test.step("AND: hace Click en el Botón Add", async () => {
 
+                await categoryFormPage._clickAddButton();
+            });
+
+            await test.step("THEN: se deberia mantener en la pagina Add Category para que información ingresada incorrectamente sea corregida.", async () => {
+
+                await expect(page).toHaveURL("/Admin/CategoryForm.aspx");
+                await expect(categoryFormPage.$categoryAddTitle).toBeVisible();
+
+                await page.waitForTimeout(1000);
+                
+                const screenshot = await page.screenshot();
+                await test.info().attach("Formulario con datos Invalidos", {
+                    body: screenshot,
+                    contentType: "image/png"
+                })
             });
         });
     }

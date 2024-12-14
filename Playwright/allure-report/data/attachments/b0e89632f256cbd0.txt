@@ -1,0 +1,7 @@
+TAP version 13
+# Subtest: 🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categoría.
+ok 1 - 🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categoría.
+  ---
+  duration_ms: 1.5463
+  type: 'suite'
+  ...
