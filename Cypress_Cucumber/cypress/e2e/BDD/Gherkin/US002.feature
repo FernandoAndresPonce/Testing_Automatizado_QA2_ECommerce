@@ -18,4 +18,14 @@ Feature:📑 US 002 Redirección - Acceso a la Página Categories de Administrac
         When hace Click en Categories del Tab Menu visible en la parte izquierda de la pantalla
         Then el sistema se redirecciona a la Interfaz Categories de Administración.
 
+    Scenario:🧪 US 002 - TS 002 - TC 003 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el Icono de la Card Categories.
+
+    When hace Click en el Icono de la Card Categories
+    Then el sistema se redirecciona a la Interfaz Categories de Administración.
+
+    Scenario:🧪 US 002 - TS 002 - TC 004 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el View Details de la Card Categories.
+
+    When hace Click en el View Details de la Card Categories
+    Then el sistema se redirecciona a la Interfaz Categories de Administración.
+
 
