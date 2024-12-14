@@ -7,11 +7,11 @@ import dotenv from 'dotenv';
 import { SuperPage } from "../../POM/superPage/superPage";
 import { CategoryFormPage } from "../../POM/admin/categoryFormPage";
 
-import { validRandomCategoryName } from "../../variables/categoryFormPage"
+import { validRandomCategoryName, validRandomCategoryName1Character, validRandomCategoryName50Character } from "../../variables/categoryFormPage"
 
 dotenv.config();
 
-describe("🔬 US 009 - TS 009 - Completar el Formulario para Crear una Categoría.", async () => {
+describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categoría.", async () => {
 
     test.use({ storageState: { cookies: [], origins: [] } })
     test.beforeEach("🔲 BACKGROUND:", async ({ page, superPage, categoryFormPage }) => {
@@ -32,45 +32,77 @@ describe("🔬 US 009 - TS 009 - Completar el Formulario para Crear una Categor�
 
     const valid_Test_Cases = [
         {
-            categoryName_TextBox: validRandomCategoryName(),
+            title_case: "US 010 - TS 010 - TC 001 - Intentar, validar crear Categoría al completar Category Name con un (1) carácter Alfabético (String), Category Image cadena de texto Alfabética (String), la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked), y Offer Percentage con un Valor Numerico entre 0 y 100",
+            categoryName_TextBox: validRandomCategoryName1Character(),
             categoryImage_InputFile: "tests/e2e/suite/Image/Desserts.png",
             active_inactive_CheckBox: "check",
             offerPercentage_CheckBox: "check",
             offerPercentage_TextBox: 0,
 
-        }
-    ]
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 002 - Intentar, validar crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image cadena de texto No Alfabetica ,y la Casilla de verificación Active/Inactive Desmarcada (Unhecked)",
+            categoryName_TextBox: validRandomCategoryName50Character(),
+            categoryImage_InputFile: "tests/e2e/suite/Image/12$34.png",
+            active_inactive_CheckBox: "uncheck",
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 003 - Intentar, validar crear Categoría al completar Category Name con un (1) carácter Alfabético (String), Category Image con un String con Espacio, la Casilla de verificación Active/Inactive Marcada (Checked),y la Casilla de verificacion Offer/NoOffer Desmarcada (Unchecked).",
+            categoryName_TextBox: validRandomCategoryName1Character(),
+            categoryImage_InputFile: "tests/e2e/suite/Image/12$34 Desserts.png",
+            active_inactive_CheckBox: "check",
+            offerPercentage_CheckBox: "uncheck"
+        },
+
+        {
+            title_case: "US 010 - TS 010 - TC 00 - Intentar, validar crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image Vacia ,y la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked),y Offer Percentage con un Valor Numerico entre 0 y 100",
+            categoryName_TextBox: validRandomCategoryName50Character(),
+            categoryImage_InputFile: "",
+            active_inactive_CheckBox: "check",
+            offerPercentage_CheckBox: "check",
+            offerPercentage_TextBox: 100,
+        },
+
+    ];
 
     for (let test_case of valid_Test_Cases) {
 
-        test("primer", async ({ page, categoryFormPage, adminPage }) => {
+        test(`${test_case.title_case}`, async ({ page, categoryFormPage, adminPage }) => {
 
-            await test.step("When: completa el formulario de categoría de forma correcta", async () => {
+            await test.step("When: completa el formulario de categoría de forma Correcta", async () => {
 
                 await categoryFormPage._clickAndFillCategoryNameTextBox(`${test_case.categoryName_TextBox}`);
 
-                await categoryFormPage.$categoryImageInputFile.setInputFiles(`${test_case.categoryImage_InputFile}`)
+                if (test_case.categoryImage_InputFile != "") {
+
+                    await categoryFormPage.$categoryImageInputFile.setInputFiles(`${test_case.categoryImage_InputFile}`)
+                };
 
                 if (test_case.active_inactive_CheckBox === "check") {
                     await categoryFormPage.$activeCheckbox.check();
+
+                    if (test_case.offerPercentage_CheckBox === "check") {
+
+                        await categoryFormPage.$offerNoOfferCheckBox.check();
+
+                        await categoryFormPage._fillOfferPercentageTextBox(`${test_case.offerPercentage_TextBox}`);
+                    }
+                    else {
+                        await categoryFormPage.$offerNoOfferCheckBox.uncheck();
+                    };
                 }
                 else {
                     await categoryFormPage.$activeCheckbox.uncheck();
                 };
 
-                if (test_case.offerPercentage_CheckBox === "check") {
-                    await categoryFormPage.$offerNoOfferCheckBox.check();
-                }
-                else {
-                    await categoryFormPage.$offerNoOfferCheckBox.uncheck();
-                };
 
-                await categoryFormPage._fillOfferPercentageTextBox(`${test_case.offerPercentage_TextBox}`);
 
-                const screenshot = await page.screenshot({ fullPage : true});
+                const screenshot = await page.screenshot({ fullPage: true });
                 await test.info().attach("Formulario con datos Validos", {
                     body: screenshot,
-                    contentType : "image/png"
+                    contentType: "image/png"
                 })
             });
 
@@ -81,23 +113,23 @@ describe("🔬 US 009 - TS 009 - Completar el Formulario para Crear una Categor�
             });
 
 
-            await test.step("THEN: el sistema despliega un mensaje emergente (Pop-Up) con un mensaje amigable que la categoria ha sido creado con exito (Mensaje Pop-Up: Category has been successfully CREATED), con el nombre de la Categoria Creada", async () => {
+            await test.step("THEN: el sistema deberia desplegar un mensaje emergente (Pop-Up) con un mensaje amigable que la categoria ha sido creado con exito (Mensaje Pop-Up: Category has been successfully CREATED), con el nombre de la Categoria Creada", async () => {
 
                 await expect(page.locator("div.main-body span#ContentPlaceHolder1_lblMsg")).toBeVisible();
                 await expect(page.locator("div.main-body span#ContentPlaceHolder1_lblMsg")).toContainText("Category has been successfully CREATED");
-                await expect(page.locator("div.main-body span#ContentPlaceHolder1_lblMsg")).toContainText(`${test_case.categoryName_TextBox}`); 
+                await expect(page.locator("div.main-body span#ContentPlaceHolder1_lblMsg")).toContainText(`${test_case.categoryName_TextBox}`);
 
                 await adminPage._hiddenLoader();
-                
+
                 const screenshot = await page.screenshot();
                 await test.info().attach(`Mensaje emergente se visualiza, con nombre de la Categoria Creada ${test_case.categoryName_TextBox} exitosamente`, {
                     body: screenshot,
-                    contentType : "image/png"
+                    contentType: "image/png"
                 })
             });
 
             await test.step("AND: a los cinco segundo, el mensaje emergente desaparece.", async () => {
-                
+
                 // await page.locator("div.main-body span#ContentPlaceHolder1_lblMsg").waitFor({ state: "hidden" });
                 await page.waitForTimeout(5000);
                 await expect(page.locator("div.main-body span#ContentPlaceHolder1_lblMsg")).toBeHidden();
@@ -106,8 +138,29 @@ describe("🔬 US 009 - TS 009 - Completar el Formulario para Crear una Categor�
                 const screenshot = await page.screenshot();
                 await test.info().attach(`Mensaje Emergente se Oculta`, {
                     body: screenshot,
-                    contentType : "image/png"
+                    contentType: "image/png"
                 })
+            });
+        });
+    }
+
+    const invalid_test_case = [
+        {
+            title_case: "",
+
+        }
+    ];
+
+    for (let test_case of invalid_test_case) {
+
+        test(`${test_case.title_case}`, async ({ page }) => {
+
+            await test.step("WHEN: completa el formulario de categoría de forma Incorrecta", async () => {
+
+            });
+
+            await test.step("THEN: se deberia redirigerse hacia el campo con Error para que sea corregida la información ingresada.", async () => {
+
             });
         });
     }
