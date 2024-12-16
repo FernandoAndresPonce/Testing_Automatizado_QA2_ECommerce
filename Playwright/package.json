@@ -9,7 +9,8 @@
     "test-all" : "npx playwright test --reporter=allure-playwright",
     "allure-clean": "allure generate allure-results -o allure-report --clean",
     "allure-trash" : "rm -rf allure-results/*",
-    "allure-report": "allure open allure-report"
+    "allure-report": "allure open allure-report",
+    "allure-trashdata" : "rm -rf allure-report/data/attachments/*"
   },
   "keywords": [],
   "author": "",

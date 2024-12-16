@@ -172,7 +172,7 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 008 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(String Alfabetico), y el resto de los Campos con datos Validos.",
+            title_case: "US 010 - TS 010 - TC 008 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(String Alfabetico), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "check",
@@ -181,7 +181,7 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 009 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(String Caracteres Especiales), y el resto de los Campos con datos Validos.",
+            title_case: "US 010 - TS 010 - TC 009 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(String Caracteres Especiales), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "check",
@@ -190,7 +190,7 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 010 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(Numerico con Decimales), y el resto de los Campos con datos Validos.",
+            title_case: "US 010 - TS 010 - TC 010 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Numerico con Decimales), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "check",
@@ -199,7 +199,7 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 011 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(Numerico Negativo), y el resto de los Campos con datos Validos.",
+            title_case: "US 010 - TS 010 - TC 011 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Numerico Negativo), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "check",
@@ -208,7 +208,7 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 012 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(Fuera del Valor Limite), y el resto de los Campos con datos Validos.",
+            title_case: "US 010 - TS 010 - TC 012 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Fuera del Valor Limite), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "check",
@@ -217,7 +217,7 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 013 - Intentar validar, crear Categoría al Offer Percentage Input con datos Invalidos(Campo Vacio), y el resto de los Campos con datos Validos.",
+            title_case: "US 010 - TS 010 - TC 013 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Campo Vacio), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "check",
@@ -231,6 +231,8 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
         test(`${test_case.title_case}`, async ({ page, categoryFormPage, adminPage }) => {
 
             await test.step("WHEN: completa el formulario de categoría de forma Incorrecta", async () => {
+
+
 
                 await categoryFormPage._clickAndFillCategoryNameTextBox(`${test_case.categoryName_TextBox}`);
 
@@ -270,19 +272,79 @@ describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Categor�
                 await categoryFormPage._clickAddButton();
             });
 
+            await page.pause();
             await test.step("THEN: se deberia mantener en la pagina Add Category para que información ingresada incorrectamente sea corregida.", async () => {
 
                 await expect(page).toHaveURL("/Admin/CategoryForm.aspx");
                 await expect(categoryFormPage.$categoryAddTitle).toBeVisible();
 
-                await page.waitForTimeout(1000);
-                
+            });
+
+            await test.step("Deberia redirigirse al campo para que sea corregido del error", async () => {
+
+                await page.waitForTimeout(500);
+
+                const specialChar = /[!#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~°©®™€£¥αβγΔπΩ√¿¡«»“‘’"]/;
+
+                const textCategoryNameInput = await categoryFormPage.$categoryNameTextBox.inputValue();
+                const isNumeric = Number(textCategoryNameInput);
+
+                if (!isNaN(isNumeric)) {
+
+                    if (test_case.categoryName_TextBox == "") {
+
+                        await expect(categoryFormPage.$categoryNameTextBox).toBeFocused();
+                        await expect(categoryFormPage.$categoryNameTextBox).toBeVisible();
+
+                        await expect(page.locator('xpath=//div[@class="mb-3"]//span[@id="ContentPlaceHolder1_rfValidator"]')).toBeVisible();
+                    } else {
+
+
+                        await expect(categoryFormPage.$categoryNameTextBox).toBeFocused();
+                        await expect(categoryFormPage.$categoryNameTextBox).toBeVisible();
+
+                        await expect(page.locator('xpath=//div[@class="mb-3"]//span[@id="ContentPlaceHolder1_revName"]')).toBeVisible();
+                    }
+                }
+                else if (specialChar.test(textCategoryNameInput)) {
+
+                    await expect(categoryFormPage.$categoryNameTextBox).toBeFocused();
+                    await expect(categoryFormPage.$categoryNameTextBox).toBeVisible();
+
+                    await expect(page.locator('xpath=//div[@class="mb-3"]//span[@id="ContentPlaceHolder1_revName"]')).toBeVisible();
+                };
+
+                //009segui
+
+                // const textOfferPercentageInput = await categoryFormPage.$offerPercentageTextBox.inputValue();
+
+                const isNumericOfferPercentage = Number(test_case.offerPercentage_TextBox)
+
+                if (isNaN(isNumericOfferPercentage)) {
+                    if (specialChar.test(String (test_case.offerPercentage_TextBox))) {
+
+                        await expect(categoryFormPage.$offerPercentageTextBox).toBeFocused();
+                        await expect(categoryFormPage.$offerPercentageTextBox).toBeVisible();
+
+                        await expect(categoryFormPage.$offerPercentageRequiredOfferPercentageValidationSpan).toBeVisible();
+
+                    }
+                    else {
+
+                        await expect(categoryFormPage.$offerPercentageTextBox).toBeFocused();
+                        await expect(categoryFormPage.$offerPercentageTextBox).toBeVisible();
+
+                        await expect(categoryFormPage.$offerPercentageRequiredOfferPercentageValidationSpan).toBeVisible()
+                    }
+                }
+
+
                 const screenshot = await page.screenshot();
                 await test.info().attach("Formulario con datos Invalidos", {
                     body: screenshot,
                     contentType: "image/png"
-                })
-            });
+                });
+            })
         });
     }
 });
