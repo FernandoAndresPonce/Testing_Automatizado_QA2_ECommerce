@@ -14,24 +14,18 @@ import { headerPage } from "./POM/user/headerPage";
 import { loginPage } from "./POM/user/loginPage";
 import { dashboardPage } from "./POM/admin/dashboardPage";
 import { adminPage } from "./POM/admin/adminPage";
+import { categoryPage } from "./POM/admin/categoryPage";
+import { randomRouteGoCategory } from "../e2e/variables/elements";
 
 Cypress.Commands.add("_$loginThenGoToDashboard", () => {
   cy.visit("/");
+
   initialPage._clickHomeLink();
   headerPage._clickLoginLink();
   loginPage._fillAdminLoginSuccess();
 });
 
 Cypress.Commands.add("_$loginThenRamdonCategoryByElements", () => {
-
-  const routeCategory = [
-    dashboardPage.get.$categoriesCardIcoLink,
-    dashboardPage.get.$categoriesCardViewDetailsLink,
-    adminPage.get.$tabMenuCategoriesLink,
-  ];
-
-  const randomIndex = Math.floor(Math.random() * routeCategory.length);
-  const randomRouteGoCategory = routeCategory[randomIndex];
 
   cy.visit("/");
 
@@ -40,4 +34,17 @@ Cypress.Commands.add("_$loginThenRamdonCategoryByElements", () => {
   loginPage._fillAdminLoginSuccess();
 
   randomRouteGoCategory().click({ force: true });
+});
+
+Cypress.Commands.add("_$loginThenGoToCategoryFormByRandomElements", () => {
+  cy.visit("/");
+
+  initialPage._clickHomeLink();
+  headerPage._clickLoginLink();
+  loginPage._fillAdminLoginSuccess();
+
+  randomRouteGoCategory().click({ force : true });
+
+  cy.wait(1000);
+  categoryPage._clickAddButton();
 });

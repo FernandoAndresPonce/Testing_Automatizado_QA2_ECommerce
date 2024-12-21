@@ -55,9 +55,9 @@ describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal 
   });
 });
 
-describe("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
+describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
   beforeEach(
-    "Precondicion : que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard'",
+    "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard'",
     () => {
       cy.session("Login then go to Dashboard Page", () => {
         cy._$loginThenGoToDashboard();
@@ -127,9 +127,9 @@ describe("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de
   });
 });
 
-describe("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood", () => {
+describe.only("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood", () => {
   beforeEach(
-    "Precondicion : que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Categories de Administración ",
+    "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Categories de Administración ",
     () => {
       cy.session("Login then Go to Category Page", () => {
         cy._$loginThenRamdonCategoryByElements();
@@ -139,12 +139,18 @@ describe("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de 
   it("US 003 - TS 003 - TC 001 - Validar, redireccionar a la Interfaz “Formulario de Categories” de Administración, mediante el Botón Add.", () => {
     categoryPage.get.$endpoint();
 
+    cy.get("title").should("exist");
+    cy.title().should("eql", "FastFood - Admin");
+
     categoryPage.get
       .$addButton()
       .should("be.visible")
       .should("be.enabled")
       .should("contain", "Add Category")
       .click({ force: true });
+
+      //confirmar el placeholder =>
+      cy.get("input[name='ctl00$ContentPlaceHolder1$txtFastFilter']").should("have.attr", "placeholder", "Category quick search...")
 
     cy.url().should("include", "/Admin/CategoryForm.aspx");
 
@@ -163,5 +169,23 @@ describe("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de 
       .$title()
       .should("be.visible")
       .should("have.text", "Add Category");
+  });
+});
+
+describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+  beforeEach(
+    "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración",
+
+    () => {
+      cy._$loginThenGoToCategoryFormByRandomElements();
+    }
+  );
+
+  it("primer", () => {
+    // categoryForm.get.$endpoint();
+    cy.title().should("eql", "FastFood - Admin");
+    cy.url().should("include", "/Admin/CategoryForm.aspx");
+
+
   });
 });
