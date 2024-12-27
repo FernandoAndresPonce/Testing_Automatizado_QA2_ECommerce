@@ -1287,7 +1287,7 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             await categoryFormPage._goToEndpoint();
         });
 
-        await test.step("🧩 AND: de que el Admin se encuentra en la Interfaz Formulario “Add Category”- /Admin/CategoryForm.aspx", async () => {
+        await test.step("🧩 AND: de que el Admin se encuentra en la Interfaz Formulario “Add Category” - /Admin/CategoryForm.aspx", async () => {
 
             await expect(page).toHaveURL("/Admin/CategoryForm.aspx");
             await expect(categoryFormPage.$categoryAddTitle, "El Texto Add Category No es Visible.").toBeVisible();
@@ -1297,7 +1297,7 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
 
     const valid_Test_Cases = [
         {
-            title_case: "US 010 - TS 010 - TC 001 - Intentar, validar crear Categoría al completar Category Name con un (1) carácter Alfabético (String), Category Image cadena de texto Alfabética (String), la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked), y Offer Percentage con un Valor Numerico entre 0 y 100",
+            title_case: "US 010 - TS 010 - TC 001 - Intentar validar, crear Categoría al completar Category Name con un (1) carácter Alfabético (String), Category Image cadena de texto Alfabética (String), la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked), y Offer Percentage con un Valor Numerico entre 0 y 100",
             categoryName_TextBox: validRandomCategoryName1Character(),
             categoryImage_InputFile: "tests/e2e/suite/Image/Desserts.png",
             active_inactive_CheckBox: "check",
@@ -1307,14 +1307,14 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 002 - Intentar, validar crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image cadena de texto No Alfabetica ,y la Casilla de verificación Active/Inactive Desmarcada (Unhecked)",
+            title_case: "US 010 - TS 010 - TC 002 - Intentar validar, crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image cadena de texto No Alfabetica ,y la Casilla de verificación Active/Inactive Desmarcada (Unhecked)",
             categoryName_TextBox: validRandomCategoryName50Character(),
             categoryImage_InputFile: "tests/e2e/suite/Image/12$34.png",
             active_inactive_CheckBox: "uncheck",
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 003 - Intentar, validar crear Categoría al completar Category Name con un (1) carácter Alfabético (String), Category Image con un String con Espacio, la Casilla de verificación Active/Inactive Marcada (Checked),y la Casilla de verificacion Offer/NoOffer Desmarcada (Unchecked).",
+            title_case: "US 010 - TS 010 - TC 003 - Intentar validar, crear Categoría al completar Category Name con un (1) carácter Alfabético (String), Category Image con un String con Espacio, la Casilla de verificación Active/Inactive Marcada (Checked),y la Casilla de verificacion Offer/NoOffer Desmarcada (Unchecked).",
             categoryName_TextBox: validRandomCategoryName1Character(),
             categoryImage_InputFile: "tests/e2e/suite/Image/12$34 Desserts.png",
             active_inactive_CheckBox: "check",
@@ -1322,7 +1322,7 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 004 - Intentar, validar crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image Vacia ,y la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked),y Offer Percentage con un Valor Numerico entre 0 y 100",
+            title_case: "US 010 - TS 010 - TC 004 - Intentar validar, crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image Vacia ,y la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked),y Offer Percentage con un Valor Numerico entre 0 y 100",
             categoryName_TextBox: validRandomCategoryName50Character(),
             categoryImage_InputFile: "",
             active_inactive_CheckBox: "check",
