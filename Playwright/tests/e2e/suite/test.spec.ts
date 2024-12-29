@@ -1300,8 +1300,8 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             title_case: "US 010 - TS 010 - TC 001 - Intentar validar, crear Categoría al completar Category Name con un (1) carácter Alfabético (String), Category Image cadena de texto Alfabética (String), la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked), y Offer Percentage con un Valor Numerico entre 0 y 100",
             categoryName_TextBox: validRandomCategoryName1Character(),
             categoryImage_InputFile: "tests/e2e/suite/Image/Desserts.png",
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "check",
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "Offer",
             offerPercentage_TextBox: 0,
 
         },
@@ -1310,23 +1310,23 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             title_case: "US 010 - TS 010 - TC 002 - Intentar validar, crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image cadena de texto No Alfabetica ,y la Casilla de verificación Active/Inactive Desmarcada (Unhecked)",
             categoryName_TextBox: validRandomCategoryName50Character(),
             categoryImage_InputFile: "tests/e2e/suite/Image/12$34.png",
-            active_inactive_CheckBox: "uncheck",
+            active_inactive_CheckBox: "Inactive",
         },
 
         {
             title_case: "US 010 - TS 010 - TC 003 - Intentar validar, crear Categoría al completar Category Name con un (1) carácter Alfabético (String), Category Image con un String con Espacio, la Casilla de verificación Active/Inactive Marcada (Checked),y la Casilla de verificacion Offer/NoOffer Desmarcada (Unchecked).",
             categoryName_TextBox: validRandomCategoryName1Character(),
             categoryImage_InputFile: "tests/e2e/suite/Image/12$34 Desserts.png",
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "uncheck"
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "NoOffer"
         },
 
         {
             title_case: "US 010 - TS 010 - TC 004 - Intentar validar, crear Categoría al completar Category Name con cincuenta (50) carácteres Alfabéticos (String), Category Image Vacia ,y la Casilla de verificación Active/Inactive Marcada (Checked), la Casilla de verificacion Offer/NoOffer Marcada (Checked),y Offer Percentage con un Valor Numerico entre 0 y 100",
             categoryName_TextBox: validRandomCategoryName50Character(),
             categoryImage_InputFile: "",
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "check",
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "Offer",
             offerPercentage_TextBox: 100,
         },
 
@@ -1345,10 +1345,10 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
                     await categoryFormPage.$categoryImageInputFile.setInputFiles(`${test_case.categoryImage_InputFile}`)
                 };
 
-                if (test_case.active_inactive_CheckBox === "check") {
+                if (test_case.active_inactive_CheckBox === "Active") {
                     await categoryFormPage.$activeCheckbox.check();
 
-                    if (test_case.offerPercentage_CheckBox === "check") {
+                    if (test_case.offerPercentage_CheckBox === "Offer") {
 
                         await categoryFormPage.$offerNoOfferCheckBox.check();
 
@@ -1440,8 +1440,8 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             title_case: "US 010 - TS 010 - TC 008 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(String Alfabetico), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "check",
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "Offer",
             offerPercentage_TextBox: "e",
         },
 
@@ -1449,8 +1449,8 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             title_case: "US 010 - TS 010 - TC 009 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(String Caracteres Especiales), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "check",
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "Offer",
             offerPercentage_TextBox: invalidRandomOfferPercentageOnlySpecialChar(),
         },
 
@@ -1458,8 +1458,8 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             title_case: "US 010 - TS 010 - TC 010 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Numerico con Decimales), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "check",
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "Offer",
             offerPercentage_TextBox: invalidRandomOfferPercentageDecimal(),
         },
 
@@ -1467,8 +1467,8 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             title_case: "US 010 - TS 010 - TC 011 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Numerico Negativo), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "check",
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "Offer",
             offerPercentage_TextBox: invalidRandomOfferPercentageNegativeNumber(),
         },
 
@@ -1476,8 +1476,8 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             title_case: "US 010 - TS 010 - TC 012 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Fuera del Valor Limite), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "check",
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "Offer",
             offerPercentage_TextBox: invalidRandomOfferPercentageAbove100(),
         },
 
@@ -1485,8 +1485,8 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
             title_case: "US 010 - TS 010 - TC 013 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Campo Vacio), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
-            active_inactive_CheckBox: "check",
-            offerPercentage_CheckBox: "check",
+            active_inactive_CheckBox: "Active",
+            offerPercentage_CheckBox: "Offer",
             offerPercentage_TextBox: "",
         },
     ];
@@ -1506,10 +1506,10 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
                     await categoryFormPage.$categoryImageInputFile.setInputFiles(`${test_case.categoryImage_InputFile}`)
                 };
 
-                if (test_case.active_inactive_CheckBox === "check") {
+                if (test_case.active_inactive_CheckBox === "Active") {
                     await categoryFormPage.$activeCheckbox.check();
 
-                    if (test_case.offerPercentage_CheckBox === "check") {
+                    if (test_case.offerPercentage_CheckBox === "Offer") {
 
                         await categoryFormPage.$offerNoOfferCheckBox.check();
 
@@ -1537,7 +1537,6 @@ test.describe("🔬 US 010 - TS 010 - Completar el Formulario para Crear una Cat
                 await categoryFormPage._clickAddButton();
             });
 
-            await page.pause();
             await test.step("✨ THEN: se deberia mantener en la pagina Add Category como /Admin/CategoryForm.aspx, para que la información ingresada incorrectamente sea corregida.", async () => {
 
                 await expect(page).toHaveURL("/Admin/CategoryForm.aspx");

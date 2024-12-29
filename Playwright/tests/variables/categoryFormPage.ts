@@ -171,7 +171,7 @@ export const validRandomCategoryImage = () => {
 
 export const validRandomActiveInactiveCheckbox = () => {
 
-    const activeInactive = ["check", "uncheck"];
+    const activeInactive = ["Active", "Inactive"];
 
     let randomIndex = Math.floor(Math.random() * activeInactive.length);
 
@@ -182,7 +182,7 @@ export const validRandomActiveInactiveCheckbox = () => {
 
 export const validRandomOfferPercentageCheckbox = () => {
 
-    const offerPercantage = ["check", "uncheck"];
+    const offerPercantage = ["Offer", "NoOffer"];
 
     let randomIndex = Math.floor(Math.random() * offerPercantage.length);
 

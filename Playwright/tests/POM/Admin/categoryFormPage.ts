@@ -26,6 +26,7 @@ export class CategoryFormPage{
     readonly $offerPercentageRequiredOfferPercentageValidationSpan: Locator;
     readonly $offerPercentageDoesNotAllowNegativeNumbersOrDecimalsValidationSpan: Locator;
     readonly $offerPercentageAllowedRange0100ValidationSpan:Locator;
+    readonly $cancelButton : Locator;
 
     constructor(page : Page){
 
@@ -48,7 +49,8 @@ export class CategoryFormPage{
         this.$offerPercentageTextBox = page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtofferPercentage']");
         this.$offerPercentageRequiredOfferPercentageValidationSpan = page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_rfvofferPercentage']");
         this.$offerPercentageDoesNotAllowNegativeNumbersOrDecimalsValidationSpan = page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_revOfferPercentage']");
-        this.$offerPercentageAllowedRange0100ValidationSpan = page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_ctl08']")
+        this.$offerPercentageAllowedRange0100ValidationSpan = page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_ctl08']");
+        this.$cancelButton = page.getByRole("link", {name : "Cancel"});
 
         
     };
@@ -81,6 +83,10 @@ export class CategoryFormPage{
     async _clickAddButton(){
         await this.$addButton.click({ force : true });
     };
+
+    async _clickCancelButton() {
+        await this.$cancelButton.click({ force : true })
+    }
 
     //Precondicion ya Establecida -
     async _preconditionClickAndFillCategoryNameTextBox() {

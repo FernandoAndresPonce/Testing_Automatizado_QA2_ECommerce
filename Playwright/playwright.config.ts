@@ -17,6 +17,7 @@ dotenv.config();
  */
 export default defineConfig({
 
+  timeout: 60000,
   testDir: './tests',
   /* Run tests in files in parallel , cuanto casos de prueba deseo ejecutar a la vez o de a uno*/
   fullyParallel: false,
@@ -40,9 +41,9 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    video: 'retain-on-failure',
-    screenshot: 'only-on-failure',
-    actionTimeout: 30000,
+    // video: 'retain-on-failure',
+    // screenshot: 'only-on-failure',
+    actionTimeout: 60000,
   },
 
   /* Configure projects for major browsers
