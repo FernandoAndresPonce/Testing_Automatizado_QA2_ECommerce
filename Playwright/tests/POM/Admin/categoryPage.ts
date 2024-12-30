@@ -11,6 +11,8 @@ export class CategoryPage{
     readonly $searchFilterTextbox: Locator;
     readonly $addButton: Locator;
     readonly $table: Locator;
+    readonly $tableRows: Locator;
+    readonly $tableCells: Locator;
 
     constructor(page : Page){
 
@@ -20,6 +22,8 @@ export class CategoryPage{
         this.$addButton = page.getByRole('button', { name: 'Add Category' });
         this.$searchFilterTextbox = page.getByRole('textbox', { name: 'Category quick search...' });
         this.$table = page.locator("//div[@class='main-body']//table[@id='ContentPlaceHolder1_dgvCategory']");
+        this.$tableRows = page.locator("//div[@class='main-body']//table[@id='ContentPlaceHolder1_dgvCategory']//tr");
+        this.$tableCells = page.locator("//div[@class='main-body']//table[@id='ContentPlaceHolder1_dgvCategory']//tr//td")
     }
 
     async _goToEndpoint() {

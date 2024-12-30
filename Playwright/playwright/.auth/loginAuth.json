@@ -32,7 +32,7 @@
     },
     {
       "name": ".AspNetCore.Session",
-      "value": "CfDJ8KG0jF6VihBBtTV5N0K9rwPwFPgf33KCOz6rMrUDxtKOJrfzScBuDyaY1xZl53P6ZrnefX6fSyTlkoWV6LmMJrWrFhNGE3%2FmzaGNzIvLXIXzOg4LSCwL7s6KNNVv3WrR06JGl3BMY27eacxTt423R2f8xU2OOcGlhDSJVoZQCoFY",
+      "value": "CfDJ8KG0jF6VihBBtTV5N0K9rwOG0wwkTmnkUCGvG78AmqpnCWnntrRSxtSFyP7XF4H58SO2My6zAwbWSPY0rQD1bJp5Xb6Atx%2BMtQcqlZYbcA5sT1ykrHRNqyAA%2FMf4EFA9jGbxwJBZMviKB3rAlFQmIRF3RuO6zcHEDVlufCPuuWcU",
       "domain": "ads.mgmt.somee.com",
       "path": "/",
       "expires": -1,
@@ -42,7 +42,7 @@
     },
     {
       "name": "ASP.NET_SessionId",
-      "value": "3g4ygotaapwmnrs4c5s5yz3o",
+      "value": "jhh1ufjtq1m3zp4uokyiaqov",
       "domain": "desarrollowebecommerce.somee.com",
       "path": "/",
       "expires": -1,
