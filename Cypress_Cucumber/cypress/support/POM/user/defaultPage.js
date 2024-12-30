@@ -1,7 +1,12 @@
 class DefaultPage {
   get = {
-    $endpoint: () => cy.visit("/User/Default.aspx"),
+
+    $endpoint: () => "/User/Default.aspx",
   };
+
+  _goToEndpoint() {
+    cy.visit(this.get.$endpoint());
+  }
 }
 
 export const defaultPage = new DefaultPage();

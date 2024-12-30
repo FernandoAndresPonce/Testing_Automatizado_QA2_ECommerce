@@ -10,8 +10,13 @@ import { loginPage } from "../../support/POM/user/loginPage";
 import { dashboardPage } from "../../support/POM/admin/dashboardPage";
 import { adminPage } from "../../support/POM/admin/adminPage";
 import { categoryPage } from "../../support/POM/admin/categoryPage";
-import { categoryForm } from "../../support/POM/admin/categoryFormPage";
+import { categoryFormPage } from "../../support/POM/admin/categoryFormPage";
 import { defaultPage } from "../../support/POM/user/defaultPage";
+
+import {
+  validRandomCategoryName1Character,
+  validRandomCategoryName50Characters,
+} from "../variables/categoryFormPage";
 
 describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
   it("US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
@@ -19,7 +24,7 @@ describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal 
 
     initialPage.get.$homeLink().should("be.visible").click();
 
-    cy.url().should("contain", "/User/Default.aspx");
+    cy.url().should("contain", defaultPage.get.$endpoint());
 
     headerPage.get
       .$loginLink()
@@ -27,7 +32,7 @@ describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal 
       .and("not.be.empty")
       .click();
 
-    cy.url().should("contain", "/User/Login.aspx");
+    cy.url().should("contain", loginPage.get.$endpoint());
 
     loginPage.get
       .$usernameInput()
@@ -49,7 +54,7 @@ describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal 
 
     adminPage.get.$loader().should("be.visible");
 
-    cy.url().should("contain", "/Admin/Dashboard.aspx");
+    cy.url().should("contain", dashboardPage.get.$endpoint());
 
     dashboardPage.get.$breadcrumb().should("be.visible");
   });
@@ -65,8 +70,8 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     }
   );
   it("US 002 - TS 002 - TC 001 - Validar la correcta redirección a la Interfaz “Categories” de Administración, mediante la URL.", () => {
-    categoryPage.get.$endpoint();
-    cy.url().should("include", "/Admin/Category.aspx");
+    categoryPage._goToEndpoint();
+    cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryPage.get
       .$title()
@@ -75,7 +80,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
   });
 
   it("US 002 - TS 002 - TC 002 - Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el TabMenu, seleccionando la opción funcional “Categories”.", () => {
-    dashboardPage.get.$endpoint();
+    dashboardPage._goToEndpoint();
 
     adminPage.get
       .$tabMenuCategoriesLink()
@@ -84,7 +89,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
       .should("contain.text", "Categories")
       .click();
 
-    cy.url().should("include", "/Admin/Category.aspx");
+    cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryPage.get
       .$title()
@@ -93,7 +98,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
   });
 
   it("US 002 - TS 002 - TC 003 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el Icono de la Card Categories", () => {
-    dashboardPage.get.$endpoint();
+    dashboardPage._goToEndpoint();
 
     dashboardPage.get
       .$categoriesCardIcoLink()
@@ -101,7 +106,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
       .should("not.be.disabled")
       .click();
 
-    cy.url().should("include", "/Admin/Category.aspx");
+    cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryPage.get
       .$title()
@@ -110,7 +115,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
   });
 
   it("US 002 - TS 002 - TC 004 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el View Details de la Card Categories.", () => {
-    dashboardPage.get.$endpoint();
+    dashboardPage._goToEndpoint();
 
     dashboardPage.get
       .$categoriesCardViewDetailsLink()
@@ -118,7 +123,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
       .should("not.be.disabled")
       .click();
 
-    cy.url().should("include", "/Admin/Category.aspx");
+    cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryPage.get
       .$title()
@@ -127,7 +132,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
   });
 });
 
-describe.only("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood", () => {
+describe("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Categories de Administración ",
     () => {
@@ -137,7 +142,7 @@ describe.only("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
     }
   );
   it("US 003 - TS 003 - TC 001 - Validar, redireccionar a la Interfaz “Formulario de Categories” de Administración, mediante el Botón Add.", () => {
-    categoryPage.get.$endpoint();
+    categoryPage._goToEndpoint();
 
     cy.get("title").should("exist");
     cy.title().should("eql", "FastFood - Admin");
@@ -149,23 +154,27 @@ describe.only("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
       .should("contain", "Add Category")
       .click({ force: true });
 
-      //confirmar el placeholder =>
-      cy.get("input[name='ctl00$ContentPlaceHolder1$txtFastFilter']").should("have.attr", "placeholder", "Category quick search...")
+    //confirmar el placeholder =>
+    cy.get("input[name='ctl00$ContentPlaceHolder1$txtFastFilter']").should(
+      "have.attr",
+      "placeholder",
+      "Category quick search..."
+    );
 
-    cy.url().should("include", "/Admin/CategoryForm.aspx");
+    cy.url().should("include", categoryPage.get.$endpoint());
 
-    categoryForm.get
+    categoryFormPage.get
       .$title()
       .should("be.visible")
       .should("have.text", "Add Category");
   });
 
   it("US 003 - TS 003 - TC 002 - Validar, redireccionar a la Interfaz “Formulario de una Categoria” de Administración, mediante la URL.", () => {
-    categoryForm.get.$endpoint();
+    categoryFormPage._goToEndpoint();
 
-    cy.url().should("include", "/Admin/CategoryForm.aspx");
+    cy.url().should("include", categoryFormPage.get.$endpoint());
 
-    categoryForm.get
+    categoryFormPage.get
       .$title()
       .should("be.visible")
       .should("have.text", "Add Category");
@@ -181,11 +190,52 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
     }
   );
 
-  it("primer", () => {
-    // categoryForm.get.$endpoint();
-    cy.title().should("eql", "FastFood - Admin");
-    cy.url().should("include", "/Admin/CategoryForm.aspx");
+  const valid_test_case = [
+    {
+      titleTC:
+        "US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).",
+      inputTextTC: `${validRandomCategoryName1Character()}`,
+    },
 
+    // {
+    //     titleTC: 'US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).',
+    //     inputTextTC: `${validRandomCategoryName50Characters()}`,
 
-  });
+    // }
+  ];
+
+  for (let test_case of valid_test_case) {
+    it(`${test_case.titleTC}`, () => {
+      categoryFormPage._goToEndpoint();
+
+      cy.title().should("eql", "FastFood - Admin");
+      cy.url().should("include", categoryFormPage.get.$endpoint());
+
+      cy.wait(1000);
+
+      categoryFormPage.get
+        .$title()
+        .should("be.visible")
+        .should("have.text", "Add Category");
+
+      categoryFormPage.get.$categoryNameLabel().should("be.visible");
+
+      categoryFormPage.get
+        .$categoryNameInput()
+        .should("be.visible")
+        .should("be.enabled")
+        .type(test_case.inputTextTC);
+
+      categoryFormPage.get
+        .$addButton()
+        .should("be.visible")
+        .should("be.enabled")
+        .click({ force: true });
+
+      cy.wait(500);
+
+      cy.url().should("include", categoryPage.get.$endpoint());
+      categoryPage.get.$title().should("be.visible");
+    });
+  }
 });
