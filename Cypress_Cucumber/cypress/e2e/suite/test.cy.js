@@ -16,6 +16,8 @@ import { defaultPage } from "../../support/POM/user/defaultPage";
 import {
   validRandomCategoryName1Character,
   validRandomCategoryName50Characters,
+  invalidRandomCategoryNameOnlyNumber,
+  invalidRandomCategoryNameOnlySpecialCharacter,
 } from "../variables/categoryFormPage";
 
 describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
@@ -132,7 +134,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
   });
 });
 
-describe("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood", () => {
+describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Categories de Administración ",
     () => {
@@ -181,7 +183,7 @@ describe("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de 
   });
 });
 
-describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración",
 
@@ -197,16 +199,16 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       inputTextTC: `${validRandomCategoryName1Character()}`,
     },
 
-    // {
-    //     titleTC: 'US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).',
-    //     inputTextTC: `${validRandomCategoryName50Characters()}`,
-
-    // }
+    {
+      titleTC:
+        "US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).",
+      inputTextTC: `${validRandomCategoryName50Characters()}`,
+    },
   ];
 
   for (let test_case of valid_test_case) {
-    it(`${test_case.titleTC}`, () => {
-      categoryFormPage._goToEndpoint();
+    it.skip(`${test_case.titleTC}`, () => {
+      // categoryFormPage._goToEndpoint();
 
       cy.title().should("eql", "FastFood - Admin");
       cy.url().should("include", categoryFormPage.get.$endpoint());
@@ -236,6 +238,77 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
 
       cy.url().should("include", categoryPage.get.$endpoint());
       categoryPage.get.$title().should("be.visible");
+    });
+  }
+
+  const invalid_test_case = [
+    {
+      titleTC:
+        "US 004 - TS 004 - TC 003 - Validar el Text Input Category Name, al añadir una Cadena de texto solo Numérica.",
+      inputTextTC: `${invalidRandomCategoryNameOnlyNumber()}`,
+      validationError: "(Name must be in character only)",
+    },
+    {
+      titleTC:
+        "US 004 - TS 004 - TC 004 - Intentar Validar el Text Input Category Name, al añadir una Cadena de texto solo caracteres Especiales.",
+      inputTextTC: `${invalidRandomCategoryNameOnlySpecialCharacter()}`,
+      validationError: "(Name must be in character only)",
+    },
+    {
+      titleTC:
+        "US 004 - TS 004 - TC 005 - Intentar Validar el Text Input Category Name, con cero (0) carácter, campo vacío.",
+      inputTextTC: "",
+      validationError: "(Required Category Name)",
+    },
+  ];
+
+  for (let test_case of invalid_test_case) {
+    it(`${test_case.titleTC}`, () => {
+      // categoryFormPage._goToEndpoint();
+
+      cy.title().should("eql", "FastFood - Admin");
+      cy.url().should("include", categoryFormPage.get.$endpoint());
+
+      cy.wait(1000);
+
+      categoryFormPage.get
+        .$title()
+        .should("be.visible")
+        .should("have.text", "Add Category");
+
+      categoryFormPage.get.$categoryNameLabel().should("be.visible");
+
+      categoryFormPage.get
+        .$categoryNameInput()
+        .should("be.visible")
+        .should("be.enabled")
+        .clear();
+
+        if(test_case.inputTextTC != ""){
+
+          categoryFormPage._fillCategoryNameInput(test_case.inputTextTC)
+        }
+
+      categoryFormPage.get
+        .$addButton()
+        .should("be.visible")
+        .should("be.enabled")
+        .click({ force: true });
+
+      cy.wait(500);
+
+      categoryFormPage.get.$categoryNameInput().should("be.focused");
+
+      if (test_case.inputTextTC == "") {
+        cy.get("div.card span#ContentPlaceHolder1_rfValidator")
+          .should("be.visible")
+          .should("have.text", test_case.validationError);
+      } else {
+        categoryFormPage.get
+          .$categoryNameMustBeInCharacterOnlyValidationSpan()
+          .should("be.visible")
+          .should("have.text", test_case.validationError);
+      }
     });
   }
 });

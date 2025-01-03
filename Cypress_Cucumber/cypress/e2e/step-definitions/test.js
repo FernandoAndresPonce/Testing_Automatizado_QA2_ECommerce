@@ -7,7 +7,7 @@ import { loginPage } from "../../support/POM/user/loginPage";
 import { dashboardPage } from "../../support/POM/admin/dashboardPage";
 import { adminPage } from "../../support/POM/admin/adminPage";
 import { categoryPage } from "../../support/POM/admin/categoryPage";
-import { categoryForm } from "../../support/POM/admin/categoryFormPage";
+import { categoryFormPage } from "../../support/POM/admin/categoryFormPage";
 import { defaultPage } from "../../support/POM/user/defaultPage";
 
 import { Given, When, Then, And } from "cypress-cucumber-preprocessor/steps";
@@ -30,13 +30,13 @@ context(
       });
 
       And("se encuentra en la Pagina Default del Usuario", () => {
-        defaultPage.get.$endpoint();
+        defaultPage._goToEndpoint();
       });
 
       When(
         "selecciona la barra de direcciones del navegador, introduce la Url para redireccionarse a la interfaz principal de Administracion",
         () => {
-          dashboardPage.get.$endpoint();
+          dashboardPage._goToEndpoint();
         }
       );
 
@@ -69,7 +69,7 @@ context(
     And(
       "de que el admin se encuentra en la Interfaz Principal de Administración {string}",
       (endpoint) => {
-        dashboardPage.get.$endpoint();
+        dashboardPage._goToEndpoint();
         cy.url().should("contain", endpoint);
       }
     );
@@ -107,7 +107,7 @@ context(
       Then(
         "el sistema se redirecciona a la Interfaz Categories de Administración.",
         () => {
-          cy.url().should("include", "Category.aspx");
+          cy.url().should("include", categoryPage.get.$endpoint());
 
           categoryPage.get
             .$title()
@@ -201,7 +201,7 @@ context(
         "el sistema se redirecciona a la Interfaz Add Category de Administración como {string}.",
         (endpoint) => {
           cy.url().should("include", endpoint);
-          categoryForm.get
+          categoryFormPage.get
             .$title()
             .should("be.visible")
             .should("have.text", "Add Category");
@@ -222,13 +222,42 @@ context(
       Then(
         "el sistema se redirecciona a la Interfaz Add Category de Administración como {string}.",
         (endpoint) => {
-          cy.url().should("include", endpoint);
-          categoryForm.get
+          cy.url().should("contain", endpoint);
+          categoryFormPage.get
             .$title()
             .should("be.visible")
             .should("have.text", "Add Category");
         }
       );
     });
+  }
+);
+
+context(
+  "📑 US 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.",
+  () => {
+    Given(
+      "que el Usuario ha iniciado sesión con credenciales con rol Administradorr",
+      () => {
+        cy._$loginThenGoToCategoryFormByRandomElements();
+      }
+    );
+
+    And(
+      "de que el admin se encuentra en la Interfaz del Formulario para crear una Categoria de Administración como {string}",
+      (endpoint) => {
+
+        cy.visit(endpoint);
+        cy.url().should("contain", endpoint);
+        categoryFormPage.get
+          .$title()
+          .should("be.visible")
+          .should("have.text", "Add Category");
+      }
+    );
+
+    describe("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {});
+
+
   }
 );

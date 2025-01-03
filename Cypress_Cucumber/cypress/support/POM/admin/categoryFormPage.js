@@ -5,6 +5,7 @@ class CategoryFormPage {
     $categoryNameLabel: () => cy.contains("span","Category Name"),
     $categoryNameInput: () => cy.get("div.card input#ContentPlaceHolder1_txtName"),
     $addButton: () => cy.get("div.page-body input#ContentPlaceHolder1_btnAccept"),
+    $categoryNameMustBeInCharacterOnlyValidationSpan: () => cy.get("div.card span#ContentPlaceHolder1_revName"),
   };
   
   _goToEndpoint() {
@@ -14,6 +15,10 @@ class CategoryFormPage {
   _clickAddButton() {
     this.get.$addButton().click({ force : true });
   };
+
+  _fillCategoryNameInput(name) {
+    this.get.$categoryNameInput().type(name);
+  }
 
 
 }
