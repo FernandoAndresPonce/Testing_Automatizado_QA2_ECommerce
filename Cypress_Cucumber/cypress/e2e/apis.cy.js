@@ -1,5 +1,5 @@
 describe("template spec", () => {
-  it("passes", () => {
+  it("get", () => {
     // Get
     cy.request("Get", "https://reqres.in/api/users?page=2").then((response) => {
       expect(response.status).to.eq(200);
@@ -13,13 +13,26 @@ describe("template spec", () => {
 
       const users = response.body.data;
       const emailMichaelUser = users.find(
-        (users) => users.email == "michael.lawson@reqres.in"
+        (user) => user.email == "michael.lawson@reqres.in"
       );
-
-      cy.pause();
-      //tomorrow i will see how debbuging
       expect(emailMichaelUser).to.exist;
+      expect(emailMichaelUser.id).to.eq(7);
+
       console.log(emailMichaelUser);
+    });
+  });
+
+  it("Post", () => {
+    const newUser = {
+      name: "Pepe",
+      job: "El mas groso",
+    };
+    cy.request("Post", "https://reqres.in/api/users", newUser).then((response) => {
+      expect(response.status).to.eq(201);
+      expect(response.body).to.be.an("object");
+      expect(response.body.name).to.eq("Pepe");
+      expect(response.body).to.include({job: "El mas groso"});
+      expect(response.body).to.have.property("name", newUser.name);
     });
   });
 });
