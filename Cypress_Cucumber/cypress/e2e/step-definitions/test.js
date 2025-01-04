@@ -60,7 +60,7 @@ context(
     Given(
       "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
       () => {
-        cy.session("Login y luego va a la Pagina Dashboard", () => {
+        cy.session("Login y luego se redirige Pagina Dashboard", () => {
           cy._$loginThenGoToDashboard();
         });
       }
@@ -168,19 +168,14 @@ context(
   () => {
     Given(
       "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
-      () => {
-        cy.session(
-          "Logea y luego se redirecciona a la Pagina Categories",
-          () => {
-            cy._$loginThenRamdonCategoryByElements();
-          }
-        );
-      }
+      () => {}
     );
     And(
       "de que el admin se encuentra en la Interfaz Category de Administración como {string}",
       (endpoint) => {
-        cy.visit(endpoint);
+        dashboardPage._goToEndpoint();
+        dashboardPage._clickGoToCategoryByRandomElements();
+
         cy.url().should("contain", endpoint);
       }
     );
@@ -237,17 +232,14 @@ context(
   "📑 US 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.",
   () => {
     Given(
-      "que el Usuario ha iniciado sesión con credenciales con rol Administradorr",
-      () => {
-        cy._$loginThenGoToCategoryFormByRandomElements();
-      }
+      "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
+      () => {}
     );
 
     And(
       "de que el admin se encuentra en la Interfaz del Formulario para crear una Categoria de Administración como {string}",
       (endpoint) => {
-
-        cy.visit(endpoint);
+        categoryFormPage._goToEndpoint();
         cy.url().should("contain", endpoint);
         categoryFormPage.get
           .$title()
@@ -256,8 +248,23 @@ context(
       }
     );
 
-    describe("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {});
+    describe("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {
+      When(
+        "el usuario ingresa un dato como {string} en el campo Category Name",
+        (dato) => {
+          categoryFormPage.get
+            .$categoryNameLabel()
+            .should("be.visible")
+            .should("have.text", "Category Name");
 
+          categoryFormPage.get
+            .$categoryNameInput()
+            .should("be.visible")
+            .should("be.enabled");
 
+          categoryFormPage._fillCategoryNameInput(dato);
+        }
+      );
+    });
   }
 );

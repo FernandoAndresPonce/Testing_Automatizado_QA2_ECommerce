@@ -36,6 +36,7 @@ Cypress.Commands.add("_$loginThenRamdonCategoryByElements", () => {
   randomRouteGoCategory().click({ force: true });
 });
 
+
 Cypress.Commands.add("_$loginThenGoToCategoryFormByRandomElements", () => {
   cy.visit("/");
 
