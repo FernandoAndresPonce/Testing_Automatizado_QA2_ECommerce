@@ -68,6 +68,10 @@ export class SuperPage {
         await this.adminPage._clickTabMenuCategoriesLink();
     }
 
+    async _goToCategoryAdmin() {
+        await this.categoryPage._goToEndpoint();
+    }
+
     async loginAndGoFormCategoryAdminTabMenuLink() {
 
         await this.loginAndGoCategoriesAdmin();

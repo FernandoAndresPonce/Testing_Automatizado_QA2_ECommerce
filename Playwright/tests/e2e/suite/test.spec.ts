@@ -4,9 +4,7 @@ import { describe } from 'node:test';
 import { threadId } from 'node:worker_threads';
 
 import { CategoryTable } from '../../interface/categoryPage.ts';
-
 import { test } from "../../fixture/base";
-
 import { validRandomCategoryName, validRandomCategoryName1Character, validRandomCategoryName50Character, invalidRandomCategoryNameOnlyNumber, invalidRandomCategoryNameOnlySpecialCharacter, invalidRandomOfferPercentageOnlySpecialChar, invalidRandomOfferPercentageDecimal, invalidRandomOfferPercentageNegativeNumber, validRandomCategoryImage, invalidRandomOfferPercentageAbove100, validRandomOfferPercentage, validRandomOfferPercentageCheckbox, validRandomActiveInactiveCheckbox } from '../../variables/categoryFormPage.ts';
 
 //variables ambiente npm i dovenv --save-dev
@@ -1791,7 +1789,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
                 })
             });
 
-            await test.step("🧩 THEN:  en el Tabla (Data Griew) se deberia ver reflejada la categoría recién creada.", async () => {
+            await test.step("✨ THEN:  en el Tabla (Data Griew) se deberia ver reflejada la categoría recién creada.", async () => {
 
                 await expect(categoryPage.$table, "La Tabla No esta Visible").toBeEnabled();
                 await expect(categoryPage.$table, "La Tabla No esta Disponible").toBeVisible();
@@ -1850,7 +1848,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
 
     const invalid_Test_Cases = [
         {
-            title_case: "US 010 - TS 010 - TC 005 - Intentar validar, crear Categoría al completar Category Name con datos Invalido( cadena de texto Numerica), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 005 - Intentar validar, crear Categoría al completar Category Name con datos Invalido( cadena de texto Numerica), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: invalidRandomCategoryNameOnlyNumber(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: validRandomActiveInactiveCheckbox(),
@@ -1859,7 +1857,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 006 - Intentar validar, crear Categoría al completar Category Name con datos Invalido( Caracteres Especiales), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 006 - Intentar validar, crear Categoría al completar Category Name con datos Invalido( Caracteres Especiales), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: invalidRandomCategoryNameOnlySpecialCharacter(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: validRandomActiveInactiveCheckbox(),
@@ -1868,7 +1866,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 007 - Intentar validar, crear Categoría al completar Category Name con datos Invalido(Campo Vacio), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 007 - Intentar validar, crear Categoría al completar Category Name con datos Invalido(Campo Vacio), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: "",
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: validRandomActiveInactiveCheckbox(),
@@ -1877,7 +1875,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 008 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(String Alfabetico), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 008 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(String Alfabetico), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "Active",
@@ -1886,7 +1884,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 009 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(String Caracteres Especiales), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 009 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(String Caracteres Especiales), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "Active",
@@ -1895,7 +1893,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 010 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Numerico con Decimales), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 010 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Numerico con Decimales), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "Active",
@@ -1904,7 +1902,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 011 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Numerico Negativo), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 011 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Numerico Negativo), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "Active",
@@ -1913,7 +1911,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 012 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Fuera del Valor Limite), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 012 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Fuera del Valor Limite), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "Active",
@@ -1922,7 +1920,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
         },
 
         {
-            title_case: "US 010 - TS 010 - TC 013 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Campo Vacio), y el resto de los Campos con datos Validos.",
+            title_case: "US 011 - TS 011 - TC 013 - Intentar validar, crear Categoría al completar Offer Percentage Input con datos Invalidos(Campo Vacio), y el resto de los Campos con datos Validos.",
             categoryName_TextBox: validRandomCategoryName(),
             categoryImage_InputFile: validRandomCategoryImage(),
             active_inactive_CheckBox: "Active",
@@ -2001,7 +1999,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
                 await categoryFormPage._clickCancelButton();
             })
 
-            await test.step("🧩 THEN: en la tabla (Data Grid) no debería reflejarse la categoría que se intentó crear recientemente.", async () => {
+            await test.step("✨ THEN: en la tabla (Data Grid) no debería reflejarse la categoría que se intentó crear recientemente.", async () => {
 
                 await expect(categoryPage.$table, "La Tabla No esta Visible").toBeEnabled();
                 await expect(categoryPage.$table, "La Tabla No esta Disponible").toBeVisible();
@@ -2047,10 +2045,7 @@ test.describe("🔬 US 011 - TS 011 - Data Griew Category - Visualizar la Catego
                 })
             });
         });
-
-
     }
-
 });
 
 
