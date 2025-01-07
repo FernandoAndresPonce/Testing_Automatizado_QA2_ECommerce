@@ -6,6 +6,7 @@ import { AdminPage } from "../POM/admin/adminPage"
 import { CategoryPage } from "../POM/admin/categoryPage"
 import { CategoryFormPage } from "../POM/admin/categoryFormPage"
 import { DashboardPage } from "../POM/admin/dashboardPage"
+import { CategoryDetail } from "../POM/admin/categoryDetail"
 
 //user
 import { HeaderPage } from "../POM/user/headerPage"
@@ -26,6 +27,7 @@ type MyFixtures = {
     categoryPage : CategoryPage,
     categoryFormPage : CategoryFormPage,
     dashboardPage : DashboardPage,
+    categoryDetail : CategoryDetail,
     
     //user
     headerPage : HeaderPage,
@@ -54,6 +56,10 @@ export const test = base.extend<MyFixtures>({
 
     dashboardPage : async ({page}, use ) => {
         await use (new DashboardPage(page))
+    },
+
+    categoryDetail : async ({page}, use) => {
+        await use (new CategoryDetail(page))
     },
     //user
     headerPage : async ({page}, use ) => {
