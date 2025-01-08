@@ -2053,13 +2053,11 @@ test.describe("🔬 US 012 - TS 012 - Detalle Categoría - Acceder a la Interfaz
     let rowsLenght: number;
 
     test.beforeEach("🔲 BACKGROUND:", async ({ page, superPage, categoryPage }) => {
-        await test.step("📝 GIVEN que el Usuario esta Logeado como Admin -  ha pasado por un proceso de auteclearnticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
+        await test.step("📝 GIVEN que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
 
             await page.goto("/");
             await superPage._goToCategoryAdmin();
         });
-
-
 
         await test.step("🧩 AND de que el Admin se encuentra en la Interfaz Category como “/Admin/Category.aspx”", async () => {
 
@@ -2111,8 +2109,8 @@ test.describe("🔬 US 012 - TS 012 - Detalle Categoría - Acceder a la Interfaz
 
         await test.step("✨ THEN el sistema se redirecciona a la Interfaz “Detalles de la categoría”.", async () => {
 
-            await expect(categoryDetail.$title, "El Titulo View Category, No esta Visible.").toBeVisible();
-            await expect(categoryDetail.$title, "El Titulo No contiene el texto View Category.").toHaveText("View Category");
+            await expect(categoryDetail.$viewCategoryTitle, "El Titulo View Category, No esta Visible.").toBeVisible();
+            await expect(categoryDetail.$viewCategoryTitle, "El Titulo No contiene el texto View Category.").toHaveText("View Category");
 
             await test.info().attach("Category Detail Page", {
                 body: await page.screenshot(),
@@ -2159,8 +2157,8 @@ test.describe("🔬 US 012 - TS 012 - Detalle Categoría - Acceder a la Interfaz
 
         await test.step("✨ THEN el sistema se redirecciona a la Interfaz “Detalles de la categoría”.", async () => {
 
-            await expect(categoryDetail.$title, "El Titulo View Category, No esta Visible.").toBeVisible();
-            await expect(categoryDetail.$title, "El Titulo No contiene el texto View Category.").toHaveText("View Category");
+            await expect(categoryDetail.$viewCategoryTitle, "El Titulo View Category, No esta Visible.").toBeVisible();
+            await expect(categoryDetail.$viewCategoryTitle, "El Titulo No contiene el texto View Category.").toHaveText("View Category");
         });
     });
 
