@@ -15,7 +15,7 @@ import { CategoryPage } from "../../POM/admin/categoryPage";
 
 dotenv.config();
 
-test.describe("🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la Interfaz “Detalle de una Categoría” en la plataforma FastFood.", async () => {
+test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la Interfaz “Detalle de una Categoría” en la plataforma FastFood.", async () => {
 
     let rowsLenght: number;
 
@@ -44,8 +44,19 @@ test.describe("🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la Interfaz
         })
     })
 
-    test("US 013 - TS 013 - TC 001 - Validar que la información de la tabla coincida con la del detalle de la categoría.", async ({ page, categoryPage, categoryDetail }) => {
+    test("US 013 - TS 013 - TC 001 - Validar que la información de la tabla coincida con la del detalle de la categoría.", async ({ page, categoryPage, categoryDetail, adminPage }) => {
 
+        await test.info().annotations.push({
+            type : '🐞 Bug',
+            description : 'no match => categoryPage : Label NoOffer != categoryDetail : Label No Offert || categoryPage : Label Offer != categoryDetail : Label Offert',
+        })
+
+        await test.info().annotations.push({
+            type : '🎬 Scenario',
+            description : 'El admin puede visualizar la información acerca de una “Categoria”.',
+        })
+        
+        
         let expectCategory: CategoryTable;
 
         await test.step("⚡WHEN hace Click en el Botón en la imagen del “OJO”, que se encuentra visible al final de una fila, en la parte derecha,", async () => {
@@ -55,11 +66,11 @@ test.describe("🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la Interfaz
             const randomIndex = Math.floor(Math.random() * (rowsLenght - 1) + 1);
             rowNumber = randomIndex;
 
-            await expect(categoryPage.$tableRows.nth(3)).toBeVisible();
-            await expect(categoryPage.$tableRows.nth(3)).toBeEnabled();
+            await expect(categoryPage.$tableRows.nth(rowNumber)).toBeVisible();
+            await expect(categoryPage.$tableRows.nth(rowNumber)).toBeEnabled();
 
             //arreglar cuando deseo conseguir la fila x , y las celdas necesarias
-            const row = await categoryPage.$tableRows.nth(3);
+            const row = await categoryPage.$tableRows.nth(rowNumber);
 
             const cell = await row.locator("xpath=.//td").all();
 
@@ -71,13 +82,16 @@ test.describe("🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la Interfaz
 
             console.log(expectCategory);
 
-            await expect(categoryPage.$eyeRowButton(3)).toBeVisible();
-            await expect(categoryPage.$eyeRowButton(3)).toBeEnabled();
+            await expect(categoryPage.$eyeRowButton(rowNumber)).toBeVisible();
+            await expect(categoryPage.$eyeRowButton(rowNumber)).toBeEnabled();
 
-            await categoryPage._clickEyeRowButton(3);
+            await categoryPage._clickEyeRowButton(rowNumber);
         });
 
         await test.step(" AND el sistema se redirecciona a la Interfaz “Detalles de la categoría”,", async () => {
+
+            await page.waitForLoadState('load');
+            await adminPage._hiddenLoader();
 
             await expect(categoryDetail.$viewCategoryTitle, "El Titulo View Category No esta Visible.").toBeVisible();
         })
@@ -93,42 +107,50 @@ test.describe("🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la Interfaz
             const actualCategoryName = await page.locator("div.card span#ContentPlaceHolder1_lblNameCategory").innerText();
 
             let actualCategoryActiveInactive: string;
-            let actualCategoryOfferNoOffer: string;
+            let actualCategoryOfferNoOffer: string = "No Offert";
 
             //solucionar el problema si un elemento esta visible y no.
-            const activeLocator = page.locator("div.card span#ContentPlaceHolder1_lblActive");
-            const offerLocator = page.locator("div.card span#ContentPlaceHolder1_lblOffer");
-            if (await activeLocator.isVisible) {
+            const isVisibleActiveLocator = await categoryDetail.$activeLabel.isVisible();
+            const isVisibleOfferLocator = await categoryDetail.$offerLabel.isVisible();
 
-                await expect(page.locator("div.card span#ContentPlaceHolder1_lblActive")).toBeEnabled();
-                await expect(page.locator("div.card span#ContentPlaceHolder1_lblActive")).toBeVisible();
+            if (isVisibleActiveLocator) {
 
-                actualCategoryActiveInactive = await page.locator("div.card span#ContentPlaceHolder1_lblActive").innerText();
-                if (await offerLocator.isVisible) {
+                await expect(categoryDetail.$activeLabel).toBeEnabled();
+                await expect(categoryDetail.$activeLabel).toBeVisible();
 
-                    await expect(page.locator("div.card span#ContentPlaceHolder1_lblOffer")).toBeVisible();
-                    await expect(page.locator("div.card span#ContentPlaceHolder1_lblOffer")).toBeEnabled();
+                actualCategoryActiveInactive = await categoryDetail.$activeLabel.innerText();
+                if (isVisibleOfferLocator) {
 
-                    actualCategoryOfferNoOffer = await page.locator("div.card span#ContentPlaceHolder1_lblOffer").innerText();
+                    await expect(categoryDetail.$offerLabel).toBeVisible();
+                    await expect(categoryDetail.$offerLabel).toBeEnabled();
+
+                    actualCategoryOfferNoOffer = await categoryDetail.$offerLabel.innerText();
                 } else {
 
-                    await expect(page.locator("div.card span#ContentPlaceHolder1_lblNoOffert")).toBeEnabled();
-                    await expect(page.locator("div.card span#ContentPlaceHolder1_lblNoOffert")).toBeVisible();
+                    await expect(categoryDetail.$noOfferLabel).toBeEnabled();
+                    await expect(categoryDetail.$noOfferLabel).toBeVisible();
 
-                    actualCategoryOfferNoOffer = await page.locator("div.card span#ContentPlaceHolder1_lblNoOffert").innerText();
+                    actualCategoryOfferNoOffer = await categoryDetail.$noOfferLabel.innerText();
                 }
 
 
                 console.log(`name : ${actualCategoryName}\n Active: ${actualCategoryActiveInactive}\n Offer : ${actualCategoryOfferNoOffer}`)
             }
             else {
-                await expect(page.locator("div.card span#ContentPlaceHolder1_lblInactive")).toBeVisible();
-                await expect(page.locator("div.card span#ContentPlaceHolder1_lblInactive")).toBeEnabled();
+                await expect(categoryDetail.$inactiveLabel).toBeVisible();
+                await expect(categoryDetail.$inactiveLabel).toBeEnabled();
 
-                actualCategoryActiveInactive = await page.locator("div.card span#ContentPlaceHolder1_lblInactive").innerText();
+                actualCategoryActiveInactive = await categoryDetail.$inactiveLabel.innerText();
 
             }
-            console.log(`name : ${actualCategoryName}\n Active: ${actualCategoryActiveInactive}`)
+
+            await expect(expectCategory.name).toStrictEqual(actualCategoryName);
+            await expect(expectCategory.isActive).toStrictEqual(actualCategoryActiveInactive);
+
+            await expect(expectCategory.isOffer).toContain(actualCategoryOfferNoOffer); // <= bug here, no match 
+            // | categoryPage | categoryDetail |
+            // | NoOffer     != No Offert      |
+            // | Offer      !=  Offert        |
 
 
         })
