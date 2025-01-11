@@ -1,4 +1,4 @@
-import { expect } from "playwright/test";
+import { _bidiChromium, expect } from "playwright/test";
 import { execPath } from "node:process";
 import { beforeEach, describe } from "node:test";
 import { test } from "../../fixture/base";
@@ -85,6 +85,13 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
             await expect(categoryPage.$eyeRowButton(rowNumber)).toBeVisible();
             await expect(categoryPage.$eyeRowButton(rowNumber)).toBeEnabled();
 
+            const screenshot = await page.screenshot({ fullPage : true });
+
+            await test.info().attach(`Category Page - Table \n Row Selection => Name: ${expectCategory.name}, IsActive: ${expectCategory.isActive}, IsOffer: ${expectCategory.isOffer}  `, {
+                body : await screenshot,
+                contentType : "image/png"
+            })
+
             await categoryPage._clickEyeRowButton(rowNumber);
         });
 
@@ -142,7 +149,16 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
 
                 actualCategoryActiveInactive = await categoryDetail.$inactiveLabel.innerText();
 
-            }
+            };
+
+            await page.waitForLoadState('load');
+            await adminPage._hiddenLoader();
+
+            const screenshot = await page.screenshot({ fullPage : true})
+            await test.info().attach(`Category Details - Category Selected :\nName: ${actualCategoryName}, IsActive: ${actualCategoryActiveInactive}, IsOffer: ${actualCategoryOfferNoOffer}  `, {
+                body : await screenshot,
+                contentType : "image/png"
+            });
 
             await expect(expectCategory.name).toStrictEqual(actualCategoryName);
             await expect(expectCategory.isActive).toStrictEqual(actualCategoryActiveInactive);
@@ -153,6 +169,7 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
             // | Offer      !=  Offert        |
 
 
-        })
-    })
-})
+
+        });
+    });
+});
