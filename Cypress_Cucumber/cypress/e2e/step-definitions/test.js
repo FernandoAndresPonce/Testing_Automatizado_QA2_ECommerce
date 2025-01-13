@@ -248,7 +248,7 @@ context(
       }
     );
 
-    // describe.skip("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {
+    // describe("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {
     //   When(
     //     "el usuario ingresa un dato como {string} en el campo Category Name",
     //     (data) => {
@@ -286,8 +286,9 @@ context(
       When(
         "el usuario ingresa un dato como {string} en el campo Category Name",
         (data) => {
-          // Cypress.env('categoryData', data); or
-          cy.wrap(data).as("categoryData");
+          Cypress.env("categoryData", data);
+          // or
+          // cy.wrap(data).as("categoryData");
 
           categoryFormPage.get
             .$categoryNameLabel()
@@ -299,11 +300,7 @@ context(
             .should("be.enabled")
             .should("be.visible");
 
-          if (data != "") {
-            categoryFormPage._fillCategoryNameInput(data);
-          } else {
-            categoryFormPage.get.$categoryNameInput().clear();
-          }
+          categoryFormPage._fillCategoryNameInput(data);
         }
       );
       And("presiona el botón Add", () => {
@@ -324,19 +321,21 @@ context(
       And(
         "debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label Category Name, con la Advertencia de Error como {string}.",
         (validationError) => {
-
-          // const categoryDara = Cypress.env("categoryData") or;
-          cy.get("@categoryData").then((categoryData) => {
-            if (categoryData != "") {
-              cy.get("div.card span#ContentPlaceHolder1_revName")
-                .should("be.visible")
-                .should("have.text", validationError);
-            } else {
-              cy.get("div.card span#ContentPlaceHolder1_rfValidator")
-                .should("be.visible")
-                .should("have.text", validationError);
-            }
-          });
+          const categoryData = Cypress.env("categoryData");
+          // or;
+          // cy.get("@categoryData").then((categoryData) => {
+          if (categoryData != "") {
+            categoryFormPage.get
+              .$categoryNameMustBeInCharacterOnlyValidationErrorSpan()
+              .should("be.visible")
+              .should("have.text", validationError);
+          } else {
+            categoryFormPage.get
+              .$categoryNameRequiredNameValidationErrorSpan()
+              .should("be.visible")
+              .should("have.text", validationError);
+          }
+          // });
         }
       );
     });

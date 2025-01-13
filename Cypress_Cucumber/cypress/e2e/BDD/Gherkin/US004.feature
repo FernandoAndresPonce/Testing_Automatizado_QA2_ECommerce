@@ -10,16 +10,13 @@ Feature: 📑 US 004 - Text Input Categoría Formulario - Completar los campos d
         And de que el admin se encuentra en la Interfaz del Formulario para crear una Categoria de Administración como "/Admin/CategoryForm.aspx"
 
     # Scenario Outline: Scenario Outline name:🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.
-    #     When el usuario ingresa un dato como '<dato>' en el campo Category Name
+    #     When el usuario ingresa un dato como '<data>' en el campo Category Name
     #     And presiona el botón Add
     #     Then el sistema lo redireccionara automaticament a la página Category como "/Admin/Category.aspx".
 
     #     Examples:
-    #         | dato                                               |
-    #         | P                                                  |
-    #         | AbcdefghijklmnDopqrstuvwxyzAbcdefghijklmnDopqrstuv |
-    #         | Postre                                             |
-    #         | Pizza contemporanea                                |
+    #         | data |
+    #         | P    |
 
     Scenario Outline: Scenario Outline name:🧪 US 004 - TS 004 - TC 002 -  Validar, completar campo Category Name Incorrectamente, al ingresar datos Invalidos.
         When el usuario ingresa un dato como '<data>' en el campo Category Name

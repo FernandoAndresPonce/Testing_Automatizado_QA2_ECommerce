@@ -207,7 +207,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
   ];
 
   for (let test_case of valid_test_case) {
-    it.skip(`${test_case.titleTC}`, () => {
+    it(`${test_case.titleTC}`, () => {
       // categoryFormPage._goToEndpoint();
 
       cy.title().should("eql", "FastFood - Admin");
@@ -284,10 +284,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
         .should("be.enabled")
         .clear();
 
-        if(test_case.inputTextTC != ""){
-
-          categoryFormPage._fillCategoryNameInput(test_case.inputTextTC)
-        }
+      categoryFormPage._fillCategoryNameInput(test_case.inputTextTC);
 
       categoryFormPage.get
         .$addButton()
