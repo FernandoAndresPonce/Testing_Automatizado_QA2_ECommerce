@@ -11,6 +11,7 @@ import { categoryFormPage } from "../../support/POM/admin/categoryFormPage";
 import { defaultPage } from "../../support/POM/user/defaultPage";
 
 import { Given, When, Then, And } from "cypress-cucumber-preprocessor/steps";
+import { type } from "cypress/types/jquery";
 
 context(
   "📑 US 001 - Redirección - Acceso a la Página Principal de Administración de FastFood.",
@@ -248,47 +249,47 @@ context(
       }
     );
 
-    // describe("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {
-    //   When(
-    //     "el usuario ingresa un dato como {string} en el campo Category Name",
-    //     (data) => {
-    //       categoryFormPage.get
-    //         .$categoryNameLabel()
-    //         .should("be.visible")
-    //         .should("have.text", "Category Name");
+    describe("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {
+      When(
+        "el usuario ingresa un dato como {string} en el campo Category Name",
+        (valid_data) => {
+          categoryFormPage.get
+            .$categoryNameLabel()
+            .should("be.visible")
+            .should("have.text", "Category Name");
 
-    //       categoryFormPage.get
-    //         .$categoryNameInput()
-    //         .should("be.visible")
-    //         .should("be.enabled");
+          categoryFormPage.get
+            .$categoryNameInput()
+            .should("be.visible")
+            .should("be.enabled");
 
-    //       categoryFormPage._fillCategoryNameInput(data);
-    //     }
-    //   );
+          categoryFormPage._fillCategoryNameInput(valid_data);
+        }
+      );
 
-    //   And("presiona el botón Add", () => {
-    //     cy.get("div.page-body input[value='Add']")
-    //       .should("be.visible")
-    //       .should("be.enabled")
-    //       .click({ force: true });
-    //   });
+      And("presiona el botón Add", () => {
+        cy.get("div.page-body input[value='Add']")
+          .should("be.visible")
+          .should("be.enabled")
+          .click({ force: true });
+      });
 
-    //   Then(
-    //     "el sistema lo redireccionara automaticament a la página Category como {string}.",
-    //     (endpoint) => {
-    //       cy.url().should("contain", endpoint);
-    //       categoryPage.get.$title().should("be.visible");
-    //     }
-    //   );
-    // });
+      Then(
+        "el sistema lo redireccionara automaticament a la página Category como {string}.",
+        (endpoint) => {
+          cy.url().should("contain", endpoint);
+          categoryPage.get.$title().should("be.visible");
+        }
+      );
+    });
 
     describe("🧪 US 004 - TS 004 - TC 002 -  Validar, completar campo Category Name Incorrectamente, al ingresar datos Invalidos.", () => {
       When(
         "el usuario ingresa un dato como {string} en el campo Category Name",
-        (data) => {
-          Cypress.env("categoryData", data);
+        (invalid_data) => {
+          // Cypress.env("categoryData", invalid_data);
           // or
-          // cy.wrap(data).as("categoryData");
+          cy.wrap(invalid_data).as("categoryData");
 
           categoryFormPage.get
             .$categoryNameLabel()
@@ -300,7 +301,7 @@ context(
             .should("be.enabled")
             .should("be.visible");
 
-          categoryFormPage._fillCategoryNameInput(data);
+          categoryFormPage._fillCategoryNameInput(invalid_data);
         }
       );
       And("presiona el botón Add", () => {
@@ -320,11 +321,10 @@ context(
       );
       And(
         "debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label Category Name, con la Advertencia de Error como {string}.",
-        (validationError) => {
-          const categoryData = Cypress.env("categoryData");
-          // or;
-          // cy.get("@categoryData").then((categoryData) => {
-          if (categoryData != "") {
+        function (validationError) {
+
+          let data = this.categoryData;
+          if (data != '') {
             categoryFormPage.get
               .$categoryNameMustBeInCharacterOnlyValidationErrorSpan()
               .should("be.visible")
@@ -335,7 +335,6 @@ context(
               .should("be.visible")
               .should("have.text", validationError);
           }
-          // });
         }
       );
     });

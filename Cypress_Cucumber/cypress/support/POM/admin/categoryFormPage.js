@@ -24,6 +24,8 @@ class CategoryFormPage {
   _fillCategoryNameInput(name) {
     if (name != "") {
       this.get.$categoryNameInput().type(name);
+    }else{
+      this.get.$categoryNameInput().clear();
     }
   }
 }
