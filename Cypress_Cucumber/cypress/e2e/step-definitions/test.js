@@ -11,7 +11,6 @@ import { categoryFormPage } from "../../support/POM/admin/categoryFormPage";
 import { defaultPage } from "../../support/POM/user/defaultPage";
 
 import { Given, When, Then, And } from "cypress-cucumber-preprocessor/steps";
-import { type } from "cypress/types/jquery";
 
 context(
   "📑 US 001 - Redirección - Acceso a la Página Principal de Administración de FastFood.",
@@ -232,6 +231,7 @@ context(
 context(
   "📑 US 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.",
   () => {
+
     Given(
       "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
       () => {}
@@ -250,8 +250,9 @@ context(
     );
 
     describe("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {
+
       When(
-        "el usuario ingresa un dato como {string} en el campo Category Name",
+        "el usuario ingresa un dato valido como {string} en el campo Category Name",
         (valid_data) => {
           categoryFormPage.get
             .$categoryNameLabel()
@@ -284,8 +285,9 @@ context(
     });
 
     describe("🧪 US 004 - TS 004 - TC 002 -  Validar, completar campo Category Name Incorrectamente, al ingresar datos Invalidos.", () => {
+
       When(
-        "el usuario ingresa un dato como {string} en el campo Category Name",
+        "el usuario ingresa un dato invalido como {string} en el campo Category Name",
         (invalid_data) => {
           // Cypress.env("categoryData", invalid_data);
           // or
@@ -324,6 +326,8 @@ context(
         function (validationError) {
 
           let data = this.categoryData;
+          cy.log("Data :" + data)
+          
           if (data != '') {
             categoryFormPage.get
               .$categoryNameMustBeInCharacterOnlyValidationErrorSpan()
