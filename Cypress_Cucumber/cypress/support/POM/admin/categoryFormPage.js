@@ -3,8 +3,11 @@ class CategoryFormPage {
     $endpoint: () => "/Admin/CategoryForm.aspx",
     $title: () => cy.get("div.card span#ContentPlaceHolder1_lblCategoryTitle"),
     $categoryNameLabel: () => cy.contains("span", "Category Name"),
+    $categoryImageLabel: () => cy.contains("span", "Category Image"),
     $categoryNameInput: () =>
       cy.get("div.card input#ContentPlaceHolder1_txtName"),
+    $categoryImageInput: () => cy.get("div.card input[type='file']"),
+    $categoryPlaceholderImg: () => cy.get("div.card img[src='Image/placeholder/placeholder.jpg']"),
     $addButton: () =>
       cy.get("div.page-body input#ContentPlaceHolder1_btnAccept"),
     $categoryNameMustBeInCharacterOnlyValidationErrorSpan: () =>
@@ -24,7 +27,7 @@ class CategoryFormPage {
   _fillCategoryNameInput(name) {
     if (name != "") {
       this.get.$categoryNameInput().type(name);
-    }else{
+    } else {
       this.get.$categoryNameInput().clear();
     }
   }

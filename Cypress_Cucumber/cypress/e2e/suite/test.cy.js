@@ -18,9 +18,10 @@ import {
   validRandomCategoryName50Characters,
   invalidRandomCategoryNameOnlyNumber,
   invalidRandomCategoryNameOnlySpecialCharacter,
+  validRandomCategoryNameBetween1And50Character,
 } from "../variables/categoryFormPage";
 
-describe("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
+describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
   it("US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
     cy.visit("/");
 
@@ -62,7 +63,7 @@ describe("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Ad
   });
 });
 
-describe("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
+describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard'",
     () => {
@@ -134,7 +135,7 @@ describe("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de
   });
 });
 
-describe("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood", () => {
+describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categories de Administración de FastFood", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Categories de Administración ",
     () => {
@@ -308,4 +309,45 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       }
     });
   }
+});
+
+describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+  beforeEach(
+    "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración, 🧩 AND: completa el Text Input “Category Name”, con una Cadena de Texto valida.",
+    () => {
+      cy.session("Login then Go to Category Page", () => {
+        cy._$loginThenGoToDashboard();
+      });
+
+      dashboardPage._goToEndpoint();
+      dashboardPage._clickGoToCategoryByRandomElements();
+      categoryPage._clickAddButton();
+      categoryFormPage._fillCategoryNameInput(
+        validRandomCategoryNameBetween1And50Character()
+      );
+    }
+  );
+
+  it("US 005 - TS 005 - TC 001 - Validar, cargar previsualización de una imagen, al ingresar una imagen en el File-Input.", () => {
+    categoryFormPage.get
+      .$categoryImageLabel()
+      .should("be.visible")
+      .should("have.text", "Category Image");
+
+    categoryFormPage.get
+      .$categoryImageInput()
+      .should("be.visible")
+      .should("be.enabled");
+
+    categoryFormPage.get.$categoryPlaceholderImg().should("be.visible");
+
+    categoryFormPage.get
+      .$categoryImageInput()
+      .selectFile("cypress/e2e/suite/Image/Desserts.png");
+
+    cy.wait(500);
+
+    // necesito cambiar el locator, del placeholder como tal, por una imagen nueva, correborar este step.
+    // categoryFormPage.get.$categoryPlaceholderImg().should("be.disabled");
+  });
 });

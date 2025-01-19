@@ -15,8 +15,10 @@ Feature: 📑 US 004 - Text Input Categoría Formulario - Completar los campos d
         Then el sistema lo redireccionara automaticament a la página Category como "/Admin/Category.aspx".
 
         Examples:
-            | valid_data |
-            | P          |
+            | valid_data                                         |
+            | P                                                  |
+            | AbcdefghijklmnDopqrstuvwxyzAbcdefghijklmnDopqrstuv |
+            | Pizza contemporanea                                |
 
     Scenario Outline: 🧪 US 004 - TS 004 - TC 002:  Validar, completar campo Category Name Incorrectamente, al ingresar datos Invalidos.
         When el usuario ingresa un dato invalido como '<invalid_data>' en el campo Category Name

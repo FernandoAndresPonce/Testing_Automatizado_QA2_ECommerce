@@ -24,6 +24,24 @@ export const validRandomCategoryName50Characters = () => {
     return randomWord;
 };
 
+export const validRandomCategoryNameBetween1And50Character = () => {
+
+    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    const maxLenght = 50;
+    const minLength = 1;
+
+    const randomLenght = Math.floor(Math.random() * (maxLenght - minLength + 1)) + minLength;
+    let randomWord = "";
+
+    for ( let i = 0 ; i < randomLenght ; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomWord += characters[randomIndex];
+    };
+
+    return randomWord;
+};
+
 export const invalidRandomCategoryNameOnlyNumber = () => {
 
     const character = '1234567890';
