@@ -52,7 +52,7 @@ describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal 
     loginPage.get
       .$loginButton()
       .should("be.visible")
-      .should("be.enabled")
+      .and("be.enabled")
       .click({ force: true });
 
     adminPage.get.$loader().should("be.visible");
@@ -79,7 +79,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     categoryPage.get
       .$title()
       .should("be.visible")
-      .should("have.text", "Categories");
+      .and("have.text", "Categories");
   });
 
   it("US 002 - TS 002 - TC 002 - Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el TabMenu, seleccionando la opción funcional “Categories”.", () => {
@@ -88,8 +88,8 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     adminPage.get
       .$tabMenuCategoriesLink()
       .should("be.visible")
-      .should("not.be.disabled")
-      .should("contain.text", "Categories")
+      .and("not.be.disabled")
+      .and("contain.text", "Categories")
       .click();
 
     cy.url().should("include", categoryPage.get.$endpoint());
@@ -97,7 +97,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     categoryPage.get
       .$title()
       .should("be.visible")
-      .should("have.text", "Categories");
+      .and("have.text", "Categories");
   });
 
   it("US 002 - TS 002 - TC 003 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el Icono de la Card Categories", () => {
@@ -106,7 +106,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     dashboardPage.get
       .$categoriesCardIcoLink()
       .should("be.visible")
-      .should("not.be.disabled")
+      .and("not.be.disabled")
       .click();
 
     cy.url().should("include", categoryPage.get.$endpoint());
@@ -114,7 +114,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     categoryPage.get
       .$title()
       .should("be.visible")
-      .should("have.text", "Categories");
+      .and("have.text", "Categories");
   });
 
   it("US 002 - TS 002 - TC 004 - Intentar Validar, redireccionar a la Interfaz “Categories” de Administración, mediante el View Details de la Card Categories.", () => {
@@ -123,7 +123,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     dashboardPage.get
       .$categoriesCardViewDetailsLink()
       .should("be.visible")
-      .should("not.be.disabled")
+      .and("not.be.disabled")
       .click();
 
     cy.url().should("include", categoryPage.get.$endpoint());
@@ -131,7 +131,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     categoryPage.get
       .$title()
       .should("be.visible")
-      .should("have.text", "Categories");
+      .and("have.text", "Categories");
   });
 });
 
@@ -153,8 +153,8 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
     categoryPage.get
       .$addButton()
       .should("be.visible")
-      .should("be.enabled")
-      .should("contain", "Add Category")
+      .and("be.enabled")
+      .and("contain", "Add Category")
       .click({ force: true });
 
     //confirmar el placeholder =>
@@ -169,7 +169,7 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
     categoryFormPage.get
       .$title()
       .should("be.visible")
-      .should("have.text", "Add Category");
+      .and("have.text", "Add Category");
   });
 
   it("US 003 - TS 003 - TC 002 - Validar, redireccionar a la Interfaz “Formulario de una Categoria” de Administración, mediante la URL.", () => {
@@ -180,7 +180,7 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
     categoryFormPage.get
       .$title()
       .should("be.visible")
-      .should("have.text", "Add Category");
+      .and("have.text", "Add Category");
   });
 });
 
@@ -219,20 +219,20 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       categoryFormPage.get
         .$title()
         .should("be.visible")
-        .should("have.text", "Add Category");
+        .and("have.text", "Add Category");
 
       categoryFormPage.get.$categoryNameLabel().should("be.visible");
 
       categoryFormPage.get
         .$categoryNameInput()
         .should("be.visible")
-        .should("be.enabled")
+        .and("be.enabled")
         .type(test_case.inputTextTC);
 
       categoryFormPage.get
         .$addButton()
         .should("be.visible")
-        .should("be.enabled")
+        .and("be.enabled")
         .click({ force: true });
 
       cy.wait(500);
@@ -275,14 +275,14 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       categoryFormPage.get
         .$title()
         .should("be.visible")
-        .should("have.text", "Add Category");
+        .and("have.text", "Add Category");
 
       categoryFormPage.get.$categoryNameLabel().should("be.visible");
 
       categoryFormPage.get
         .$categoryNameInput()
         .should("be.visible")
-        .should("be.enabled")
+        .and("be.enabled")
         .clear();
 
       categoryFormPage._fillCategoryNameInput(test_case.inputTextTC);
@@ -290,7 +290,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       categoryFormPage.get
         .$addButton()
         .should("be.visible")
-        .should("be.enabled")
+        .and("be.enabled")
         .click({ force: true });
 
       cy.wait(500);
@@ -300,12 +300,12 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       if (test_case.inputTextTC == "") {
         cy.get("div.card span#ContentPlaceHolder1_rfValidator")
           .should("be.visible")
-          .should("have.text", test_case.validationError);
+          .and("have.text", test_case.validationError);
       } else {
         categoryFormPage.get
           .$categoryNameMustBeInCharacterOnlyValidationSpan()
           .should("be.visible")
-          .should("have.text", test_case.validationError);
+          .and("have.text", test_case.validationError);
       }
     });
   }
@@ -332,22 +332,37 @@ describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar lo
     categoryFormPage.get
       .$categoryImageLabel()
       .should("be.visible")
-      .should("have.text", "Category Image");
+      .and("have.text", "Category Image");
 
     categoryFormPage.get
       .$categoryImageInput()
       .should("be.visible")
-      .should("be.enabled");
+      .and("be.enabled");
 
-    categoryFormPage.get.$categoryPlaceholderImg().should("be.visible");
+    categoryFormPage.get.$placeholderImg().should("be.visible");
 
     categoryFormPage.get
       .$categoryImageInput()
       .selectFile("cypress/e2e/suite/Image/Desserts.png");
 
-    cy.wait(500);
+    categoryFormPage.get
+      .$categoryImageInput()
+      .invoke("val")
+      .then((textImageInput) => {
+        cy.log("Input value: " + textImageInput);
 
-    // necesito cambiar el locator, del placeholder como tal, por una imagen nueva, correborar este step.
-    // categoryFormPage.get.$categoryPlaceholderImg().should("be.disabled");
+        expect(textImageInput).to.contain("Desserts.png");
+      });
+
+    categoryFormPage.get
+      .$replacePlaceholderImg()
+      .should("be.visible")
+      .and("have.prop", "naturalWidth")
+      .then((imageWidth) => {
+        cy.log(imageWidth);
+        expect(imageWidth).to.greaterThan(0);
+      });
+
+    categoryFormPage.get.$placeholderImg().should("not.exist");
   });
 });

@@ -7,7 +7,8 @@ class CategoryFormPage {
     $categoryNameInput: () =>
       cy.get("div.card input#ContentPlaceHolder1_txtName"),
     $categoryImageInput: () => cy.get("div.card input[type='file']"),
-    $categoryPlaceholderImg: () => cy.get("div.card img[src='Image/placeholder/placeholder.jpg']"),
+    $placeholderImg: () => cy.get("div.card img[src='Image/placeholder/placeholder.jpg']"),
+    $replacePlaceholderImg: () =>  cy.get("div.card img#ContentPlaceHolder1_imgForm"),
     $addButton: () =>
       cy.get("div.page-body input#ContentPlaceHolder1_btnAccept"),
     $categoryNameMustBeInCharacterOnlyValidationErrorSpan: () =>
