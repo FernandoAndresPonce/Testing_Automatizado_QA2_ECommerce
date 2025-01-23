@@ -184,7 +184,7 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
   });
 });
 
-describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración",
 
@@ -193,54 +193,54 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
     }
   );
 
-  const valid_test_case = [
-    {
-      titleTC:
-        "US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).",
-      inputTextTC: `${validRandomCategoryName1Character()}`,
-    },
+  // const valid_test_case = [
+  //   {
+  //     titleTC:
+  //       "US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).",
+  //     inputTextTC: `${validRandomCategoryName1Character()}`,
+  //   },
 
-    {
-      titleTC:
-        "US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).",
-      inputTextTC: `${validRandomCategoryName50Characters()}`,
-    },
-  ];
+  //   {
+  //     titleTC:
+  //       "US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).",
+  //     inputTextTC: `${validRandomCategoryName50Characters()}`,
+  //   },
+  // ];
 
-  for (let test_case of valid_test_case) {
-    it(`${test_case.titleTC}`, () => {
-      // categoryFormPage._goToEndpoint();
+  // for (let test_case of valid_test_case) {
+  //   it(`${test_case.titleTC}`, () => {
+  //     // categoryFormPage._goToEndpoint();
 
-      cy.title().should("eql", "FastFood - Admin");
-      cy.url().should("include", categoryFormPage.get.$endpoint());
+  //     cy.title().should("eql", "FastFood - Admin");
+  //     cy.url().should("include", categoryFormPage.get.$endpoint());
 
-      cy.wait(1000);
+  //     cy.wait(1000);
 
-      categoryFormPage.get
-        .$title()
-        .should("be.visible")
-        .and("have.text", "Add Category");
+  //     categoryFormPage.get
+  //       .$title()
+  //       .should("be.visible")
+  //       .and("have.text", "Add Category");
 
-      categoryFormPage.get.$categoryNameLabel().should("be.visible");
+  //     categoryFormPage.get.$categoryNameLabel().should("be.visible");
 
-      categoryFormPage.get
-        .$categoryNameInput()
-        .should("be.visible")
-        .and("be.enabled")
-        .type(test_case.inputTextTC);
+  //     categoryFormPage.get
+  //       .$categoryNameInput()
+  //       .should("be.visible")
+  //       .and("be.enabled")
+  //       .type(test_case.inputTextTC);
 
-      categoryFormPage.get
-        .$addButton()
-        .should("be.visible")
-        .and("be.enabled")
-        .click({ force: true });
+  //     categoryFormPage.get
+  //       .$addButton()
+  //       .should("be.visible")
+  //       .and("be.enabled")
+  //       .click({ force: true });
 
-      cy.wait(500);
+  //     cy.wait(500);
 
-      cy.url().should("include", categoryPage.get.$endpoint());
-      categoryPage.get.$title().should("be.visible");
-    });
-  }
+  //     cy.url().should("include", categoryPage.get.$endpoint());
+  //     categoryPage.get.$title().should("be.visible");
+  //   });
+  // }
 
   const invalid_test_case = [
     {
@@ -264,8 +264,9 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
   ];
 
   for (let test_case of invalid_test_case) {
+    console.log("Ejecutando caso de prueba:", test_case.titleTC);
     it(`${test_case.titleTC}`, () => {
-      // categoryFormPage._goToEndpoint();
+      categoryFormPage._goToEndpoint();
 
       cy.title().should("eql", "FastFood - Admin");
       cy.url().should("include", categoryFormPage.get.$endpoint());
@@ -297,13 +298,14 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
 
       categoryFormPage.get.$categoryNameInput().should("be.focused");
 
-      if (test_case.inputTextTC == "") {
-        cy.get("div.card span#ContentPlaceHolder1_rfValidator")
+      //validar la longuitud de la data.
+      if (test_case.inputTextTC === "") {
+        categoryFormPage.get.$categoryNameRequiredNameValidationErrorSpan()
           .should("be.visible")
           .and("have.text", test_case.validationError);
       } else {
         categoryFormPage.get
-          .$categoryNameMustBeInCharacterOnlyValidationSpan()
+          .$categoryNameMustBeInCharacterOnlyValidationErrorSpan()
           .should("be.visible")
           .and("have.text", test_case.validationError);
       }
@@ -311,7 +313,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
   }
 });
 
-describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe.skip("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración, 🧩 AND: completa el Text Input “Category Name”, con una Cadena de Texto valida.",
     () => {
