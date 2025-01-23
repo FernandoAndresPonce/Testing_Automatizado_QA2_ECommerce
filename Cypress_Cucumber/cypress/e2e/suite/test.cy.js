@@ -184,7 +184,7 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
   });
 });
 
-describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración",
 
@@ -193,54 +193,71 @@ describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar lo
     }
   );
 
-  // const valid_test_case = [
-  //   {
-  //     titleTC:
-  //       "US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).",
-  //     inputTextTC: `${validRandomCategoryName1Character()}`,
-  //   },
+  const valid_test_case = [
+    {
+      titleTC:
+        "US 004 - TS 004 - TC 001 -  Validar el Text Input Category Name, al añadir un (1) carácter Alfabético (String).",
+      inputTextTC: `${validRandomCategoryName1Character()}`,
+    },
 
-  //   {
-  //     titleTC:
-  //       "US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).",
-  //     inputTextTC: `${validRandomCategoryName50Characters()}`,
-  //   },
-  // ];
+    {
+      titleTC:
+        "US 004 - TS 004 - TC 002 -  Validar el Text Input Category Name, al añadir cincuenta (50) caracteres Alfabéticos (String).",
+      inputTextTC: `${validRandomCategoryName50Characters()}`,
+    },
+  ];
 
-  // for (let test_case of valid_test_case) {
-  //   it(`${test_case.titleTC}`, () => {
-  //     // categoryFormPage._goToEndpoint();
+  for (let test_case of valid_test_case) {
+    it(`${test_case.titleTC}`, () => {
+      // categoryFormPage._goToEndpoint();
 
-  //     cy.title().should("eql", "FastFood - Admin");
-  //     cy.url().should("include", categoryFormPage.get.$endpoint());
+      cy.title().should("eql", "FastFood - Admin");
+      cy.url().should("include", categoryFormPage.get.$endpoint());
 
-  //     cy.wait(1000);
+      cy.wait(1000);
 
-  //     categoryFormPage.get
-  //       .$title()
-  //       .should("be.visible")
-  //       .and("have.text", "Add Category");
+      categoryFormPage.get
+        .$title()
+        .should("be.visible")
+        .and("have.text", "Add Category");
 
-  //     categoryFormPage.get.$categoryNameLabel().should("be.visible");
+      categoryFormPage.get.$categoryNameLabel().should("be.visible");
 
-  //     categoryFormPage.get
-  //       .$categoryNameInput()
-  //       .should("be.visible")
-  //       .and("be.enabled")
-  //       .type(test_case.inputTextTC);
+      const dataCategoryName = test_case.inputTextTC;
+      const dataCategoryNameLenght = dataCategoryName.length;
 
-  //     categoryFormPage.get
-  //       .$addButton()
-  //       .should("be.visible")
-  //       .and("be.enabled")
-  //       .click({ force: true });
+      if (dataCategoryNameLenght >= 1 && dataCategoryNameLenght <= 50) {
+        categoryFormPage.get
+          .$categoryNameInput()
+          .should("be.visible")
+          .and("be.enabled")
+          .type(dataCategoryName);
+      } else {
+        if (dataCategoryNameLenght > 50) {
+          cy.log(
+            "Max caracteres permitido 50 | Caracteres : " +
+              dataCategoryNameLenght
+          );
+        } else {
+          cy.log(
+            "Min caracteres permitido 1 | Caracteres : " +
+              dataCategoryNameLenght
+          );
+        }
+      }
 
-  //     cy.wait(500);
+      categoryFormPage.get
+        .$addButton()
+        .should("be.visible")
+        .and("be.enabled")
+        .click({ force: true });
 
-  //     cy.url().should("include", categoryPage.get.$endpoint());
-  //     categoryPage.get.$title().should("be.visible");
-  //   });
-  // }
+      cy.wait(500);
+
+      cy.url().should("include", categoryPage.get.$endpoint());
+      categoryPage.get.$title().should("be.visible");
+    });
+  }
 
   const invalid_test_case = [
     {
@@ -266,7 +283,7 @@ describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar lo
   for (let test_case of invalid_test_case) {
     console.log("Ejecutando caso de prueba:", test_case.titleTC);
     it(`${test_case.titleTC}`, () => {
-      categoryFormPage._goToEndpoint();
+      // categoryFormPage._goToEndpoint();
 
       cy.title().should("eql", "FastFood - Admin");
       cy.url().should("include", categoryFormPage.get.$endpoint());
@@ -286,7 +303,8 @@ describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar lo
         .and("be.enabled")
         .clear();
 
-      categoryFormPage._fillCategoryNameInput(test_case.inputTextTC);
+      const dataCategoryName = test_case.inputTextTC;
+      categoryFormPage._fillCategoryNameInput(dataCategoryName);
 
       categoryFormPage.get
         .$addButton()
@@ -299,13 +317,17 @@ describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar lo
       categoryFormPage.get.$categoryNameInput().should("be.focused");
 
       //validar la longuitud de la data.
-      if (test_case.inputTextTC === "") {
-        categoryFormPage.get.$categoryNameRequiredNameValidationErrorSpan()
-          .should("be.visible")
-          .and("have.text", test_case.validationError);
-      } else {
+
+      const dataCategoryNameLenght = dataCategoryName.length;
+      cy.log("lenght : " + dataCategoryNameLenght);
+      if (dataCategoryNameLenght >= 1 && dataCategoryNameLenght <= 50) {
         categoryFormPage.get
           .$categoryNameMustBeInCharacterOnlyValidationErrorSpan()
+          .should("be.visible")
+          .and("have.text", test_case.validationError);
+      } else if (dataCategoryNameLenght == 0) {
+        categoryFormPage.get
+          .$categoryNameRequiredNameValidationErrorSpan()
           .should("be.visible")
           .and("have.text", test_case.validationError);
       }
