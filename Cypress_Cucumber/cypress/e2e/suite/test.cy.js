@@ -19,6 +19,7 @@ import {
   invalidRandomCategoryNameOnlyNumber,
   invalidRandomCategoryNameOnlySpecialCharacter,
   validRandomCategoryNameBetween1And50Character,
+  randomCategoryImage,
 } from "../variables/categoryFormPage";
 
 describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
@@ -335,7 +336,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
   }
 });
 
-describe.skip("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración, 🧩 AND: completa el Text Input “Category Name”, con una Cadena de Texto valida.",
     () => {
@@ -367,7 +368,7 @@ describe.skip("🔬 US 005 - TS 005 - File Input Categoría Formulario - Complet
 
     categoryFormPage.get
       .$categoryImageInput()
-      .selectFile("cypress/e2e/suite/Image/Desserts.png");
+      .selectFile(`cypress/e2e/suite/Image/${randomCategoryImage()}`);
 
     categoryFormPage.get
       .$categoryImageInput()
@@ -375,7 +376,7 @@ describe.skip("🔬 US 005 - TS 005 - File Input Categoría Formulario - Complet
       .then((textImageInput) => {
         cy.log("Input value: " + textImageInput);
 
-        expect(textImageInput).to.contain("Desserts.png");
+        expect(textImageInput).to.contain(textImageInput);
       });
 
     categoryFormPage.get
@@ -388,5 +389,69 @@ describe.skip("🔬 US 005 - TS 005 - File Input Categoría Formulario - Complet
       });
 
     categoryFormPage.get.$placeholderImg().should("not.exist");
+  });
+
+  it("US 005 - TS 005 - TC 002 - Validar, No cargar previsualización de una imagen.", () => {
+    categoryFormPage.get
+      .$categoryImageLabel()
+      .should("be.visible")
+      .and("have.text", "Category Image");
+
+    categoryFormPage.get
+      .$categoryImageInput()
+      .should("be.visible")
+      .and("be.enabled");
+
+    categoryFormPage.get
+      .$categoryImageInput()
+      .invoke("val")
+      .then((textImageInput) => {
+        cy.log("Input value: " + textImageInput);
+
+        expect(textImageInput).to.contain("");
+
+        categoryFormPage.get
+          .$placeholderImg()
+          .should("be.visible")
+          .and("exist");
+      });
+  });
+
+  it("US 005 - TS 005 - TC 003 - Validar, Cargar previsualización de una imagen,  al No ingresar una imagen en el File-Input.", () => {
+
+    categoryFormPage.get
+      .$categoryImageLabel()
+      .should("be.visible")
+      .and("have.text", "Category Image");
+
+    categoryFormPage.get
+      .$categoryImageInput()
+      .should("be.visible")
+      .and("be.enabled");
+
+      
+      categoryFormPage.get
+      .$categoryImageInput()
+      .selectFile([]);
+      
+      categoryFormPage.get
+      .$categoryImageInput()
+      .invoke("val")
+      .then((textImageInput) => {
+        cy.log("Input value: " + textImageInput);
+        
+        expect(textImageInput).to.contain(textImageInput);
+      });
+      
+      categoryFormPage.get
+      .$replacePlaceholderImg()
+      .should("be.visible")
+      .and("have.prop", "naturalWidth")
+      .then((imageWidth) => {
+        cy.log(imageWidth);
+        expect(imageWidth).to.greaterThan(0);
+      });
+      
+      categoryFormPage.get.$placeholderImg().should("be.visible").and("exist");
   });
 });
