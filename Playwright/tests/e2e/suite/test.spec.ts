@@ -2149,7 +2149,7 @@ test.describe("🔬 US 012 - TS 012 - Detalle Categoría - Acceder a la Interfaz
             await page.waitForTimeout(1000);
         })
 
-        await test.step("⚡WHEN introduce la Url con el agrega el ID de la Categoria, con su respectiva sintaxis", async () => [
+        await test.step("⚡ WHEN introduce la Url con el agrega el ID de la Categoria, con su respectiva sintaxis", async () => [
 
             await categoryDetail._goToEndpointId(categoryId)
             // await page.goto(`/Admin/CategoryDetail.aspx?Id=${categoryId}`)    
@@ -2208,7 +2208,7 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
 
         let expectCategory: CategoryTable;
 
-        await test.step("⚡WHEN hace Click en el Botón en la imagen del “OJO”, que se encuentra visible al final de una fila, en la parte derecha,", async () => {
+        await test.step("⚡ WHEN hace Click en el Botón en la imagen del “OJO”, que se encuentra visible al final de una fila, en la parte derecha,", async () => {
 
             let rowNumber: number;
 
@@ -2244,7 +2244,7 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
             await categoryPage._clickEyeRowButton(rowNumber);
         });
 
-        await test.step(" AND el sistema se redirecciona a la Interfaz “Detalles de la categoría”,", async () => {
+        await test.step("🧩 AND el sistema se redirecciona a la Interfaz “Detalles de la categoría”,", async () => {
 
             await page.waitForLoadState('load');
             await adminPage._hiddenLoader();
@@ -2252,7 +2252,7 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
             await expect(categoryDetail.$viewCategoryTitle, "El Titulo View Category No esta Visible.").toBeVisible();
         })
 
-        await test.step("Then: la información de la Categoria seleccionada deberia coincidir con la presentada en la tabla.", async () => {
+        await test.step("✨ THEN la información de la Categoria seleccionada deberia coincidir con la presentada en la tabla.", async () => {
 
             await expect(categoryDetail.$categoryLabel).toBeVisible();
             await expect(categoryDetail.$idCategoryLabel).toBeVisible();
@@ -2265,7 +2265,6 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
             let actualCategoryActiveInactive: string;
             let actualCategoryOfferNoOffer: string = "No Offert";
 
-            //solucionar el problema si un elemento esta visible y no.
             const isVisibleActiveLocator = await categoryDetail.$activeLabel.isVisible();
             const isVisibleOfferLocator = await categoryDetail.$offerLabel.isVisible();
 
@@ -2319,6 +2318,75 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
 
 
 
+        });
+    });
+});
+
+test.describe("🔬 US 014 - TS 014 - Botón Return - Regreso a la Interfaz de Categoría desde “Detalle de la Categoría”.", async () => {
+    test.beforeEach("🔲 BACKGROUND:", async ({page, categoryPage, categoryDetail, adminPage}) => {
+
+        let rowsLenght : number;
+
+        await test.step("📝 GIVEN que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
+
+            await page.goto("/");
+            await categoryPage._goToEndpoint();   
+        });
+
+        await test.step(" AND que la Tabla de la Interfaz de Categoría contiene al menos una categoría registrada", async () => {
+
+            await expect(categoryPage.$table).toBeVisible();
+            await expect(categoryPage.$table).toBeEnabled();
+
+            const rows = await categoryPage.$tableRows.all();
+
+            rowsLenght = await rows.length;
+
+            await expect (rowsLenght).toBeGreaterThanOrEqual(1);    
+        });
+
+        await test.step("AND que el admin ha seleccionado una Categoría de dicha tabla,", async () => {
+            const randomIndex = Math.floor(Math.random() * (rowsLenght - 1) + 1);
+
+            await expect(categoryPage.$tableRows.nth(randomIndex)).toBeVisible();
+            await expect(categoryPage.$tableRows.nth(randomIndex)).toBeEnabled();
+
+            await categoryPage._clickEyeRowButton(randomIndex);
+        });
+
+        await test.step("se encuentra en la Interfaz de “Detalle de una Categoría” ", async () => {
+
+            await adminPage._hiddenLoader();
+            await page.waitForEvent("load");
+
+            await expect(categoryDetail.$viewCategoryTitle).toBeVisible();
+        });
+
+
+    });
+
+    test("US 018 - TS 018 - TC 001 - Validar, regresar a la Interfaz “Category” al hacer Click en el Botón Return", async ({page, categoryDetail, adminPage, categoryPage }) => {
+
+        await test.step("⚡ WHEN hace Click en el Boton Return,", async () => {
+
+            await expect((categoryDetail.$returnButton), "El Button NO es Visible.").toBeVisible();
+            await expect((categoryDetail.$returnButton), "El Button NO esta Disponible.").toBeEnabled();
+            await expect (categoryDetail.$returnButton, "El Button NO Contiene el texto 'Return'.").toHaveText("Return");
+    
+            
+            await categoryDetail._clickReturnButton();
+        });
+
+        await test.step("✨ THEN se iniciará la redireccion de la página, mostrando un indicador de carga (Loader),", async () => {
+
+            await expect(adminPage.$loader, "El Loader (imagen de carga) NO es Visible.").toBeVisible();
+            await adminPage._hiddenLoader();
+        })
+
+        await test.step("🧩 AND el sistema se redirecciona a la Interfaz de “Category” de Administración como '/Admin/Category.aspx'", async () => {
+
+            await expect(page).toHaveURL(categoryPage.endpoint);
+            await expect(categoryPage.$categoryTitle, "El Titulo 'Category' NO es Visible.").toBeVisible();
         });
     });
 });

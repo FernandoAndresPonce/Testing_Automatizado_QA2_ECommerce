@@ -12,6 +12,7 @@ export class CategoryDetail{
     readonly $inactiveLabel : Locator;
     readonly $offerLabel : Locator;
     readonly $noOfferLabel : Locator;
+    readonly $returnButton : Locator;
 
     constructor ( page : Page) {
         this.page = page;
@@ -22,11 +23,17 @@ export class CategoryDetail{
         this.$inactiveLabel = page.locator("div.card span#ContentPlaceHolder1_lblInactive");
         this.$offerLabel = page.locator("div.card span#ContentPlaceHolder1_lblOffer");
         this.$noOfferLabel = page.locator("div.card span#ContentPlaceHolder1_lblNoOffert");
+        this.$returnButton = page.getByRole("button", {name : "Return"});
+
 
     };
 
     async _goToEndpointId ( id : string) {
         await this.page.goto(`${this.endpoint}?Id=${id}`)
-    }
+    };
+
+    async _clickReturnButton() {
+        await this.$returnButton.click({ force  : true });
+    };
 
 };
