@@ -1,38 +1,24 @@
-Corregir =>
+Feature: 📑 US 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.
 
-Background:
-• Given: de que el admin se encuentra en la página de agregar categoría http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx.
-• And: completa el Text Input “Category Name”, con la Cadena de Texto Postre.
+    COMO Admin de la web FastFood,
+    QUIERO agregar una imagen,
+    PARA identificar la categoría con una representación visual.
 
-#ESCENARIO 1 (Happy Path)
-• Scenario: Admin carga una imagen exitosamente.
+    Background:
+        Given que el Usuario ha iniciado sesión con credenciales con rol Administrador
+        And se encuentra en la Interfaz Formulario Add Category de Administración como "/Admin/CategoryForm.aspx"
 
-o When: hace Click en el File Input Category Image,
-o And: se le abre el Explorador de Archivo,
-o And: busca la imagen a cargar,
-o And: selecciona la imagen a cargar,
-o And: hace Click en Abrir,
-o And: se le cierra el Explorador de Archivo,
-o And: hace Click en el botón Add del formulario
-o Then: el File Input Category Image no le aparece Ninguna Advertencia
-o And: el sistema se redirecciona a la página Category.
+    Scenario Outline: 🧪 US 005 - TS 005 - TC 001: Validar, cargar previsualización de una imagen, al ingresar una imagen en el File-Input.
+        When hace Click en el File Input Category Image
+        And carga una Imagen como '<image>'
+        Then deberia previsualizarse la imagen añadida.
 
-#ESCENARIO 2
-• Scenario: Admin no carga una imagen.
+        Examples:
+            | image              |
+            | Desserts.png       |
+            | 12$34 Desserts.png |
+            | 12$34.png          |
 
-o When: hace Click en el botón Add del formulario,
-o But: sin cargar ninguna imagen,
-o Then: el File Input Category Image no le aperece Ninguna Advertencia
-o And: el sistema se redirecciona a la página Category.
+    Scenario: 🧪 US 005 - TS 005 - TC 002: Validar, No cargar previsualización de una imagen.
+        Then deberia previsualizarse un Placeholder, como imagen pre establecida.
 
-#ESCENARIO 3
-• Scenario: Admin abre el Explorador de Archivo, pero no carga una imagen.
-
-o When: hace Click en el File Input Category Image,
-o And: se le abre el Explorador de Archivo,
-o But: No selecciona ninguna imagen,
-o And: hace Click en Cancelar,
-o And: se le cierra el Explorador de Archivo,
-o And: hace Click en el botón Add del formulario
-o Then: el File Input Category Image no le aperece Ninguna Advertencia
-o And: el sistema se redirecciona a la página Category.

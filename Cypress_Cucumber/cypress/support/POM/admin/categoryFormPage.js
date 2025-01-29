@@ -19,11 +19,11 @@ class CategoryFormPage {
 
   _goToEndpoint() {
     cy.visit(this.get.$endpoint());
-  }
+  };
 
   _clickAddButton() {
     this.get.$addButton().click({ force: true });
-  }
+  };
 
   _fillCategoryNameInput(name) {
     if (name != "") {
@@ -31,6 +31,10 @@ class CategoryFormPage {
     } else {
       this.get.$categoryNameInput().clear();
     }
+  };
+
+  _uploadCategoryImageFileInput (image) {
+    this.get.$categoryImageInput().selectFile(image);
   }
 }
 

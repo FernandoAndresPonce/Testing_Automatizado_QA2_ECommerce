@@ -9,6 +9,7 @@ import { adminPage } from "../../support/POM/admin/adminPage";
 import { categoryPage } from "../../support/POM/admin/categoryPage";
 import { categoryFormPage } from "../../support/POM/admin/categoryFormPage";
 import { defaultPage } from "../../support/POM/user/defaultPage";
+import { imagePath } from "../variables/path";
 
 import { Given, When, Then, And } from "cypress-cucumber-preprocessor/steps";
 
@@ -231,7 +232,6 @@ context(
 context(
   "📑 US 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.",
   () => {
-
     Given(
       "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
       () => {}
@@ -250,7 +250,6 @@ context(
     );
 
     describe("🧪 US 004 - TS 004 - TC 001 -  Validar, completar campo Category Name exitosamente, al ingresar datos Validos.", () => {
-
       When(
         "el usuario ingresa un dato valido como {string} en el campo Category Name",
         (valid_data) => {
@@ -285,7 +284,6 @@ context(
     });
 
     describe("🧪 US 004 - TS 004 - TC 002 -  Validar, completar campo Category Name Incorrectamente, al ingresar datos Invalidos.", () => {
-
       When(
         "el usuario ingresa un dato invalido como {string} en el campo Category Name",
         (invalid_data) => {
@@ -324,11 +322,10 @@ context(
       And(
         "debería aparecer una advertencia con un mensaje de color rojo, al lado derecho de la Label Category Name, con la Advertencia de Error como {string}.",
         function (validationError) {
-
           let data = this.categoryData;
-          cy.log("Data :" + data)
-          
-          if (data != '') {
+          cy.log("Data :" + data);
+
+          if (data != "") {
             categoryFormPage.get
               .$categoryNameMustBeInCharacterOnlyValidationErrorSpan()
               .should("be.visible")
@@ -339,6 +336,107 @@ context(
               .should("be.visible")
               .should("have.text", validationError);
           }
+        }
+      );
+    });
+  }
+);
+
+context(
+  "📑 US 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.",
+  () => {
+    Given(
+      "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
+      () => {}
+    );
+    And(
+      "se encuentra en la Interfaz Formulario Add Category de Administración como {string}",
+      (endpoint) => {
+        categoryFormPage._goToEndpoint();
+
+        cy.url().should("include", endpoint);
+
+        categoryFormPage.get
+          .$title()
+          .should("be.visible")
+          .and("have.text", "Add Category");
+      }
+    );
+
+    describe("🧪 US 005 - TS 005 - TC 001: Validar, cargar previsualización de una imagen, al ingresar una imagen en el File-Input.", () => {
+      When("hace Click en el File Input Category Image", () => {
+        cy.wait(500);
+
+        categoryFormPage.get
+          .$categoryImageLabel()
+          .should("be.visible")
+          .and("have.text", "Category Image");
+
+        categoryFormPage.get.$placeholderImg().should("be.visible");
+
+        categoryFormPage.get
+          .$categoryImageInput()
+          .should("be.visible")
+          .and("be.enabled")
+          .click({ force: true });
+      });
+
+      And("carga una Imagen como {string}", (image) => {
+        categoryFormPage._uploadCategoryImageFileInput(
+          Cypress.env("path").imagePath + image
+        );
+
+        categoryFormPage.get
+          .$categoryImageInput()
+          .invoke("val")
+          .then((dataImageInput) => {
+            cy.log(dataImageInput);
+            expect(dataImageInput).be.include(image);
+          });
+      });
+
+      Then("deberia previsualizarse la imagen añadida.", () => {
+        categoryFormPage.get
+          .$replacePlaceholderImg()
+          .should("be.visible")
+          .and("have.prop", "naturalWidth")
+          .then((imageWidth) => {
+            cy.log("Width: " + imageWidth);
+            expect(imageWidth).to.be.greaterThan(0);
+          });
+        categoryFormPage.get.$placeholderImg().should("not.exist");
+      });
+    });
+
+    describe("🧪 US 005 - TS 005 - TC 002: Validar, No cargar previsualización de una imagen.", () => {
+      Then(
+        "deberia previsualizarse un Placeholder, como imagen pre establecida.",
+        () => {
+          cy.wait(500);
+
+          categoryFormPage.get
+            .$categoryImageLabel()
+            .should("be.visible")
+            .and("have.text", "Category Image");
+
+          categoryFormPage.get
+            .$categoryImageInput()
+            .should("be.visible")
+            .and("be.enabled");
+
+          categoryFormPage.get
+            .$categoryImageInput()
+            .invoke("val")
+            .then((textImageInput) => {
+              cy.log("Data: " + textImageInput);
+
+              expect(textImageInput).to.be.eql("");
+            });
+
+          categoryFormPage.get
+            .$placeholderImg()
+            .should("be.visible")
+            .and("exist");
         }
       );
     });
