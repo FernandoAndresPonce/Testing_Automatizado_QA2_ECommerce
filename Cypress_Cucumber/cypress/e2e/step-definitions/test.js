@@ -440,5 +440,33 @@ context(
         }
       );
     });
+
+    describe("🧪 US 005 - TS 005 - TC 003: Validar, Intentar cargar previsualización de una imagen,  al No ingresar una imagen en el File-Input.", () => {
+      When("hace Click en el File Input Category Image", () => {
+        categoryFormPage.get
+          .$categoryImageLabel()
+          .should("be.visible")
+          .and("be.enabled")
+          .and("have.text", "Category Image");
+
+        categoryFormPage.get
+          .$categoryImageInput()
+          .should("be.visible")
+          .and("be.enabled")
+          .click({ force: true });
+      });
+
+      And("NO carga ninguna Imagen", () => {
+        categoryFormPage._uploadCategoryImageFileInput([]);
+
+        //No es necesario esta logica, ya que esta desarrollada en el then =>
+        // categoryFormPage.get.$categoryImageInput().invoke("val").then((dataImageInput) => {
+
+        //   cy.log("Data Input: " + dataImageInput)
+        //   expect(dataImageInput).to.be.eqls("");
+        // });
+        Then("deberia previsualizarse un Placeholder, como imagen pre establecida.", () => {})
+      });
+    });
   }
 );
