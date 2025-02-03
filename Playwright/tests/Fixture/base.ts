@@ -7,6 +7,7 @@ import { CategoryPage } from "../POM/admin/categoryPage"
 import { CategoryFormPage } from "../POM/admin/categoryFormPage"
 import { DashboardPage } from "../POM/admin/dashboardPage"
 import { CategoryDetail } from "../POM/admin/categoryDetail"
+import { EditCategory } from "../POM/admin/editCategory"
 
 //user
 import { HeaderPage } from "../POM/user/headerPage"
@@ -28,6 +29,8 @@ type MyFixtures = {
     categoryFormPage : CategoryFormPage,
     dashboardPage : DashboardPage,
     categoryDetail : CategoryDetail,
+    editCategory : EditCategory,
+
     
     //user
     headerPage : HeaderPage,
@@ -60,6 +63,10 @@ export const test = base.extend<MyFixtures>({
 
     categoryDetail : async ({page}, use) => {
         await use (new CategoryDetail(page))
+    },
+
+    editCategory : async ({page}, use) => {
+        await use (new EditCategory(page))
     },
     //user
     headerPage : async ({page}, use ) => {

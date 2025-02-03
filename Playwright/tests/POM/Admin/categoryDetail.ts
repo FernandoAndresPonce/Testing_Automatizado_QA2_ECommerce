@@ -13,6 +13,7 @@ export class CategoryDetail{
     readonly $offerLabel : Locator;
     readonly $noOfferLabel : Locator;
     readonly $returnButton : Locator;
+    readonly $editButton : Locator;
 
     constructor ( page : Page) {
         this.page = page;
@@ -24,6 +25,7 @@ export class CategoryDetail{
         this.$offerLabel = page.locator("div.card span#ContentPlaceHolder1_lblOffer");
         this.$noOfferLabel = page.locator("div.card span#ContentPlaceHolder1_lblNoOffert");
         this.$returnButton = page.getByRole("button", {name : "Return"});
+        this.$editButton = page.getByRole("button", {name : "Edit"});
 
 
     };
@@ -34,6 +36,10 @@ export class CategoryDetail{
 
     async _clickReturnButton() {
         await this.$returnButton.click({ force  : true });
+    };
+
+    async _clickEditButton () {
+        await this.$editButton.click({ force : true });
     };
 
 };
