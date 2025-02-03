@@ -490,13 +490,13 @@ test.describe('🔬 US 005 - TS 005 - File Input Categoría Formulario - Complet
 
     test.beforeEach('🔲 BACKGROUND:', async ({ page, superPage, adminPage }) => {
 
-        await test.step('📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
+        await test.step('📝 GIVEN  que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador', async () => {
 
             await page.goto('/');
             await superPage._loginThenRamdonFormCategoryByElements();
         });
 
-        await test.step('🧩 AND: el usuario se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async () => {
+        await test.step('🧩 AND se encuentra en la Interfaz Formulario "Add Category" de Administración - http://desarrollowebecommerce.somee.com/Admin/CategoryForm.aspx', async () => {
 
             await expect(page).toHaveURL('/Admin/CategoryForm.aspx');
             await expect(page.getByText('Add Category'), 'El Texto Add Category, NO esta Visible').toBeVisible();
@@ -552,7 +552,7 @@ test.describe('🔬 US 005 - TS 005 - File Input Categoría Formulario - Complet
 
     test('US 005 - TS 005 - TC 002 - Validar, No cargar previsualización de una imagen.', async ({ page, categoryFormPage }) => {
 
-        await test.step('✨ THEN : Deberia previsualizarse un "Placeholder", como imagen pre establecida.', async () => {
+        await test.step('✨ THEN  deberia previsualizarse un "Placeholder", como imagen pre establecida.', async () => {
 
             await expect(categoryFormPage.$categoryImageTitle, 'Texto NO es Visible').toBeVisible();
             await expect(categoryFormPage.$categoryImageInputFile).toBeVisible();
@@ -566,7 +566,7 @@ test.describe('🔬 US 005 - TS 005 - File Input Categoría Formulario - Complet
     });
 
 
-    test('US 005 - TS 005 - TC 003 - Validar, Cargar previsualización de una imagen,  al No ingresar una imagen en el File-Input.', async ({ page, categoryFormPage }) => {
+    test('US 005 - TS 005 - TC 003 - Validar, Intentar cargar previsualización de una imagen,  al No ingresar una imagen en el File-Input.', async ({ page, categoryFormPage }) => {
 
         await test.step('⚡ WHEN : hace Click en el File Input Category Image', async () => {
 
@@ -586,7 +586,7 @@ test.describe('🔬 US 005 - TS 005 - File Input Categoría Formulario - Complet
             await expect(fileInputText).toContain('')
         });
 
-        await test.step('✨ THEN : Deberia previsualizarse el "Placeholder".', async () => {
+        await test.step('✨ THEN: deberia previsualizarse el "Placeholder".', async () => {
 
             test.info().attach('Imagen - imagen "Placeholder"', {
                 body: await page.screenshot(),
@@ -2365,7 +2365,7 @@ test.describe("🔬 US 014 - TS 014 - Botón Return - Regreso a la Interfaz de C
 
     });
 
-    test("US 018 - TS 018 - TC 001 - Validar, regresar a la Interfaz “Category” al hacer Click en el Botón Return", async ({page, categoryDetail, adminPage, categoryPage }) => {
+    test("US 014 - TS 014 - TC 001 - Validar, regresar a la Interfaz “Category” al hacer Click en el Botón Return", async ({page, categoryDetail, adminPage, categoryPage }) => {
 
         await test.step("⚡ WHEN hace Click en el Boton Return,", async () => {
 
