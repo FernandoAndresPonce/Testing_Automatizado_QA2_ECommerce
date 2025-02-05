@@ -9,6 +9,7 @@ import { validRandomCategoryName, validRandomCategoryName1Character, validRandom
 
 //variables ambiente npm i dovenv --save-dev
 import dotenv from 'dotenv';
+import { randomCategoryIdEndpointOnlyCharacterAlphabetical, randomCategoryIdEndpointOnlyNumberOutOfRange, randomCategoryIdEndpointOnlySpecialCharacter } from '../../variables/editCategoryPage.ts';
 dotenv.config();
 
 
@@ -2164,7 +2165,7 @@ test.describe("🔬 US 012 - TS 012 - Detalle Categoría - Acceder a la Interfaz
 
 });
 
-test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la Interfaz “Detalle de una Categoría” en la plataforma FastFood.", async () => {
+test.describe("🐞 = 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la Interfaz “Detalle de una Categoría” en la plataforma FastFood.", async () => {
 
     let rowsLenght: number;
 
@@ -2323,14 +2324,14 @@ test.describe("🐞 => 🔬 US 013 - TS 013 - Detalle Categoría - Acceder a la 
 });
 
 test.describe("🔬 US 014 - TS 014 - Botón Return - Regreso a la Interfaz de Categoría desde “Detalle de la Categoría”.", async () => {
-    test.beforeEach("🔲 BACKGROUND:", async ({page, categoryPage, categoryDetail, adminPage}) => {
+    test.beforeEach("🔲 BACKGROUND:", async ({ page, categoryPage, categoryDetail, adminPage }) => {
 
-        let rowsLenght : number;
+        let rowsLenght: number;
 
         await test.step("📝 GIVEN que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
 
             await page.goto("/");
-            await categoryPage._goToEndpoint();   
+            await categoryPage._goToEndpoint();
         });
 
         await test.step(" AND que la Tabla de la Interfaz de Categoría contiene al menos una categoría registrada", async () => {
@@ -2342,7 +2343,7 @@ test.describe("🔬 US 014 - TS 014 - Botón Return - Regreso a la Interfaz de C
 
             rowsLenght = await rows.length;
 
-            await expect (rowsLenght).toBeGreaterThanOrEqual(1);    
+            await expect(rowsLenght).toBeGreaterThanOrEqual(1);
         });
 
         await test.step("AND que el admin ha seleccionado una Categoría de dicha tabla,", async () => {
@@ -2365,15 +2366,15 @@ test.describe("🔬 US 014 - TS 014 - Botón Return - Regreso a la Interfaz de C
 
     });
 
-    test("US 014 - TS 014 - TC 001 - Validar, regresar a la Interfaz “Category” al hacer Click en el Botón Return", async ({page, categoryDetail, adminPage, categoryPage }) => {
+    test("US 014 - TS 014 - TC 001 - Validar, regresar a la Interfaz “Category” al hacer Click en el Botón Return", async ({ page, categoryDetail, adminPage, categoryPage }) => {
 
         await test.step("⚡ WHEN hace Click en el Boton Return,", async () => {
 
             await expect((categoryDetail.$returnButton), "El Button NO es Visible.").toBeVisible();
             await expect((categoryDetail.$returnButton), "El Button NO esta Disponible.").toBeEnabled();
-            await expect (categoryDetail.$returnButton, "El Button NO Contiene el texto 'Return'.").toHaveText("Return");
-    
-            
+            await expect(categoryDetail.$returnButton, "El Button NO Contiene el texto 'Return'.").toHaveText("Return");
+
+
             await categoryDetail._clickReturnButton();
         });
 
@@ -2389,6 +2390,131 @@ test.describe("🔬 US 014 - TS 014 - Botón Return - Regreso a la Interfaz de C
             await expect(categoryPage.$categoryTitle, "El Titulo 'Category' NO es Visible.").toBeVisible();
         });
     });
+});
+
+test.describe("🐞 = 🔬 US 015 - TS 015 - Botón Edit - Acceso a la Interfaz de “Edit Category” desde “Detalle de la Categoría”.", async () => {
+
+    let idCategory: string;
+
+    test.beforeEach("🔲 BACKGROUND:", async ({ page, categoryPage, categoryDetail, adminPage }) => {
+        await test.step("📝 GIVEN que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
+
+            await page.goto("/");
+            await categoryPage._goToEndpoint();
+        });
+
+        await test.step(" AND el admin ha seleccionado una Categoría “x” de dicha tabla,", async () => {
+
+            await expect(categoryPage.$table, "La tabla NO esta Visible").toBeVisible();
+            await expect(categoryPage.$table, "La tabla NO esta Disponible").toBeEnabled();
+
+            const rows = await categoryPage.$tableRows.all();
+            let lenghtRows: number = await rows.length;
+
+            globalThis.lenghtRows = lenghtRows;
+
+            // console.log("Cantidad Filas: " + lenghtRows);
+            await expect(lenghtRows).toBeGreaterThan(1);
+
+            const randomIndex = Math.floor(Math.random() * (lenghtRows - 1) + 1);
+
+            await expect(categoryPage.$tableRows.nth(randomIndex), `La fila ${randomIndex} NO esta Visible.`).toBeVisible();
+            await expect(categoryPage.$tableRows.nth(randomIndex), `La fila ${randomIndex} NO esta Disponible.`).toBeEnabled();
+
+            await categoryPage._clickEyeRowButton(randomIndex);
+
+            await expect(categoryDetail.$viewCategoryTitle, "El Titulo View Category NO esta Visible.").toBeVisible();
+
+            await adminPage._hiddenLoader();
+
+            //seguir por aqui.
+            idCategory = await categoryDetail.$idCategoryLabel.innerText();
+            console.log("ID CATEGORY:" + idCategory);
+        });
+    });
+
+    test("US 015 - TS 015 - TC 001 - Validar, redireccionar a la Interfaz “Edit Category”, al hacer Click en el Botón Edit.", async ({ page, categoryDetail, editCategory, adminPage }) => {
+
+        await test.step(" WHEN hace Click en el Boton Edit,", async () => {
+
+            await expect(categoryDetail.$editButton, "El Button NO es Visible.").toBeVisible();
+            await expect(categoryDetail.$editButton, "El Button NO esta Disponible.").toBeEnabled();
+
+            await categoryDetail._clickEditButton();
+
+            await adminPage._hiddenLoader();
+
+        });
+
+        await test.step(" THEN el sistema se deberia redirecciona a la Interfaz de “Edit Category", async () => {
+
+            await expect(editCategory.$editCategoryTitle, "El Titulo Edit Category NO esta Visible.").toBeVisible();
+            await expect(editCategory.$editCategoryTitle, "El Titulo Edit Category NO esta Disponible.").toBeEnabled();
+            await expect(editCategory.$editCategoryTitle, "Edit Category NO es el Titulo.").toHaveText("Edit Category");
+        });
+    })
+
+    test("US 015 - TS 015 - TC 002 - Intentar Validar, redireccionar a la Interfaz “Edit Category”, al ingresar la url con el ID de una categoria.", async ({ page, categoryFormPage, editCategory }) => {
+
+        await test.step("WHEN hace ingresa la URL en el ID de la Categoria,", async () => {
+
+
+            await page.goto(categoryFormPage.endpoint + "?Id=" + idCategory)
+        });
+
+        await test.step("THEN el sistema se deberia redirecciona a la Interfaz de “Edit Category", async () => {
+
+            await expect(page).toHaveURL(categoryFormPage.endpoint + "?Id=" + idCategory);
+
+            await expect(editCategory.$editCategoryTitle, "El titulo Edit Category NO es Visible.").toBeVisible();
+            await expect(editCategory.$editCategoryTitle, "El titulo NO es Edit Category.").toHaveText("Edit Category");
+        });
+    });
+
+    const test_cases_bad_path = [
+        {
+            titleTC: "🐞 US 015 - TS 015 - TC 003 - Intentar Validar, redireccionar a la Interfaz “Categories” como /Admin/Category.aspx, al ingresar la url con el ID de una categoria que NO Existe.",
+            variableIdCategory: randomCategoryIdEndpointOnlyNumberOutOfRange(globalThis.lenghtRows),
+            expectURL: "/Admin/Error.aspx",
+        },
+
+        {
+            titleTC: "🐞 US 015 - TS 015 - TC 004 - Intentar Validar, redireccionar a la Interfaz “Categories” como /Admin/Category.aspx, al ingresar la url con un ID Vacio.",
+            variableIdCategory: "",
+            expectURL: "/Admin/Error.aspx",
+        },
+
+        {
+            titleTC: "US 015 - TS 015 - TC 005 - Intentar Validar, redireccionar a la Interfaz “Categories” como /Admin/Category.aspx, al ingresar la url con un ID Alfabetico.",
+            variableIdCategory: randomCategoryIdEndpointOnlyCharacterAlphabetical(),
+            expectURL: "/Admin/Error.aspx",
+        },
+
+        {
+            titleTC: "US 015 - TS 015 - TC 006 - Intentar Validar, redireccionar a la Interfaz “Categories” como /Admin/Category.aspx, al ingresar la url con un ID con Caracteres Especiales.",
+            variableIdCategory: randomCategoryIdEndpointOnlySpecialCharacter(),
+            expectURL: "/Admin/Error.aspx",
+        },
+    ]
+
+    for (let test_case of test_cases_bad_path) {
+
+        test(`${test_case.titleTC}`, async ({ page, categoryFormPage, editCategory }) => {
+
+            await test.step("WHEN hace ingresa la URL en el ID de la Categoria,", async () => {
+
+
+                await page.goto(categoryFormPage.endpoint + "?Id=" + test_case.variableIdCategory)
+            });
+
+            await test.step("THEN el sistema se deberia redirecciona a la Interfaz de “Edit Category", async () => {
+
+
+                await expect(page).toHaveURL(test_case.expectURL);
+
+            });
+        });
+    }
 });
 
 
