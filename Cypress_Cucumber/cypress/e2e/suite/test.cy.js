@@ -78,7 +78,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryPage.get
-      .$title()
+      .$categoriesTitleLabel()
       .should("be.visible")
       .and("have.text", "Categories");
   });
@@ -113,7 +113,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryPage.get
-      .$title()
+      .$categoriesTitleLabel()
       .should("be.visible")
       .and("have.text", "Categories");
   });
@@ -130,7 +130,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryPage.get
-      .$title()
+      .$categoriesTitleLabel()
       .should("be.visible")
       .and("have.text", "Categories");
   });
@@ -168,7 +168,7 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
     cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryFormPage.get
-      .$title()
+      .$categoriesTitleLabel()
       .should("be.visible")
       .and("have.text", "Add Category");
   });
@@ -179,7 +179,7 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
     cy.url().should("include", categoryFormPage.get.$endpoint());
 
     categoryFormPage.get
-      .$title()
+      .$categoriesTitleLabel()
       .should("be.visible")
       .and("have.text", "Add Category");
   });
@@ -218,7 +218,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       cy.wait(1000);
 
       categoryFormPage.get
-        .$title()
+        .$categoriesTitleLabel()
         .should("be.visible")
         .and("have.text", "Add Category");
 
@@ -256,7 +256,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       cy.wait(500);
 
       cy.url().should("include", categoryPage.get.$endpoint());
-      categoryPage.get.$title().should("be.visible");
+      categoryPage.get.$categoriesTitleLabel().should("be.visible");
     });
   }
 
@@ -292,7 +292,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       cy.wait(1000);
 
       categoryFormPage.get
-        .$title()
+        .$categoriesTitleLabel()
         .should("be.visible")
         .and("have.text", "Add Category");
 
@@ -336,9 +336,9 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
   }
 });
 
-describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe.skip("🔬 US 005 - TS 005 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar un dato en el File Input.", () => {
   beforeEach(
-    "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración, 🧩 AND: completa el Text Input “Category Name”, con una Cadena de Texto valida.",
+    "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración.",
     () => {
       cy.session("Login then Go to Category Page", () => {
         cy._$loginThenGoToDashboard();
@@ -347,9 +347,6 @@ describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar lo
       dashboardPage._goToEndpoint();
       dashboardPage._clickGoToCategoryByRandomElements();
       categoryPage._clickAddButton();
-      categoryFormPage._fillCategoryNameInput(
-        validRandomCategoryNameBetween1And50Character()
-      );
     }
   );
 
@@ -418,7 +415,6 @@ describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar lo
   });
 
   it("US 005 - TS 005 - TC 003 - Validar, Cargar previsualización de una imagen,  al No ingresar una imagen en el File-Input.", () => {
-
     categoryFormPage.get
       .$categoryImageLabel()
       .should("be.visible")
@@ -429,21 +425,18 @@ describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar lo
       .should("be.visible")
       .and("be.enabled");
 
-      
-      categoryFormPage.get
-      .$categoryImageInput()
-      .selectFile([]);
-      
-      categoryFormPage.get
+    categoryFormPage.get.$categoryImageInput().selectFile([]);
+
+    categoryFormPage.get
       .$categoryImageInput()
       .invoke("val")
       .then((textImageInput) => {
         cy.log("Input value: " + textImageInput);
-        
+
         expect(textImageInput).to.contain(textImageInput);
       });
-      
-      categoryFormPage.get
+
+    categoryFormPage.get
       .$replacePlaceholderImg()
       .should("be.visible")
       .and("have.prop", "naturalWidth")
@@ -451,7 +444,85 @@ describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Completar lo
         cy.log(imageWidth);
         expect(imageWidth).to.greaterThan(0);
       });
-      
-      categoryFormPage.get.$placeholderImg().should("be.visible").and("exist");
+
+    categoryFormPage.get.$placeholderImg().should("be.visible").and("exist");
+  });
+});
+
+describe("🔬 US 006 - TS 006 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+  beforeEach(
+    "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración, 🧩 AND: completa el Text Input “Category Name”, con una Cadena de Texto valida.",
+    () => {
+      cy.session("Login then Go to Category Page.", () => {
+        cy._$loginThenGoToDashboard();
+      });
+
+      dashboardPage._goToEndpoint();
+      dashboardPage._clickGoToCategoryByRandomElements();
+      categoryPage._clickAddButton();
+      categoryFormPage._fillCategoryNameInput(
+        validRandomCategoryNameBetween1And50Character()
+      );
+    }
+  );
+
+  it("US 006 - TS 006 - TC 001 -  Validar - Crear una categoria existosamente, al ingresar un imagen en el file-input.", () => {
+    categoryFormPage.get
+      .$categoryImageLabel()
+      .should("be.visible")
+      .and("have.text", "Category Image");
+
+    categoryFormPage.get
+      .$categoryNameInput()
+      .should("be.visible")
+      .and("be.enabled");
+
+    categoryFormPage.get.$placeholderImg().should("be.visible").and("exist");
+
+    categoryFormPage._uploadCategoryImageFileInput(
+      Cypress.env("path").imagePath + randomCategoryImage()
+    );
+
+    categoryFormPage._clickAddButton();
+
+    cy.url().should("contain", categoryPage.get.$endpoint());
+
+    categoryPage.get
+      .$categoriesTitleLabel()
+      .should("be.visible")
+      .and("have.text", "Categories");
+
+    cy.get("div.page-body table#ContentPlaceHolder1_dgvCategory").should(
+      "be.visible"
+    );
+  });
+
+  it("US 006 - TS 006 - TC 002 -  Validar - Crear una categoria existosamente, al no ingresar ninguna imagen en el file-input.", () => {
+    categoryFormPage.get
+      .$categoryImageLabel()
+      .should("be.visible")
+      .and("have.text", "Category Image");
+
+    categoryFormPage.get
+      .$categoryNameInput()
+      .should("be.visible")
+      .and("be.enabled");
+
+    categoryFormPage.get.$placeholderImg().should("be.visible").and("exist");
+
+    categoryFormPage._uploadCategoryImageFileInput([]);
+
+    categoryFormPage._clickAddButton();
+
+    cy.url().should("contain", categoryPage.get.$endpoint());
+
+    categoryPage.get
+      .$categoriesTitleLabel()
+      .should("be.visible")
+      .and("have.text", "Categories");
+
+    categoryPage.get.$categoriesTable().should(
+      "be.visible"
+    );
   });
 });
