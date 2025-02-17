@@ -1,8 +1,8 @@
-Feature: 📑 US 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.
+Feature: 📑 US 005 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar un dato en el File Input.
 
     COMO Admin de la web FastFood,
     QUIERO agregar una imagen,
-    PARA identificar la categoría con una representación visual.
+    PARA ver la previsualizacion de la categoría con una representación visual.
 
     Background:
         Given que el Usuario ha iniciado sesión con credenciales con rol Administrador

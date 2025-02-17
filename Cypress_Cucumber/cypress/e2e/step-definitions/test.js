@@ -10,6 +10,10 @@ import { categoryPage } from "../../support/POM/admin/categoryPage";
 import { categoryFormPage } from "../../support/POM/admin/categoryFormPage";
 import { defaultPage } from "../../support/POM/user/defaultPage";
 import { imagePath } from "../variables/path";
+import {
+  randomCategoryImage,
+  validRandomCategoryNameBetween1And50Character,
+} from "../variables/categoryFormPage";
 
 import { Given, When, Then, And } from "cypress-cucumber-preprocessor/steps";
 
@@ -343,7 +347,7 @@ context(
 );
 
 context(
-  "📑 US 005 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.",
+  "📑 US 005 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar un dato en el File Input.",
   () => {
     Given(
       "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
@@ -465,8 +469,155 @@ context(
         //   cy.log("Data Input: " + dataImageInput)
         //   expect(dataImageInput).to.be.eqls("");
         // });
-        Then("deberia previsualizarse un Placeholder, como imagen pre establecida.", () => {})
+        Then(
+          "deberia previsualizarse un Placeholder, como imagen pre establecida.",
+          () => {}
+        );
       });
+    });
+  }
+);
+
+context(
+  "📑 US 006 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.",
+  () => {
+    Given(
+      "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
+      () => {}
+    );
+    And(
+      "se encuentra en la Interfaz Formulario Add Category de Administración como {string}",
+      (endpoint) => {
+        cy.url().should("include", endpoint);
+      }
+    );
+    And(
+      "completa el Text Input “Category Name”, con una Cadena de Texto valida.",
+      () => {
+        categoryFormPage.get
+          .$categoryNameInput()
+          .should("be.visible")
+          .and("be.enabled");
+
+        categoryFormPage._fillCategoryNameInput(
+          validRandomCategoryNameBetween1And50Character()
+        );
+      }
+    );
+
+    describe("🧪 US 006 - TS 006 - TC 001:  Validar - Crear una categoria existosamente, al ingresar un imagen en el file-input.", () => {
+      When("carga una imagen valida, en el File Input Category Image", () => {
+        categoryFormPage.get
+          .$categoryImageLabel()
+          .should("be.visible")
+          .and("have.text", "Category Image");
+
+        categoryFormPage.get
+          .$categoryImageInput()
+          .should("be.visible")
+          .and("be.enabled");
+
+        categoryFormPage.get
+          .$placeholderImg()
+          .should("be.visible")
+          .and("exist");
+
+        const image = randomCategoryImage();
+
+        categoryFormPage._uploadCategoryImageFileInput(
+          Cypress.env("path").imagePath + image
+        );
+
+        categoryFormPage.get
+          .$categoryImageInput()
+          .invoke("val")
+          .then((dataImageInput) => {
+            cy.log("Data Image Input: " + dataImageInput);
+
+            expect(dataImageInput).to.be.include(image);
+          });
+
+        cy.wait(500);
+        categoryFormPage.get.$placeholderImg().should("not.exist");
+
+        categoryFormPage.get
+          .$replacePlaceholderImg()
+          .should("be.visible")
+          .and("exist")
+          .and("have.prop", "naturalWidth")
+          .then((imageWidth) => {
+            cy.log("Image Width: " + imageWidth);
+
+            expect(imageWidth).to.greaterThan(1);
+          });
+      });
+
+      And("hace click en el boton Add", () => {
+        categoryFormPage.get
+          .$addButton()
+          .should("be.visible")
+          .and("be.enabled");
+
+        categoryFormPage._clickAddButton();
+
+        adminPage.get.$loader().should("be.visible", { timeout: 2000 });
+
+        cy.wait(2000);
+
+        adminPage.get.$loader().should("not.exist");
+      });
+
+      Then(
+        "deberia redireccionarse a la Interfaz Category de Administracion como {string}",
+        (endpointExpect) => {
+          cy.url().should("include", endpointExpect);
+          categoryPage.get
+            .$categoriesTitleLabel()
+            .should("be.visible")
+            .and("have.text", "Categories");
+        }
+      );
+    });
+
+    describe("🧪 US 006 - TS 006 - TC 002:  Intentar Validar - Crear una categoria existosamente, al no ingresar ninguna imagen en el file-input.", () => {
+      When("hace click en el boton Add", () => {
+        categoryFormPage.get
+          .$categoryImageLabel()
+          .should("be.visible")
+          .and("have.text", "Category Image");
+
+        categoryFormPage.get
+          .$categoryImageInput()
+          .should("be.visible")
+          .and("be.enabled");
+
+        categoryFormPage.get
+          .$categoryImageInput()
+          .invoke("val")
+          .then((dataImageInput) => {
+            cy.log("Data Input Image: " + dataImageInput);
+
+            expect(dataImageInput).to.eql("");
+          });
+
+        categoryFormPage.get
+          .$placeholderImg()
+          .should("be.visible")
+          .and("exist");
+
+        categoryFormPage.get
+          .$addButton()
+          .should("be.visible")
+          .and("be.enabled")
+          .and("have.value", "Add");
+
+        categoryFormPage._clickAddButton();
+      });
+
+      Then(
+        "deberia redireccionarse a la Interfaz Category de Administracion como {string}",
+        (endpoint) => {}
+      );
     });
   }
 );
