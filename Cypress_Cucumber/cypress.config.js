@@ -26,6 +26,7 @@ module.exports = defineConfig({
       //
       on("file:preprocessor", cucumber());
       //
+      config.env.TAGS = '@smoke';
     },
     
   },
