@@ -1,11 +1,11 @@
+
 Feature:📑 US 001 - Redirección - Acceso a la Página Principal de Administración de FastFood.
 
     Como: admin de la web FastFood,
     Quiero: acceder a la interfaz principal de administración,
     Para: gestionar todas las tareas relacionadas con la plataforma.
+    
 
-
-    @smoke
     Scenario:🧪 US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente
 
         Given que el usuario se encuentra en la página principal de la plataforma

@@ -13,7 +13,7 @@ module.exports = defineConfig({
     //
     specPattern: "**/*.feature",
     //
-    
+
     supportFile: "cypress/support/e2e.js",
     fixturesFolder: "cypress/fixtures",
     screenshotsFolder: "cypress/screenshots",
@@ -21,14 +21,12 @@ module.exports = defineConfig({
 
     baseUrl: "http://desarrollowebecommerce.somee.com/",
 
-    
     setupNodeEvents(on, config) {
       //
       on("file:preprocessor", cucumber());
       //
-      config.env.TAGS = '@smoke';
+      return config;
     },
-    
   },
 
   env: {
@@ -41,7 +39,7 @@ module.exports = defineConfig({
       initialPage: "http://desarrollowebecommerce.somee.com/",
     },
     path: {
-      imagePath : "cypress/e2e/suite/Image/",
-    }
+      imagePath: "cypress/e2e/suite/Image/",
+    },
   },
 });
