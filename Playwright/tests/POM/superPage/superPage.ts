@@ -60,7 +60,7 @@ export class SuperPage {
         await this.loginPage._clickLoginButton();
     };
 
-    async loginAndGoCategoriesAdmin() {
+    async _$loginAndGoCategoriesAdmin() {
 
         await this.loginAndGoDashboardAdmin();
         await this.page.waitForLoadState('load');
@@ -74,7 +74,7 @@ export class SuperPage {
 
     async loginAndGoFormCategoryAdminTabMenuLink() {
 
-        await this.loginAndGoCategoriesAdmin();
+        await this._$loginAndGoCategoriesAdmin();
         await this.page.waitForLoadState('load');
         await this.adminPage._hiddenLoader();
         await this.categoryPage._clickAddButton();
