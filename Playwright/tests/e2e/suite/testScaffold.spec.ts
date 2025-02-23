@@ -91,9 +91,27 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
             await categoryDetail._clickEditButton();
 
             // AND el sistema se redirecciona a la Interfaz de “Formulario de Categoria”, como /Admin/CategoryForm.aspx?Id= (id de la Categoria),
+            await adminPage._hiddenLoader();
+            await page.waitForEvent('load');
 
-            // await expect(page).toHaveURL(editCategory.endpoint + "?Id=" + categoryId);
+            await expect(page).toHaveURL(editCategory.endpoint + "?Id=" + categoryId);
             await expect(editCategory.$editCategoryTitle, "El Titulo Edit Category NO es Visible.").toBeVisible();
+
+            // THEN la información presentada en los diferentes elementos coincide con los del “Detalle de la Categoría”.
+
+            await expect(page.getByText("Category Id")).toBeVisible();
+            await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtCategoryId']")).toBeVisible();
+
+            await expect(page.locator("//div[@class='card']//span[text()='Category Name']")).toBeVisible();
+            await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtName']")).toBeVisible();
+
+
+
+            // let actualCategory : CategoryTable;
+
+            // actualCategory = {
+            //     name : ,
+            // }
         });
 
         // await test.step("AND que el admin ha seleccionado una Categoría “x” de dicha tabla,", async () => {

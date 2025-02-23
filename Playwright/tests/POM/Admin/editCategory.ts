@@ -2,6 +2,8 @@ import { Locator, Page } from "playwright";
 
 export class EditCategory {
     
+    public endpoint : string = "/Admin/CategoryForm.aspx";
+
     readonly page : Page;
     
     readonly $editCategoryTitle : Locator;
