@@ -19,8 +19,8 @@ dotenv.config();
 
 test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz de “Formulario de Categoría” para Actualizar una Categoría", async () => {
 
-    test.use({ storageState: { cookies: [], origins: []}})
-    test.beforeEach("🔲 BACKGROUND:", async ({page, superPage}) => {
+    test.use({ storageState: { cookies: [], origins: [] } })
+    test.beforeEach("🔲 BACKGROUND:", async ({ page, superPage }) => {
 
         await test.step("📝 GIVEN que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador", async () => {
 
@@ -29,7 +29,7 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
         });
     });
 
-    test("US 016 - TS 016 - TC 001 - Validar, visualizar información de la categoría seleccionada en la Interfaz “Formulario de la Categoría”, al hacer Click en el Botón Edit.", async ({page, categoryPage, categoryDetail, adminPage, editCategory}) => {
+    test("US 016 - TS 016 - TC 001 - Validar, visualizar información de la categoría seleccionada en la Interfaz “Formulario de la Categoría”, al hacer Click en el Botón Edit.", async ({ page, categoryPage, categoryDetail, adminPage, editCategory }) => {
 
         await test.step("GIVEN que la Tabla de la Interfaz de Categoría como /Admin/Category.aspx contiene al menos una categoría registrada , ", async () => {
 
@@ -37,22 +37,22 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
 
             await expect(page).toHaveURL(categoryPage.endpoint)
 
-            await expect (categoryPage.$table, "La Tabla NO es Visible.").toBeVisible();
-            await expect (categoryPage.$table, "La Tabla NO esta Disponible.").toBeEnabled();
+            await expect(categoryPage.$table, "La Tabla NO es Visible.").toBeVisible();
+            await expect(categoryPage.$table, "La Tabla NO esta Disponible.").toBeEnabled();
 
             const rows = await categoryPage.$tableRows.all();
 
-            const rowsLenght : number = await rows.length;
+            const rowsLenght: number = await rows.length;
 
             await console.log("Cantidad de Filas: " + rowsLenght);
 
-            await expect (rowsLenght).toBeGreaterThanOrEqual (1);
-            
+            await expect(rowsLenght).toBeGreaterThanOrEqual(1);
+
             // AND que el admin ha seleccionado una Categoría “x” de dicha tabla,
 
             const randomRow = Math.floor(Math.random() * (rowsLenght - 1) + 1);
 
-            let rowNumber : number = randomRow;
+            let rowNumber: number = 5; //<= variable random Row <==================
 
             await expect(categoryPage.$tableRows.nth(rowNumber), "La Fila NO es Visible.").toBeVisible();
             await expect(categoryPage.$tableRows.nth(rowNumber), "La Fila NO esta Disponible.").toBeEnabled();
@@ -60,12 +60,12 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
             const row = await categoryPage.$tableRows.nth(rowNumber);
             const cell = await row.locator("xpath=.//td").all();
 
-            let expectCategory : CategoryTable;
+            let expectCategory: CategoryTable;
 
             expectCategory = {
-                name : await cell[0].innerText(),
-                isActive : await cell[2].innerText(),
-                isOffer : await cell[3].innerText()
+                name: await cell[0].innerText(),
+                isActive: await cell[2].innerText(),
+                isOffer: await cell[3].innerText()
             };
 
             await console.log(expectCategory);
@@ -85,8 +85,8 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
             // WHEN hace Click en el Boton Edit,
 
 
-            await expect (categoryDetail.$editButton, "El boton NO es Visible.").toBeVisible();
-            await expect (categoryDetail.$editButton, "El boton NO esta Disponible.").toBeEnabled();
+            await expect(categoryDetail.$editButton, "El boton NO es Visible.").toBeVisible();
+            await expect(categoryDetail.$editButton, "El boton NO esta Disponible.").toBeEnabled();
 
             await categoryDetail._clickEditButton();
 
@@ -102,8 +102,27 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
             await expect(page.getByText("Category Id")).toBeVisible();
             await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtCategoryId']")).toBeVisible();
 
-            await expect(page.locator("//div[@class='card']//span[text()='Category Name']")).toBeVisible();
-            await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtName']")).toBeVisible();
+            await expect(page.locator("//div[@class='card']//span[@class='form-label' and text()='Category Name']")).toBeVisible();
+            await expect(page.getByRole('textbox', { name: 'Category Name' })).toBeVisible();
+
+            await expect(page.locator("//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).toBeVisible();
+            await expect(page.locator("//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).toBeEnabled();
+
+            if (expectCategory.isActive == 'Active') {
+
+                await expect(page.locator("//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).toBeChecked();
+
+                await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_lblActive' and text()='Active']")).toBeVisible();
+
+                await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_lblActive' and text()='Active']")).toContainText("Active");
+
+            }else{
+
+                await expect(page.locator("//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).not.toBeChecked();
+
+                await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_lblInactive' and text()='Inactive']")).toBeVisible();
+                await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_lblInactive' and text()='Inactive']")).toContainText("Inactive");
+            }
 
 
 
