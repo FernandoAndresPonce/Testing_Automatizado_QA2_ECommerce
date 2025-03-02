@@ -135,5 +135,7 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
 
         // await test.step("AND que el admin ha seleccionado una Categoría “x” de dicha tabla,", async () => {
         // })
+
+        //veremos si funca...!
     });
 });

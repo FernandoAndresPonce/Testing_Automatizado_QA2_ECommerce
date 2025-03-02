@@ -1,0 +1,2 @@
+Cantidad de Filas: 6
+{ name: 'Drinks', isActive: 'Inactive', isOffer: 'No Offer' }
