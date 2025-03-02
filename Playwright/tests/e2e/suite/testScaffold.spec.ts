@@ -52,7 +52,7 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
 
             const randomRow = Math.floor(Math.random() * (rowsLenght - 1) + 1);
 
-            let rowNumber: number = 5; //<= variable random Row <==================
+            let rowNumber: number = 3; //<= variable random Row <==================
 
             await expect(categoryPage.$tableRows.nth(rowNumber), "La Fila NO es Visible.").toBeVisible();
             await expect(categoryPage.$tableRows.nth(rowNumber), "La Fila NO esta Disponible.").toBeEnabled();
@@ -102,26 +102,55 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
             await expect(page.getByText("Category Id")).toBeVisible();
             await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtCategoryId']")).toBeVisible();
 
-            await expect(page.locator("//div[@class='card']//span[@class='form-label' and text()='Category Name']")).toBeVisible();
+            await expect(page.locator("xpath=//div[@class='card']//span[@class='form-label' and text()='Category Name']")).toBeVisible();
             await expect(page.getByRole('textbox', { name: 'Category Name' })).toBeVisible();
 
-            await expect(page.locator("//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).toBeVisible();
+            await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).toBeVisible();
             await expect(page.locator("//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).toBeEnabled();
 
             if (expectCategory.isActive == 'Active') {
 
-                await expect(page.locator("//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).toBeChecked();
+                await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).toBeChecked();
 
-                await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_lblActive' and text()='Active']")).toBeVisible();
+                await expect(page.locator("xpath=//div[@class='card']//span[@id='ContentPlaceHolder1_lblActive' and text()='Active']")).toBeVisible();
+                await expect(page.locator("xpath=//div[@class='card']//span[@id='ContentPlaceHolder1_lblActive' and text()='Active']")).toContainText("Active");
 
-                await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_lblActive' and text()='Active']")).toContainText("Active");
+                if (expectCategory.isOffer == 'Offer') {
 
-            }else{
+                    await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_cbOffert']")).toBeChecked();
 
-                await expect(page.locator("//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).not.toBeChecked();
+                    await expect(page.locator("xpath=//div[@class='card']//span[@id='ContentPlaceHolder1_Label1']")).toBeVisible();
+                    await expect(page.locator("xpath=//div[@class='card']//span[@id='ContentPlaceHolder1_Label1']")).toHaveText("Offer");
 
-                await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_lblInactive' and text()='Inactive']")).toBeVisible();
-                await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_lblInactive' and text()='Inactive']")).toContainText("Inactive");
+                    //textbox offer percentage
+                    await expect(page.locator("xpath=//div[@class='card']//span[@class='form-label' and text()='Offer Percentage']")).toBeVisible();
+                    await expect(page.locator("xpath=//div[@class='card']//span[@class='form-label' and text()='Offer Percentage']")).toHaveText("Offer Percentage");
+
+                    await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtofferPercentage']")).toBeVisible();
+                    await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtofferPercentage']")).toBeEnabled();
+
+                    const actualOfferPercentageCategory = await page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_txtofferPercentage']").inputValue();
+
+                    //SEGUIR DESDE ACATesting_Automatizado_QA2_ECommerce
+                    await console.log(actualOfferPercentageCategory)
+                    
+                } else {
+
+                    if (expectCategory.isOffer == "No Offer") {
+
+                        await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_cbOffert']")).not.toBeChecked();
+
+                        await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_Label2']")).toBeVisible();
+                        await expect(page.locator("//div[@class='card']//span[@id='ContentPlaceHolder1_Label2']")).toHaveText("No Offer");
+                    }
+                }
+
+            } else {
+
+                await expect(page.locator("xpath=//div[@class='card']//input[@id='ContentPlaceHolder1_cbActivo']")).not.toBeChecked();
+
+                await expect(page.locator("xpath=//div[@class='card']//span[@id='ContentPlaceHolder1_lblInactive' and text()='Inactive']")).toBeVisible();
+                await expect(page.locator("xpath=//div[@class='card']//span[@id='ContentPlaceHolder1_lblInactive' and text()='Inactive']")).toContainText("Inactive");
             }
 
 
@@ -135,7 +164,5 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
 
         // await test.step("AND que el admin ha seleccionado una Categoría “x” de dicha tabla,", async () => {
         // })
-
-        //veremos si funca...!
     });
 });
