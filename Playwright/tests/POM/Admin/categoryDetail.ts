@@ -14,6 +14,7 @@ export class CategoryDetail{
     readonly $noOfferLabel : Locator;
     readonly $returnButton : Locator;
     readonly $editButton : Locator;
+    readonly $percentageOfferLabel : Locator;
 
     constructor ( page : Page) {
         this.page = page;
@@ -24,8 +25,10 @@ export class CategoryDetail{
         this.$inactiveLabel = page.locator("div.card span#ContentPlaceHolder1_lblInactive");
         this.$offerLabel = page.locator("div.card span#ContentPlaceHolder1_lblOffer");
         this.$noOfferLabel = page.locator("div.card span#ContentPlaceHolder1_lblNoOffert");
+        this.$percentageOfferLabel = page.locator("xpath=//div[@class='card']//span[@id='ContentPlaceHolder1_lblOfferPercentage']");
         this.$returnButton = page.getByRole("button", {name : "Return"});
         this.$editButton = page.getByRole("button", {name : "Edit"});
+        
 
 
     };

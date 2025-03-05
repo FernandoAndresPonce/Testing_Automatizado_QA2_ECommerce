@@ -1,2 +1,0 @@
-Cantidad de Filas: 6
-{ name: 'Salads', isActive: 'Active', isOffer: 'Offer' }
