@@ -33,29 +33,34 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
     test("US 016 - TS 016 - TC 001 - Validar, visualizar información de la categoría seleccionada en la Interfaz “Formulario de la Categoría”, al hacer Click en el Botón Edit.", async ({ page, categoryPage, categoryDetail, adminPage, editCategory }) => {
 
         let expectPercentageCategory;
+        let expectCategory : CategoryTable;
+        let rowsLenght : number;
+        let categoryId;
+        let expectCategoryId;
 
-        await test.step("GIVEN que la Tabla de la Interfaz de Categoría como /Admin/Category.aspx contiene al menos una categoría registrada , ", async () => {
+        await test.step("📝 GIVEN que la Tabla de la Interfaz de Categoría como /Admin/Category.aspx contiene al menos una categoría registrada , ", async () => {
 
             await adminPage._hiddenLoader();
 
             await expect(page).toHaveURL(categoryPage.endpoint)
 
-            await expect(categoryPage.$table, "La Tabla NO es Visible.").toBeVisible();
-            await expect(categoryPage.$table, "La Tabla NO esta Disponible.").toBeEnabled();
+            await expect(categoryPage.$table, "La Tabla, DEBERIA ser Visible.").toBeVisible();
+            await expect(categoryPage.$table, "La Tabla, DEBERIA estar Disponible.").toBeEnabled();
 
             const rows = await categoryPage.$tableRows.all();
 
-            const rowsLenght: number = await rows.length;
+            rowsLenght = await rows.length;
 
             await console.log("Cantidad de Filas: " + rowsLenght);
 
             await expect(rowsLenght).toBeGreaterThanOrEqual(1);
+        });
 
-            // AND que el admin ha seleccionado una Categoría “x” de dicha tabla,
+        await test.step("🧩 AND que el admin ha seleccionado una Categoría “x” de dicha tabla,", async () => {
 
             const randomRow = Math.floor(Math.random() * (rowsLenght - 1) + 1);
 
-            let rowNumber: number = 1; //<= variable random Row <==================
+            let rowNumber: number = randomRow; //<= variable random Row <==================
 
             if (rowNumber == 4) {
                 await page.evaluate(() => {
@@ -65,13 +70,13 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
                 await page.waitForTimeout(500);
             }
 
-            await expect(categoryPage.$tableRows.nth(rowNumber), "La Fila NO es Visible.").toBeVisible();
-            await expect(categoryPage.$tableRows.nth(rowNumber), "La Fila NO esta Disponible.").toBeEnabled();
+            await expect(categoryPage.$tableRows.nth(rowNumber), "La Fila DEBERIA ser Visible.").toBeVisible();
+            await expect(categoryPage.$tableRows.nth(rowNumber), "La Fila DEBERIA estar Disponible.").toBeEnabled();
 
             const row = await categoryPage.$tableRows.nth(rowNumber);
             const cell = await row.locator("xpath=.//td").all();
 
-            let expectCategory: CategoryTable;
+
 
             expectCategory = {
                 name: await cell[0].innerText(),
@@ -83,84 +88,90 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
 
 
             await categoryPage._clickEyeRowButton(rowNumber);
+        });
 
-            // AND se encuentra en la Interfaz de “Detalle de una Categoría”,
+
+        await test.step("🧩 AND se encuentra en la Interfaz de “Detalle de una Categoría”,", async () => {
 
             await adminPage._hiddenLoader();
 
-            const categoryId = await categoryDetail.$idCategoryLabel.innerText();
+            categoryId = await categoryDetail.$idCategoryLabel.innerText();
             await expect(page).toHaveURL(categoryDetail.endpoint + "?Id=" + categoryId)
 
-            await expect(categoryDetail.$viewCategoryTitle, "El Titulo View Category NO es Visible.").toBeVisible();
+            await expect(categoryDetail.$viewCategoryTitle, "El Titulo View Category DEBERIA ser Visible.").toBeVisible();
 
-            let expectCategoryId = await categoryDetail.$idCategoryLabel.innerText();
+            expectCategoryId = await categoryDetail.$idCategoryLabel.innerText();
 
 
             if (expectCategory.isOffer == "Offer") {
-                await expect(categoryDetail.$percentageOfferLabel, "El Porcentage es Visible").toBeVisible();
-                await expect(categoryDetail.$percentageOfferLabel, "El Porcentage esta Disponible").toBeEnabled();
+                await expect(categoryDetail.$percentageOfferLabel, "El Porcentaje DEBERIA ser Visible").toBeVisible();
+                await expect(categoryDetail.$percentageOfferLabel, "El Porcentaje DEBERIA estar Disponible").toBeEnabled();
                 expectPercentageCategory = await categoryDetail.$percentageOfferLabel.innerText();
-            }
-            // WHEN hace Click en el Boton Edit,
+            };
+        });
 
+        await test.step("⚡ WHEN hace Click en el Boton Edit,", async () => {
 
-            await expect(categoryDetail.$editButton, "El boton NO es Visible.").toBeVisible();
-            await expect(categoryDetail.$editButton, "El boton NO esta Disponible.").toBeEnabled();
+            await expect(categoryDetail.$editButton, "El boton DEBERIA ser Visible.").toBeVisible();
+            await expect(categoryDetail.$editButton, "El boton DEBERIA estar Disponible.").toBeEnabled();
 
             await categoryDetail._clickEditButton();
+        });
 
-            // AND el sistema se redirecciona a la Interfaz de “Formulario de Categoria”, como /Admin/CategoryForm.aspx?Id= (id de la Categoria),
+        await test.step("🧩 AND el sistema se redirecciona a la Interfaz de “Formulario de Categoria”, como /Admin/CategoryForm.aspx?Id= (id de la Categoria),", async () => {
+
             await adminPage._hiddenLoader();
             await page.waitForEvent('load');
 
-            await expect(page).toHaveURL(editCategory.endpoint + "?Id=" + categoryId);
-            await expect(editCategory.$editCategoryTitle, "El Titulo Edit Category NO es Visible.").toBeVisible();
+            await expect(editCategory.$editCategoryTitle, "El Titulo Edit Category DEBERIA ser Visible.").toBeVisible();
+            await expect(page, "La URL DEBERIA ser /Admin/CategoryForm.aspx?Id= (CategoryId).").toHaveURL(editCategory.endpoint + "?Id=" + categoryId);
+        });
 
-            // THEN la información presentada en los diferentes elementos coincide con los del “Detalle de la Categoría”.
+        await test.step("✨ THEN la información presentada en los diferentes elementos coincide con los del “Detalle de la Categoría”.", async () => {
 
             //ALL ASSERTION
 
             //ASSERTION CATEGORY ID.
-            await expect(page.getByText("Category Id")).toBeVisible();
-            await expect(editCategory.$categoryIdInput, "El campo de texto Category Id, NO es Visible.").toBeVisible();
+            await expect(page.getByText("Category Id"), "El ID de la Categoria DEBERIA ser Visible.").toBeVisible();
+            await expect(editCategory.$categoryIdInput, "El campo de texto Category Id, DEBERIA ser Visible.").toBeVisible();
 
             const actualCategoryId = await editCategory.$categoryIdInput.inputValue();
 
             expect(expectCategoryId).toEqual(actualCategoryId);
 
             //ASSERTION CATEGORY NAME.
-            await expect(editCategory.$categoryNameLabel, "La Label Category Name, NO es Visible.").toBeVisible();
-            await expect(editCategory.$categoryNameInput).toBeVisible();
+            await expect(editCategory.$categoryNameLabel, "La Label Category Name, DEBERIA ser Visible.").toBeVisible();
+            await expect(editCategory.$categoryNameInput, "El campo de texto Category Name, DEBERIA ser Visible.").toBeVisible();
 
             const actualCategoryName = await editCategory.$categoryNameInput.inputValue();
             expect(actualCategoryName).toEqual(expectCategory.name);
 
             //ASSERTION IF CHECKBOX ACTIVE/INACTIVE IS VISIBLE .
-            await expect(editCategory.$activeInactiveCheckBox, "El CheckBox Active/Inactive, NO es Visible.").toBeVisible();
-            await expect(editCategory.$activeInactiveCheckBox, "El CheckBox Active/Inactive, NO esta Disponible.").toBeEnabled();
+            await expect(editCategory.$activeInactiveCheckBox, "El CheckBox Active/Inactive, DEBERIA ser Visible.").toBeVisible();
+            await expect(editCategory.$activeInactiveCheckBox, "El CheckBox Active/Inactive, DEBERIA estar Disponible.").toBeEnabled();
 
             //ASSERTION IF ACTIVE OR INACTIVE.
             if (expectCategory.isActive == 'Active') {
 
-                await expect(editCategory.$activeInactiveCheckBox, "El CheckBo, NO esta marcado (Unchecked).").toBeChecked();
+                await expect(editCategory.$activeInactiveCheckBox, "El CheckBox, DEBERIA estar marcado (Checked).").toBeChecked();
 
-                await expect(editCategory.$activeLabel, "La Label Active, NO es Visible.").toBeVisible();
-                await expect(editCategory.$activeLabel, "La Label, NO contiene el texto ACTIVE.").toContainText("Active");
+                await expect(editCategory.$activeLabel, "La Label Active, DEBERIA ser Visible.").toBeVisible();
+                await expect(editCategory.$activeLabel, "La Label, DEBERIA contener el texto ACTIVE.").toContainText("Active");
 
                 //ASSERTION IF OFFER OR NO OFFER.
                 if (expectCategory.isOffer == 'Offer') {
 
-                    await expect(editCategory.$offerNoOfferCheckBox, "El CheckBox Offer/NoOffer, NO esta marcado (Unchecked).").toBeChecked();
+                    await expect(editCategory.$offerNoOfferCheckBox, "El CheckBox Offer/NoOffer, DEBERIA estar marcado (Checked).").toBeChecked();
 
-                    await expect(editCategory.$offerLabel, "La Label Offer, NO es Visible.").toBeVisible();
-                    await expect(editCategory.$offerLabel, "La Label, NO contiene el Texto OFFER.").toHaveText("Offer");
+                    await expect(editCategory.$offerLabel, "La Label Offer, DEBERIA ser Visible.").toBeVisible();
+                    await expect(editCategory.$offerLabel, "La Label, DEBERIA contener el Texto OFFER.").toHaveText("Offer");
 
                     //textbox offer percentage
-                    await expect(editCategory.$offerPercentageLabel, "La Label Offer Percentage, NO es Visible.").toBeVisible();
-                    await expect(editCategory.$offerPercentageLabel, "La Label Offer Percentage, NO contiene el Texto OFFER PERCENTAGE.").toHaveText("Offer Percentage");
+                    await expect(editCategory.$offerPercentageLabel, "La Label Offer Percentage, DEBERIA ser Visible.").toBeVisible();
+                    await expect(editCategory.$offerPercentageLabel, "La Label Offer Percentage, DEBERIA contener el Texto OFFER PERCENTAGE.").toHaveText("Offer Percentage");
 
-                    await expect(editCategory.$offerPercentageInput, "El Input del Offer Percentage, NO es Visible.").toBeVisible();
-                    await expect(editCategory.$offerPercentageInput, "El Input del Offer Percentage, NO esta Disponible.").toBeEnabled();
+                    await expect(editCategory.$offerPercentageInput, "El Input del Offer Percentage, DEBERIA ser Visible.").toBeVisible();
+                    await expect(editCategory.$offerPercentageInput, "El Input del Offer Percentage, DEBERIA estar Disponible.").toBeEnabled();
 
                     const actualOfferPercentageCategory = await editCategory.$offerPercentageInput.inputValue();
 
@@ -172,29 +183,30 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
 
                     if (expectCategory.isOffer == "No Offer") {
 
-                        await expect(editCategory.$activeInactiveCheckBox, "El CheckBox Active/Inactive, esta Marcado (Checked)").not.toBeChecked();
+                        await expect(editCategory.$offerNoOfferCheckBox, "El CheckBox Offer/No Offer, NO DEBERIA estar Marcado (Unchecked)").not.toBeChecked();
 
-                        await expect(editCategory.$noOfferLabel, "La Label No Offer, NO es Visible.").toBeVisible();
-                        await expect(editCategory.$noOfferLabel, "La Label No Offer, NO contiene el texto NO OFFER.").toHaveText("No Offer");
+                        await expect(editCategory.$noOfferLabel, "La Label No Offer,NO DEBERIA ser Visible.").toBeVisible();
+                        await expect(editCategory.$noOfferLabel, "La Label No Offer, DEBERIA contener el texto NO OFFER.").toHaveText("No Offer");
                     }
                 }
 
             } else {
 
-                await expect(editCategory.$activeInactiveCheckBox, "El CheckBox, esta Marcado (Checked).").not.toBeChecked();
+                await expect(editCategory.$activeInactiveCheckBox, "El CheckBox, NO DEBERIA estar Marcado (Unchecked).").not.toBeChecked();
 
-                await expect(editCategory.$inactiveLabel, "La Label INACTIVE, NO esta Visible.").toBeVisible();
-                await expect(editCategory.$inactiveLabel, "La Label, NO contiene el Texto INACTIVE.").toContainText("Inactive");
+                await expect(editCategory.$inactiveLabel, "La Label INACTIVE, DEBERIA estar Visible.").toBeVisible();
+                await expect(editCategory.$inactiveLabel, "La Label, DEBERIA contener el Texto INACTIVE.").toContainText("Inactive");
             }
 
 
-
-            // let actualCategory : CategoryTable;
-
-            // actualCategory = {
-            //     name : ,
-            // }
         });
+        // 
+
+        // let actualCategory : CategoryTable;
+
+        // actualCategory = {
+        //     name : ,
+        // }
 
         // await test.step("AND que el admin ha seleccionado una Categoría “x” de dicha tabla,", async () => {
         // })
