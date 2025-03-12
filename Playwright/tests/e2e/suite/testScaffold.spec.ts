@@ -86,13 +86,16 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
 
             await console.log(expectCategory);
 
-
+            await page.waitForTimeout(500);
+            await expect(categoryPage.$tableRows.nth(rowNumber).locator("input[alt='Select']"), "El Link para seleccionar la categoria deseada, DEBERIA ser Visible.").toBeVisible()
+            await expect(categoryPage.$tableRows.nth(rowNumber).locator("input[alt='Select']"), "El Link para seleccionar la categoria deseada, DEBERIA estar Disponible.").toBeEnabled()
             await categoryPage._clickEyeRowButton(rowNumber);
         });
 
 
         await test.step("🧩 AND se encuentra en la Interfaz de “Detalle de una Categoría”,", async () => {
 
+            await page.waitForLoadState('load');
             await adminPage._hiddenLoader();
 
             categoryId = await categoryDetail.$idCategoryLabel.innerText();
@@ -127,7 +130,7 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
             await expect(page, "La URL DEBERIA ser /Admin/CategoryForm.aspx?Id= (CategoryId).").toHaveURL(editCategory.endpoint + "?Id=" + categoryId);
         });
 
-        await test.step("✨ THEN la información presentada en los diferentes elementos coincide con los del “Detalle de la Categoría”.", async () => {
+        await test.step("✨ THEN la información presentada en los diferentes elementos coincide con los de la “Tabla de la Categoría”.", async () => {
 
             //ALL ASSERTION
 
@@ -176,7 +179,6 @@ test.describe("🔬 US 016 - TS 016 - Editar Categoría - Acceso a la Interfaz d
                     const actualOfferPercentageCategory = await editCategory.$offerPercentageInput.inputValue();
 
                     expect(actualOfferPercentageCategory).toEqual(expectPercentageCategory)
-                    //SEGUIR DESDE ACATesting_Automatizado_QA2_ECommerce
                     await console.log(actualOfferPercentageCategory)
 
                 } else {
