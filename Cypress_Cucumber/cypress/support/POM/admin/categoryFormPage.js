@@ -1,7 +1,7 @@
 class CategoryFormPage {
   get = {
     $endpoint: () => "/Admin/CategoryForm.aspx",
-    $title: () => cy.get("div.card span#ContentPlaceHolder1_lblCategoryTitle"),
+    $addCategoryTitleLabel: () => cy.get("div.card span#ContentPlaceHolder1_lblCategoryTitle"),
     $categoryNameLabel: () => cy.contains("span", "Category Name"),
     $categoryImageLabel: () => cy.contains("span", "Category Image"),
     $categoryNameInput: () =>

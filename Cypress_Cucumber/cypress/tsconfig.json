@@ -5,6 +5,7 @@
     "types": [
       "cypress"
     ],
+
     "noEmit": true
   },
   "include": [

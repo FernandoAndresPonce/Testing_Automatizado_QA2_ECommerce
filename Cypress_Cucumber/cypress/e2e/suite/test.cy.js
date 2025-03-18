@@ -22,7 +22,7 @@ import {
   randomCategoryImage,
 } from "../variables/categoryFormPage";
 
-describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
+describe("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
   it("US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
     cy.visit("/");
 
@@ -64,7 +64,7 @@ describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal 
   });
 });
 
-describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
+describe("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard'",
     () => {
@@ -96,7 +96,7 @@ describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categori
     cy.url().should("include", categoryPage.get.$endpoint());
 
     categoryPage.get
-      .$title()
+      .$categoriesTitleLabel()
       .should("be.visible")
       .and("have.text", "Categories");
   });
@@ -151,13 +151,6 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
     cy.get("title").should("exist");
     cy.title().should("eql", "FastFood - Admin");
 
-    categoryPage.get
-      .$addButton()
-      .should("be.visible")
-      .and("be.enabled")
-      .and("contain", "Add Category")
-      .click({ force: true });
-
     //confirmar el placeholder =>
     cy.get("input[name='ctl00$ContentPlaceHolder1$txtFastFilter']").should(
       "have.attr",
@@ -165,10 +158,20 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
       "Category quick search..."
     );
 
-    cy.url().should("include", categoryPage.get.$endpoint());
+    categoryPage.get
+      .$addButton()
+      .should("be.visible")
+      .and("be.enabled")
+      .and("contain", "Add Category");
+
+    categoryPage._clickAddButton();
+
+    cy.wait(2000);
+
+    cy.url().should("include", categoryFormPage.get.$endpoint());
 
     categoryFormPage.get
-      .$categoriesTitleLabel()
+      .$addCategoryTitleLabel()
       .should("be.visible")
       .and("have.text", "Add Category");
   });
@@ -176,16 +179,18 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
   it("US 003 - TS 003 - TC 002 - Validar, redireccionar a la Interfaz “Formulario de una Categoria” de Administración, mediante la URL.", () => {
     categoryFormPage._goToEndpoint();
 
+    cy.wait(2000)
+
     cy.url().should("include", categoryFormPage.get.$endpoint());
 
     categoryFormPage.get
-      .$categoriesTitleLabel()
+      .$addCategoryTitleLabel()
       .should("be.visible")
       .and("have.text", "Add Category");
   });
 });
 
-describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración",
 
@@ -218,7 +223,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       cy.wait(1000);
 
       categoryFormPage.get
-        .$categoriesTitleLabel()
+        .$addCategoryTitleLabel()
         .should("be.visible")
         .and("have.text", "Add Category");
 
@@ -292,7 +297,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
       cy.wait(1000);
 
       categoryFormPage.get
-        .$categoriesTitleLabel()
+        .$addCategoryTitleLabel()
         .should("be.visible")
         .and("have.text", "Add Category");
 
@@ -336,7 +341,7 @@ describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Complet
   }
 });
 
-describe.skip("🔬 US 005 - TS 005 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar un dato en el File Input.", () => {
+describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar un dato en el File Input.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración.",
     () => {
