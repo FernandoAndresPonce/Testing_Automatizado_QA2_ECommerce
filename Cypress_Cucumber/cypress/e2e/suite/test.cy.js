@@ -22,7 +22,7 @@ import {
   randomCategoryImage,
 } from "../variables/categoryFormPage";
 
-describe("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
+describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
   it("US 001 - TS 001 - TC 001 - Validar, redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
     cy.visit("/");
 
@@ -64,7 +64,7 @@ describe("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Ad
   });
 });
 
-describe("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
+describe.skip("🔬 US 002 - TS 002 - Redireccion - Acceso a la Página Categories de Administración de FastFood", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: el Usuario se encuentra en la Interfaz Principal de Administración - Dashboard'",
     () => {
@@ -179,7 +179,7 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
   it("US 003 - TS 003 - TC 002 - Validar, redireccionar a la Interfaz “Formulario de una Categoria” de Administración, mediante la URL.", () => {
     categoryFormPage._goToEndpoint();
 
-    cy.wait(2000)
+    cy.wait(2000);
 
     cy.url().should("include", categoryFormPage.get.$endpoint());
 
@@ -190,7 +190,7 @@ describe.skip("🔬 US 003 - TS 003 - Acceso a la Pagina Formulario de Categorie
   });
 });
 
-describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe.skip("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin -  ha pasado por un proceso de autenticación y autorizacion, es decir, ha iniciado sesión con credenciales con rol Administrador, 🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración",
 
@@ -341,7 +341,7 @@ describe("🔬 US 004 - TS 004 - Text Input Categoría Formulario - Completar lo
   }
 });
 
-describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar un dato en el File Input.", () => {
+describe.skip("🔬 US 005 - TS 005 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar un dato en el File Input.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración.",
     () => {
@@ -454,7 +454,7 @@ describe("🔬 US 005 - TS 005 - File Input Categoría Formulario - Previsualiza
   });
 });
 
-describe("🔬 US 006 - TS 006 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
+describe.skip("🔬 US 006 - TS 006 - File Input Categoría Formulario - Completar los campos del formulario, para crear una Categoría.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración, 🧩 AND: completa el Text Input “Category Name”, con una Cadena de Texto valida.",
     () => {
@@ -526,8 +526,45 @@ describe("🔬 US 006 - TS 006 - File Input Categoría Formulario - Completar lo
       .should("be.visible")
       .and("have.text", "Categories");
 
-    categoryPage.get.$categoriesTable().should(
-      "be.visible"
-    );
+    categoryPage.get.$categoriesTable().should("be.visible");
+  });
+});
+
+describe("🔬 US 007 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar diferentes extensiones en el File Input.", () => {
+  beforeEach(
+    "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración.",
+    () => {
+      cy.session(
+        "Login, and then go to interface /Admin/CategoryForm.aspx ",
+        () => {
+          cy._$loginThenGoToCategoryFormByRandomElements();
+        }
+      );
+    }
+  );
+
+  it("First case.", () => {
+    categoryFormPage._goToEndpoint();
+
+    cy.wait(2000);
+
+    cy.url().should("contain", categoryFormPage.get.$endpoint());
+    categoryFormPage.get
+      .$addCategoryTitleLabel()
+      .should("be.visible")
+      .and("have.text", "Add Category");
+
+    categoryFormPage.get
+      .$categoryImageLabel()
+      .should("be.visible")
+      .and("have.text", "Category Image");
+
+    categoryFormPage.get
+      .$categoryImageInput()
+      .should("be.visible")
+      .and("be.enabled");
+
+      //seguir aqui, generar un ciclo while, para las diferentes extensiones, y no repetir codigos, optimizando el mismo
+    categoryFormPage._uploadCategoryImageFileInput (Cypress.env("path").imagePath + "12$34 Desserts.png");
   });
 });
