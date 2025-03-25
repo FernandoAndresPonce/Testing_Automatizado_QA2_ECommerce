@@ -40,6 +40,7 @@ module.exports = defineConfig({
     },
     path: {
       imagePath: "cypress/e2e/suite/Image/",
+      imageDifferentExtension: "cypress/e2e/suite/Image/different_extension/",
     },
   },
 });

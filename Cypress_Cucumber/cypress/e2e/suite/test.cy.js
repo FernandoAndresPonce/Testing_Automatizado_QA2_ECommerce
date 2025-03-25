@@ -543,28 +543,88 @@ describe("🔬 US 007 - File Input Categoría Formulario - Previsualizacion de u
     }
   );
 
-  it("First case.", () => {
-    categoryFormPage._goToEndpoint();
+  const valid_test_case = [
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 001 -  Validar el File Input Category Image, al añadir la extension bmp",
+      extension: ".bmp",
+    },
 
-    cy.wait(2000);
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 002 -  Validar el File Input Category Image, al añadir la extension eps",
+      extension: ".eps",
+    },
 
-    cy.url().should("contain", categoryFormPage.get.$endpoint());
-    categoryFormPage.get
-      .$addCategoryTitleLabel()
-      .should("be.visible")
-      .and("have.text", "Add Category");
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 003 -  Validar el File Input Category Image, al añadir la extension gif",
+      extension: ".gif",
+    },
 
-    categoryFormPage.get
-      .$categoryImageLabel()
-      .should("be.visible")
-      .and("have.text", "Category Image");
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 004 -  Validar el File Input Category Image, al añadir la extension jpg",
+      extension: ".jpg",
+    },
 
-    categoryFormPage.get
-      .$categoryImageInput()
-      .should("be.visible")
-      .and("be.enabled");
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 005 -  Validar el File Input Category Image, al añadir la extension png",
+      extension: ".png",
+    },
 
-      //seguir aqui, generar un ciclo while, para las diferentes extensiones, y no repetir codigos, optimizando el mismo
-    categoryFormPage._uploadCategoryImageFileInput (Cypress.env("path").imagePath + "12$34 Desserts.png");
-  });
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 006 -  Validar el File Input Category Image, al añadir la extension raw",
+      extension: ".raw",
+    },
+
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 007 -  Validar el File Input Category Image, al añadir la extension tiff",
+      extension: ".tiff",
+    },
+
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 008 -  Validar el File Input Category Image, al añadir la extension webp",
+      extension: ".webp",
+    },
+
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 008 -  Validar el File Input Category Image, al añadir la extension webp",
+      extension: ".webp",
+    },
+  ];
+
+  for (let test_case of valid_test_case) {
+    it(test_case.titleTC, () => {
+      categoryFormPage._goToEndpoint();
+
+      cy.wait(2000);
+
+      cy.url().should("contain", categoryFormPage.get.$endpoint());
+      categoryFormPage.get
+        .$addCategoryTitleLabel()
+        .should("be.visible")
+        .and("have.text", "Add Category");
+
+      categoryFormPage.get
+        .$categoryImageLabel()
+        .should("be.visible")
+        .and("have.text", "Category Image");
+
+      categoryFormPage.get
+        .$categoryImageInput()
+        .should("be.visible")
+        .and("be.enabled");
+
+      //acomodar un poco por aqui
+      categoryFormPage._uploadCategoryImageFileInput(
+        Cypress.env("path").imageDifferentExtension + "Desserts" + test_case.extension
+      );
+    });
+  }
 });
