@@ -591,12 +591,6 @@ describe("🔬 US 007 - File Input Categoría Formulario - Previsualizacion de u
         "US 007 - TS 007 - TC 008 -  Validar el File Input Category Image, al añadir la extension webp",
       extension: ".webp",
     },
-
-    {
-      titleTC:
-        "US 007 - TS 007 - TC 008 -  Validar el File Input Category Image, al añadir la extension webp",
-      extension: ".webp",
-    },
   ];
 
   for (let test_case of valid_test_case) {
@@ -621,10 +615,20 @@ describe("🔬 US 007 - File Input Categoría Formulario - Previsualizacion de u
         .should("be.visible")
         .and("be.enabled");
 
-      //acomodar un poco por aqui
+      categoryFormPage.get.$placeholderImg().should("be.visible").and("exist");
+
       categoryFormPage._uploadCategoryImageFileInput(
-        Cypress.env("path").imageDifferentExtension + "Desserts" + test_case.extension
+        Cypress.env("path").imageDifferentExtension +
+          "Desserts" +
+          test_case.extension
       );
+
+      cy.wait(1000);
+      categoryFormPage.get.$placeholderImg().should("not.exist");
+      categoryFormPage.get
+        .$replacePlaceholderImg()
+        .should("be.visible")
+        .and("exist");
     });
   }
 });
