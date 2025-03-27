@@ -19,7 +19,7 @@ import {
   invalidRandomCategoryNameOnlyNumber,
   invalidRandomCategoryNameOnlySpecialCharacter,
   validRandomCategoryNameBetween1And50Character,
-  randomCategoryImage,
+  randomCategoryImage, randomCategoryImageExtension,
 } from "../variables/categoryFormPage";
 
 describe.skip("US 001 - TS 001 - TC 001 - Redireccionar a la Interfaz Principal de Administración, cuando se introduce la URL correspondiente", () => {
@@ -530,7 +530,7 @@ describe.skip("🔬 US 006 - TS 006 - File Input Categoría Formulario - Complet
   });
 });
 
-describe("🔬 US 007 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar diferentes extensiones en el File Input.", () => {
+describe("🐞 => 🔬 US 007 - File Input Categoría Formulario - Previsualizacion de una imagen al ingresar diferentes extensiones en el File Input.", () => {
   beforeEach(
     "📝 GIVEN: que el Usuario esta Logeado como Admin,  🧩 AND: que el admin se encuentra en la Interfaz Add Category de Administración.",
     () => {
@@ -546,50 +546,62 @@ describe("🔬 US 007 - File Input Categoría Formulario - Previsualizacion de u
   const valid_test_case = [
     {
       titleTC:
-        "US 007 - TS 007 - TC 001 -  Validar el File Input Category Image, al añadir la extension bmp",
+        "US 007 - TS 007 - TC 001 -  Intentar Validar el File Input Category Image, al añadir la extension bmp",
       extension: ".bmp",
     },
 
     {
       titleTC:
-        "US 007 - TS 007 - TC 002 -  Validar el File Input Category Image, al añadir la extension eps",
+        "US 007 - TS 007 - TC 002 - Intentar Validar el File Input Category Image, al añadir la extension eps",
       extension: ".eps",
     },
 
     {
       titleTC:
-        "US 007 - TS 007 - TC 003 -  Validar el File Input Category Image, al añadir la extension gif",
+        "US 007 - TS 007 - TC 003 - Intentar Validar el File Input Category Image, al añadir la extension gif",
       extension: ".gif",
     },
 
     {
       titleTC:
-        "US 007 - TS 007 - TC 004 -  Validar el File Input Category Image, al añadir la extension jpg",
+        "US 007 - TS 007 - TC 004 - Intentar Validar el File Input Category Image, al añadir la extension jpg",
       extension: ".jpg",
     },
 
     {
       titleTC:
-        "US 007 - TS 007 - TC 005 -  Validar el File Input Category Image, al añadir la extension png",
+        "US 007 - TS 007 - TC 005 - Intentar Validar el File Input Category Image, al añadir la extension png",
       extension: ".png",
     },
 
     {
       titleTC:
-        "US 007 - TS 007 - TC 006 -  Validar el File Input Category Image, al añadir la extension raw",
+        "US 007 - TS 007 - TC 006 - Intentar Validar el File Input Category Image, al añadir la extension raw",
       extension: ".raw",
     },
 
     {
       titleTC:
-        "US 007 - TS 007 - TC 007 -  Validar el File Input Category Image, al añadir la extension tiff",
+        "US 007 - TS 007 - TC 007 - Intentar Validar el File Input Category Image, al añadir la extension tiff",
       extension: ".tiff",
     },
 
     {
       titleTC:
-        "US 007 - TS 007 - TC 008 -  Validar el File Input Category Image, al añadir la extension webp",
+        "US 007 - TS 007 - TC 008 - Intentar Validar el File Input Category Image, al añadir la extension webp",
       extension: ".webp",
+    },
+
+    {
+      titleTC:
+        "🐞 => US 007 - TS 007 - TC 009 - Intentar Validar el File Input Category Image, al añadir la extension svg",
+      extension: ".svg",
+    },
+
+    {
+      titleTC:
+        "US 007 - TS 007 - TC 010 - Intentar Validar el File Input Category Image, al añadir la extension random.",
+      extension: randomCategoryImageExtension(),
     },
   ];
 
@@ -597,7 +609,7 @@ describe("🔬 US 007 - File Input Categoría Formulario - Previsualizacion de u
     it(test_case.titleTC, () => {
       categoryFormPage._goToEndpoint();
 
-      cy.wait(2000);
+      cy.wait(1000);
 
       cy.url().should("contain", categoryFormPage.get.$endpoint());
       categoryFormPage.get
@@ -623,12 +635,24 @@ describe("🔬 US 007 - File Input Categoría Formulario - Previsualizacion de u
           test_case.extension
       );
 
+
       cy.wait(1000);
       categoryFormPage.get.$placeholderImg().should("not.exist");
+
       categoryFormPage.get
         .$replacePlaceholderImg()
         .should("be.visible")
         .and("exist");
+
+      categoryFormPage.get
+        .$replacePlaceholderImg()
+        .should("have.prop", "naturalWidth")
+        .then((imageWidth) => {
+          cy.log("Image Witdh:" + imageWidth);
+
+          expect(imageWidth).to.be.greaterThan(0);
+        });
+
     });
   }
 });

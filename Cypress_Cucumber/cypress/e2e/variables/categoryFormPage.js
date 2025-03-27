@@ -78,7 +78,7 @@ export const randomCategoryImage = () => {
 
 export const randomCategoryImageExtension = () => {
 
-  const extensions = [".jpg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".raw", ".eps"]
+  const extensions = [".jpg", ".png", ".gif", ".bmp", ".tiff", ".webp", ".raw", ".eps"] 
 
   const randonIndex = Math.floor(Math.random() * extensions.length);
   const randomExtension = extensions[randonIndex];
