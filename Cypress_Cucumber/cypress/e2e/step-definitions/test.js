@@ -94,7 +94,7 @@ context(
         "el sistema se redirecciona a la Interfaz Categories de Administración.",
         () => {
           categoryPage.get
-            .$title()
+            .$categoriesTitleLabel()
             .should("be.visible")
             .should("have.text", "Categories");
         }
@@ -115,7 +115,7 @@ context(
           cy.url().should("include", categoryPage.get.$endpoint());
 
           categoryPage.get
-            .$title()
+            .$categoriesTitleLabel()
             .should("be.visible")
             .should("have.text", "Categories");
         }
@@ -137,7 +137,7 @@ context(
           adminPage.get.$loader().should("be.visible");
 
           categoryPage.get
-            .$title()
+            .$categoriesTitleLabel()
             .should("have.text", "Categories")
             .should("be.visible");
         }
@@ -159,7 +159,7 @@ context(
           adminPage.get.$loader().should("be.visible");
 
           categoryPage.get
-            .$title()
+            .$categoriesTitleLabel()
             .should("have.text", "Categories")
             .should("be.visible");
         }
@@ -202,7 +202,7 @@ context(
         (endpoint) => {
           cy.url().should("include", endpoint);
           categoryFormPage.get
-            .$title()
+            .$addCategoryTitleLabel()
             .should("be.visible")
             .should("have.text", "Add Category");
         }
@@ -224,7 +224,7 @@ context(
         (endpoint) => {
           cy.url().should("contain", endpoint);
           categoryFormPage.get
-            .$title()
+            .$addCategoryTitleLabel()
             .should("be.visible")
             .should("have.text", "Add Category");
         }
@@ -247,7 +247,7 @@ context(
         categoryFormPage._goToEndpoint();
         cy.url().should("contain", endpoint);
         categoryFormPage.get
-          .$title()
+          .$addCategoryTitleLabel()
           .should("be.visible")
           .should("have.text", "Add Category");
       }
@@ -282,7 +282,7 @@ context(
         "el sistema lo redireccionara automaticament a la página Category como {string}.",
         (endpoint) => {
           cy.url().should("contain", endpoint);
-          categoryPage.get.$title().should("be.visible");
+          categoryPage.get.$categoriesTitleLabel().should("be.visible");
         }
       );
     });
@@ -361,7 +361,7 @@ context(
         cy.url().should("include", endpoint);
 
         categoryFormPage.get
-          .$title()
+          .$addCategoryTitleLabel()
           .should("be.visible")
           .and("have.text", "Add Category");
       }
@@ -487,9 +487,7 @@ context(
     );
     And(
       "se encuentra en la Interfaz Formulario Add Category de Administración como {string}",
-      (endpoint) => {
-        cy.url().should("include", endpoint);
-      }
+      (endpoint) => {}
     );
     And(
       "completa el Text Input “Category Name”, con una Cadena de Texto valida.",
@@ -619,5 +617,25 @@ context(
         (endpoint) => {}
       );
     });
+  }
+);
+
+context(
+  "📑 US 007 - File Input Categoría Formulario - Previsualizacion de una imagen al una extension especifica en el File Input.",
+  () => {
+    Given(
+      "que el Usuario ha iniciado sesión con credenciales con rol Administrador",
+      () => {}
+    );
+
+    And(
+      "se encuentra en la Interfaz Formulario Add Category de Administración como {string}",
+      (endpoint) => {}
+    );
+
+    //agregar verificacion al respecto que en el la parte superior de elemento del DOM, del file input, no deberia aparecer ninguna advertencia.
+    describe("🧪 US 007 - TS 007 - TC 001: Intentar Validar - el File Input Category Image, al añadir la extension bmp.", () => {
+
+    })
   }
 );

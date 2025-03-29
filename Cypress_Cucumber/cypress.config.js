@@ -1,6 +1,6 @@
 const { defineConfig } = require("cypress");
 //
-// const cucumber = require("cypress-cucumber-preprocessor").default;
+const cucumber = require("cypress-cucumber-preprocessor").default;
 //
 module.exports = defineConfig({
   retries: 0,
@@ -11,7 +11,7 @@ module.exports = defineConfig({
 
   e2e: {
     //
-    // specPattern: "**/*.feature",
+    specPattern: "**/*.feature",
     //
 
     supportFile: "cypress/support/e2e.js",
@@ -23,7 +23,7 @@ module.exports = defineConfig({
 
     setupNodeEvents(on, config) {
       //
-      // on("file:preprocessor", cucumber());
+      on("file:preprocessor", cucumber());
       //
       return config;
     },
