@@ -632,10 +632,61 @@ context(
       "se encuentra en la Interfaz Formulario Add Category de Administración como {string}",
       (endpoint) => {}
     );
+    And(
+      "en el apartado Category Image, puede visualizar un placeholder",
+      () => {
+        categoryFormPage.get
+          .$categoryImageLabel()
+          .should("be.visible")
+          .and("have.text", "Category Image");
 
-    //agregar verificacion al respecto que en el la parte superior de elemento del DOM, del file input, no deberia aparecer ninguna advertencia.
-    describe("🧪 US 007 - TS 007 - TC 001: Intentar Validar - el File Input Category Image, al añadir la extension bmp.", () => {
+        categoryFormPage.get
+          .$categoryImageInput()
+          .should("be.visible")
+          .and("be.enabled");
 
-    })
+        categoryFormPage.get
+          .$placeholderImg()
+          .should("be.visible")
+          .and("exist");
+      }
+    );
+
+    describe("🧪 US 007 - TS 007 - TC 001: Intentar Validar - el File Input Category Image, al añadir extensiones Validas.", () => {
+      When(
+        "carga una imagen en el File Input Category Image, con una extension valida como {string}",
+        (extension) => {
+          categoryFormPage._uploadCategoryImageFileInput(
+            Cypress.env("path").imageDifferentExtension + "Desserts" + extension
+          );
+        }
+      );
+
+      //corregir error aqui, step definitions.
+      Then(
+        "el File Input Category Image no le aparece Ninguna Advertencia",
+        () => {}
+      );
+
+      And("el placeholder es reemplazado por la imagen precargada.", () => {
+
+        cy.wait(1000);
+        categoryFormPage.get.$placeholderImg().should("not.exist");
+  
+        categoryFormPage.get
+          .$replacePlaceholderImg()
+          .should("be.visible")
+          .and("exist");
+  
+        categoryFormPage.get
+          .$replacePlaceholderImg()
+          .should("have.prop", "naturalWidth")
+          .then((imageWidth) => {
+            cy.log("Image Witdh:" + imageWidth);
+  
+            expect(imageWidth).to.be.greaterThan(0);
+          });
+      })
+    });
   }
 );
