@@ -655,20 +655,20 @@ context(
     describe("🧪 US 007 - TS 007 - TC 001: Intentar Validar - el File Input Category Image, al añadir extensiones Validas.", () => {
       When(
         "carga una imagen en el File Input Category Image, con una extension valida como {string}",
-        (extension) => {
+        (valid_extension) => {
           categoryFormPage._uploadCategoryImageFileInput(
-            Cypress.env("path").imageDifferentExtension + "Desserts" + extension
+            Cypress.env("path").imageDifferentExtension + "Desserts" + valid_extension
           );
         }
       );
 
       //corregir error aqui, step definitions.
       Then(
-        "el File Input Category Image no le aparece Ninguna Advertencia",
+        "el File Input Category Image no deberia aparecer Ninguna Advertencia",
         () => {}
       );
 
-      And("el placeholder es reemplazado por la imagen precargada.", () => {
+      And("el placeholder deberia ser reemplazado por la imagen precargada.", () => {
 
         cy.wait(1000);
         categoryFormPage.get.$placeholderImg().should("not.exist");
@@ -685,6 +685,43 @@ context(
             cy.log("Image Witdh:" + imageWidth);
   
             expect(imageWidth).to.be.greaterThan(0);
+          });
+      })
+    });
+
+
+    describe("🧪 US 007 - TS 007 - TC 002: Intentar Validar - el File Input Category Image, al añadir extensiones Invalidas.", () => {
+      When(
+        "carga una imagen en el File Input Category Image, con una extension invalida como {string}",
+        (invalid_extension) => {
+          categoryFormPage._uploadCategoryImageFileInput(
+            Cypress.env("path").imageDifferentExtension + "Desserts" + invalid_extension
+          );
+        }
+      );
+
+      Then(
+        "el File Input Category Image no deberia aparecer Ninguna Advertencia",
+        () => {}
+      );
+
+      And("el placeholder deberia ser reemplazado por la imagen rota.", () => {
+
+        cy.wait(1000);
+        categoryFormPage.get.$placeholderImg().should("not.exist");
+  
+        categoryFormPage.get
+          .$replacePlaceholderImg()
+          .should("be.visible")
+          .and("exist");
+  
+        categoryFormPage.get
+          .$replacePlaceholderImg()
+          .should("have.prop", "naturalWidth")
+          .then((imageWidth) => {
+            cy.log("Image Witdh:" + imageWidth);
+  
+            expect(imageWidth).to.be.equal(0);
           });
       })
     });
